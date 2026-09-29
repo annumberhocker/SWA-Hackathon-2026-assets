@@ -1,0 +1,73 @@
+-- 03_anomaly_detection_ai.sql
+-- ============================================================================
+-- Single long-running INSERT — paste the whole file and click Run.
+-- Status goes to Running and stays there. DO NOT stop it manually.
+-- Run order: 01 → 02 → 03 (this file)
+-- ============================================================================
+-- Architecture:
+--   windowed_schedule   10s TUMBLE window avg of flight-events metrics
+--   anomaly_results     AI_DETECT_ANOMALIES per (entity_id, metric)
+--   final SELECT        score=[0,1], filter is_anomaly=TRUE AND score > 0.95
+--
+-- minContextSize=20 → minimum data points before detection begins (~3.5 min warmup at 10s windows).
+-- Raise the 0.95 threshold to reduce false-positive alert volume.
+-- ============================================================================
+
+INSERT INTO `ops-alerts`
+WITH windowed_schedule AS (
+    SELECT
+        aircraft_id        AS entity_id,
+        'schedule'         AS `stream`,
+        metric,
+        unit,
+        hub,
+        window_time,
+        AVG(`value`)       AS avg_value
+    FROM TABLE(
+        TUMBLE(TABLE `flight-events`, DESCRIPTOR(event_time), INTERVAL '10' SECONDS)
+    )
+    GROUP BY aircraft_id, metric, unit, hub, window_start, window_end, window_time
+),
+
+anomaly_results AS (
+    SELECT
+        entity_id,
+        `stream`,
+        metric,
+        avg_value,
+        unit,
+        hub,
+        window_time,
+        AI_DETECT_ANOMALIES(
+            avg_value,
+            window_time,
+            JSON_OBJECT(
+                'minContextSize' VALUE 20,
+                'maxContextSize' VALUE 512,
+                'confidencePercentage' VALUE 99.0
+            )
+        ) OVER (
+            PARTITION BY entity_id, `stream`, metric
+            ORDER BY window_time
+            RANGE BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+        ) AS anomaly
+    FROM windowed_schedule
+)
+
+SELECT
+    entity_id,
+    `stream`,
+    metric,
+    avg_value       AS `value`,
+    unit,
+    LEAST(1.0, ABS(avg_value - anomaly.forecast_value) /
+         NULLIF(anomaly.upper_bound - anomaly.lower_bound, 0)) AS anomaly_score,
+    anomaly.is_anomaly  AS is_anomaly,
+    hub,
+    CAST(CURRENT_TIMESTAMP AS TIMESTAMP(3)) AS detected_at,
+    window_time         AS event_time
+FROM anomaly_results
+WHERE anomaly.is_anomaly = TRUE
+  AND ABS(avg_value - anomaly.forecast_value)
+        / NULLIF(anomaly.upper_bound - anomaly.lower_bound, 0) > 0.95;
+
