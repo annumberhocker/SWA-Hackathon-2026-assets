@@ -189,6 +189,7 @@ Tell Bob what cluster you are using:
 ```
 My Confluent cluster is `my-cluster`
 ```
+> Replace `my-cluster` with the cluster name assigned to you provided by your instructor.
 
 Then in Bob chat, type:
 
@@ -299,7 +300,7 @@ Key parameters:
 In the Bob chat, type:
 
 ```
-Read flink/03_anomaly_detection_ai.sql and run it as a long-running Flink streaming job named 'gate-change-anomaly-detection'. It should stay in RUNNING status continuously.
+Read flink/anomaly_detection.sql and run it as a long-running Flink streaming job named 'gate-change-anomaly-detection'. It should stay in RUNNING status continuously.
 ```
 
 Bob calls:
@@ -336,7 +337,7 @@ The `minContextSize = 20` parameter means the model needs 20 completed 10-second
 (~3.5 minutes) before it begins scoring. During this warmup period `ops-alerts` will be empty
 — this is normal.
 
-After the warmup, ask Bob to check for output:
+After the warm-up, ask Bob to check for output:
 
 ```
 List all Flink statements and tell me which ones are currently running
