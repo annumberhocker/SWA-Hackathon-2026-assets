@@ -73,7 +73,7 @@ Save the file
 
 ### Step 1.4 — Update `mcp.json` 
 
-Your instructor has given you a pre-filled `mcp-confluent.json` template. If you don't already have a `~/.bob/settings/mcp.json` file, copy the provided `mcp-confluent.json` file into `~/.bob/settings/mcp.json`. If you do, just add the `confluent` stanza from the `mcp-confluent.json` file to the list of other mcp servers defined
+In this lab directory, there is a pre-filled `mcp-confluent.json` template. If you don't already have a `~/.bob/settings/mcp.json` file, copy the provided `mcp-confluent.json` file into `~/.bob/settings/mcp.json`. If you do, just add the `confluent` stanza from the `mcp-confluent.json` file to the list of other mcp servers defined
 
 Replace the `/FULL/PATH` values accordingly: 
 ```
@@ -384,3 +384,7 @@ Search for topics by name 'ops-alerts'
 
 **Lab complete.** The anomaly detection pipeline is live. In the next lab you will
 create a watsonx Orchestrate triage agent that will triage alerts using a knowledge base.
+
+## References
+
+[Confluent MCP Server](https://docs.confluent.io/cloud/current/ai/ai-tools/open-source-mcp-server.html#configure-your-mcp-client)
