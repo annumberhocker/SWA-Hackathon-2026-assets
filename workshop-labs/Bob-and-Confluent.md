@@ -41,86 +41,74 @@ node --version      # must show v22.x.x
 brew install openssl zstd
 ```
 
-### Step 1.2 — Install the Confluent MCP Package
+### Step 1.2 — Generate the Confluent MCP configuration
 
 ```bash
-PATH="/opt/homebrew/bin:$PATH" npm install -g @confluentinc/mcp-confluent
+mkdir ~/confluent-mcp
+cd ~/confluent-mcp
+npx @confluentinc/mcp-confluent --init-config
 ```
+The directory will contain a new `config.yaml` file: 
 
-After installation, note the two paths you will need in the next step:
+
+### Step 1.3 — Update Your Credentials
+
+Your instructor has given you a pre-filled `.env` file. Edit it:
 
 ```bash
-# 1. Path to node binary
-which node
-# example: /Users/you/.nvm/versions/node/v22.14.0/bin/node
-
-# 2. Path to the MCP server entry point
-ls $(npm root -g)/@confluentinc/mcp-confluent/dist/index.js
-# example: /Users/you/.nvm/versions/node/v22.14.0/lib/node_modules/@confluentinc/mcp-confluent/dist/index.js
-```
-
-Copy both paths — you will paste them into the config file in the next step.
-
-### Step 1.3 — Edit `mcp.json` with Your Credentials
-
-Your instructor has given you a pre-filled `mcp.json` template. Open it now:
-
-```bash
-open ~/.bob/settings/mcp.json
-# or: code ~/.bob/settings/mcp.json
-# or: nano ~/.bob/settings/mcp.json
-```
-
-The file already contains most of the necessary values.
-
-**You only need to replace four values** — your personal flink pool id, cluster name, and the cluster-scoped Kafka API key and secret,
-which will be provided by the instructor:
-
-```json
-{
-  "mcpServers": {
-    "confluent": {
-      "command": "/Users/you/.nvm/versions/node/v22.14.0/bin/node",
-      "args": [
-        "/Users/you/.nvm/versions/node/v22.14.0/lib/node_modules/@confluentinc/mcp-confluent/dist/index.js"
-      ],
-      "env": {
-        "BOOTSTRAP_SERVERS": "pkc-xxxxx.us-east-2.aws.confluent.cloud:9092",
-        "KAFKA_API_KEY": "REPLACE_WITH_YOUR_KEY",
-        "KAFKA_API_SECRET": "REPLACE_WITH_YOUR_SECRET",
-        "SCHEMA_REGISTRY_URL": "https://psrc-xxxxx.us-east-2.aws.confluent.cloud",
-        "SCHEMA_REGISTRY_API_KEY": "...",
-        "SCHEMA_REGISTRY_API_SECRET": "...",
-        "CONFLUENT_CLOUD_API_KEY": "...",
-        "CONFLUENT_CLOUD_API_SECRET": "...",
-        "FLINK_API_KEY": "...",
-        "FLINK_API_SECRET": "...",
-        "FLINK_ENV_ID": "env-xxxxxx",
-        "FLINK_ORG_ID": "...",
-        "FLINK_COMPUTE_POOL_ID": "REPLACE_WITH_YOUR_COMPUTE_POOL_ID",
-        "FLINK_REST_ENDPOINT": "https://flink.us-east-2.aws.confluent.cloud",
-        "FLINK_CATALOG_NAME": "IBM-Hackathon-demo-test",
-        "FLINK_DATABASE_NAME": "REPLACE_WITH_YOUR_CLUSTER_NAME"
-      }
-    }
-  }
-}
+# From the SWA-Hackathon-2026-assets/workshop-labs directory
+open ./.env
+# or: code ./.env
+# or: nano ./.env
 ```
 
 Make these edits:
 1. Replace `REPLACE_WITH_YOUR_KEY` with the provided `KAFKA_API_KEY`
 2. Replace `REPLACE_WITH_YOUR_SECRET` with the provided `KAFKA_API_SECRET`
-3. Replace `REPLACE_WITH_YOUR_COMPUTE_POOL_IDE` with the provided `FLINK_COMPUTE_POOL_ID`
-4. Replace `REPLACE_WITH_YOUR_CLUSTER_NAME` with the provided `CLUSTER_NAME`
-5. Update the `command` and first `args` entry with the two paths you copied in Step 1.2
+3. Replace `REPLACE_WITH_YOUR_CLUSTER_ID` with the provided `KAFKA_CLUSTER_ID`
+4. Replace `REPLACE_WITH_YOUR_COMPUTE_POOL_ID` with the provided `FLINK_COMPUTE_POOL_ID`
+5. Replace `REPLACE_WITH_YOUR_CLUSTER_NAME` with the provided `FLINK_DATABASE_NAME`
+
+Save the file
+
+### Step 1.4 — Update `mcp.json` 
+
+Your instructor has given you a pre-filled `mcp-confluent.json` template. If you don't already have a `~/.bob/settings/mcp.json` file, copy the provided `mcp-confluent.json` file into `~/.bob/settings/mcp.json`. If you do, just add the `confluent` stanza from the `mcp-confluent.json` file to the list of other mcp servers defined
+
+Replace the `/FULL/PATH` values accordingly: 
+```
+ "confluent": {
+   "command": "npx",
+   "args": [
+     "-y",
+     "@confluentinc/mcp-confluent",
+     "-c",
+     "/FULL/PATH/confluent-mcp/config.yaml",
+     "-e",
+     "/FULL/PATH/swa-hackathon-2026/assets/workshop-labs/.env"
+   ],
+   "cwd": "/FULL/PATH/confluent-mcp",
+   "disabled": false
+ }
+```
 
 Save the file.
 
-> ⚠️ **`KAFKA_API_KEY` must be cluster-scoped.** This is a different key type from the global
-> Cloud API key already filled in the template. Your instructor has created cluster-scoped keys
-> — one per participant — and will provide to you.
+### Step 1.4 Test MCP server
 
-### Step 1.4 — Verify the Connection in Bob
+```
+npx @confluentinc/mcp-confluent \
+  -c /FULL/PATH/confluent-mcp/config.yaml \
+  -e ./.env
+```
+You can also verify which tools are available with:
+```bash
+npx @confluentinc/mcp-confluent \
+  --config ./config.yaml \
+  --list-tools
+  ```
+
+### Step 1.5 — Verify the Connection in Bob
 
 1. Open Bob
 2. Click the **gear icon** (top-right) → **MCP Servers**

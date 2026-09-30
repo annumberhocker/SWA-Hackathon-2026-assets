@@ -21,6 +21,13 @@ Open this folder in your IDE or workspace where IBM Bob is configured.
 
 ## Available Labs
 
+### [Prerequisite Lab: Installing and Setting Up IBM Bob](Install-Bob.md)
+**Focus:** Tooling, IDE Installation, Authentication & Shell Setup
+
+In this introductory guide, you will install the IBM Bob IDE application (macOS, Windows, or Linux), sign in with your IBMid, optionally install Bob Shell (CLI), and verify your MCP configuration interface.
+
+---
+
 ### [Lab 1: Bob + Confluent — Real-Time Flight Anomaly Detection](Bob-and-Confluent.md)
 **Focus:** Real-Time Stream Processing & In-Stream AI
 
@@ -77,6 +84,7 @@ In this lab, you configure the watsonx Orchestrate (WXO) ADK MCP server in Bob, 
 ```
 workshop-labs/
 ├── README.md                          # This file
+├── Install-Bob.md                     # Prerequisite: IBM Bob Installation & Setup
 ├── Bob-and-Confluent.md               # Lab 1: Confluent Cloud & Flink Anomaly Detection
 ├── Bob-and-WXO.md                     # Lab 2: watsonx Orchestrate & Knowledge Base Triage
 ├── mcp.json                           # Bob MCP configuration template

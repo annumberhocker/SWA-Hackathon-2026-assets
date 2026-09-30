@@ -1,18 +1,5 @@
 {
   "mcpServers": {
-    "confluent": {
-      "command": "npx",
-      "args": [
-        "-y",
-        "@confluentinc/mcp-confluent",
-        "-c",
-        "/FULL/PATH/confluent-mcp/config.yaml",
-        "-e",
-        "/FULL/PATH/swa-hackathon-2026/assets/workshop-labs/.env"
-      ],
-      "cwd": "/FULL/PATH/confluent-mcp",
-      "disabled": false
-    },
     "watsonx-orchestrate-adk": {
       "command": "uvx",
       "args": [
