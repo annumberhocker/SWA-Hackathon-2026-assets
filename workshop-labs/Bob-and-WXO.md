@@ -163,16 +163,42 @@ Wait until the status returns as **indexed** / **ready**.
 
 ---
 
-## Part 4 — Create and Deploy the `flight_triage_agent`
+## Part 4 — Create and Deploy Your Unique `flight_triage_agent_<initials>`
 
-Now that the runbook PDF is indexed, deploy the native `flight_triage_agent` that uses it.
+> ⚠️ **Important — Multi-Tenant Sharing:**
+> All workshop participants share the same watsonx Orchestrate tenant. To avoid overwriting each other's work, **you must append your initials** to your agent's `name` and `display_name` (for example, `flight_triage_agent_js` for John Smith).
 
-### Step 4.1 — Understand the Agent Specification
+### Step 4.1 — Customize Your Agent Specification
 
-The agent is defined in `orchestrate/agents/flight_triage_agent.yaml`.
+Open `orchestrate/agents/flight_triage_agent.yaml` in your editor:
+
+```yaml
+spec_version: v1
+kind: native
+name: flight_triage_agent_<initials>          # e.g., flight_triage_agent_js
+display_name: Flight Triage Agent (<INITIALS>) # e.g., Flight Triage Agent (JS)
+description: >
+  Triages real-time flight schedule anomaly alerts from Confluent Kafka.
+  Uses the Flight Operations Runbook knowledge base to produce structured
+  recommendations and mitigation options for operational disruptions.
+
+llm: groq/openai/gpt-oss-120b
+style: react_core
+collaborators: []
+tools: []
+
+knowledge_base:
+  - flight_ops_runbook
+...
+```
+
+Edit the file to:
+1. Replace `<initials>` in `name` with your initials in lowercase (e.g., `flight_triage_agent_js`).
+2. Replace `<INITIALS>` in `display_name` with your initials in uppercase (e.g., `Flight Triage Agent (JS)`).
+3. Save the file.
 
 Key properties:
-- **`name`**: `flight_triage_agent`
+- **`name`**: `flight_triage_agent_<initials>` (unique per participant)
 - **`llm`**: `groq/openai/gpt-oss-120b` (or your preferred tenant LLM, e.g. `watsonx/meta-llama/llama-3-3-70b-instruct`)
 - **`style`**: `react_core`
 - **`tools`**: `[]` (pure knowledge-base agent — relies solely on RAG retrieval from the Runbook PDF)
@@ -181,7 +207,7 @@ Key properties:
 
 ### Step 4.2 — Import the Agent from Bob
 
-In the Bob chat, type:
+In the Bob chat, ask Bob to import your agent spec file (or instruct Bob to create the agent with your unique name):
 
 ```
 Import the agent from orchestrate/agents/flight_triage_agent.yaml
@@ -193,32 +219,30 @@ mcp__watsonx-orchestrate-adk__import_agent
   { "path": "orchestrate/agents/flight_triage_agent.yaml", "app_id": null }
 ```
 
-Alternatively, Bob can create or update the agent directly using `mcp__watsonx-orchestrate-adk__create_or_update_agent`.
-
-### Step 4.3 — Confirm the Agent is Listed
+### Step 4.3 — Confirm Your Agent is Listed
 
 In the Bob chat, type:
 
 ```
-List my native agents and confirm that flight_triage_agent is available
+List my native agents and confirm that flight_triage_agent_<initials> is available
 ```
 
-Bob calls `mcp__watsonx-orchestrate-adk__list_agents` with `kind: "native"`. You should see `flight_triage_agent` registered and attached to `flight_ops_runbook`.
+Bob calls `mcp__watsonx-orchestrate-adk__list_agents` with `kind: "native"`. You should see `flight_triage_agent_<initials>` registered and attached to `flight_ops_runbook`.
 
 ---
 
-## Part 5 — Test and Interact with the Triage Agent
+## Part 5 — Test and Interact with Your Triage Agent
 
-Let's test the triage agent with a simulated anomaly alert to verify that it retrieves information from the loaded `flight_ops_runbook.pdf`.
+Let's test your triage agent with a simulated anomaly alert to verify that it retrieves information from the loaded `flight_ops_runbook.pdf`.
 
 ### Step 5.1 — Chat with the Triage Agent
 
-Send an anomaly alert payload to the agent via Bob:
+Send an anomaly alert payload to your agent via Bob (replace `<initials>` with your initials):
 
 In the Bob chat, type:
 
 ```
-Chat with the agent 'flight_triage_agent' with the following alert payload:
+Chat with the agent 'flight_triage_agent_<initials>' with the following alert payload:
 
 Alert received:
 - entity_id: N303AX
@@ -238,7 +262,7 @@ Bob calls:
 mcp__watsonx-orchestrate-adk__chat_with_agent
   {
     "chat_request": {
-      "agent_name": "flight_triage_agent",
+      "agent_name": "flight_triage_agent_<initials>",
       "message": "...",
       "include_reasoning": true
     }
@@ -259,10 +283,10 @@ Verify that the agent's output:
 
 ## Part 6 — Explore and Discuss
 
-Try asking the agent different queries to test runbook retrieval across various disruption scenarios:
+Try asking your agent different queries to test runbook retrieval across various disruption scenarios (replace `<initials>` with your initials):
 
 ```
-Chat with the agent 'flight_triage_agent' for this alert:
+Chat with the agent 'flight_triage_agent_<initials>' for this alert:
 - entity_id: N101AX
 - stream: schedule
 - metric: departure_delay
@@ -274,11 +298,11 @@ Chat with the agent 'flight_triage_agent' for this alert:
 ```
 
 ```
-Ask 'flight_triage_agent': "What is the procedure outlined in the runbook for a turnaround time anomaly exceeding 45 minutes at ORD?"
+Ask 'flight_triage_agent_<initials>': "What is the procedure outlined in the runbook for a turnaround time anomaly exceeding 45 minutes at ORD?"
 ```
 
 ```
-Ask 'flight_triage_agent': "What are the escalation triggers for departure delays under Section 2 of the runbook?"
+Ask 'flight_triage_agent_<initials>': "What are the escalation triggers for departure delays under Section 2 of the runbook?"
 ```
 
 **Discussion questions:**
