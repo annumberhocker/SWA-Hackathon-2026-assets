@@ -114,14 +114,6 @@ npx @confluentinc/mcp-confluent \
 2. Click the **gear icon** (top-right) → **MCP Servers**
 3. Find `confluent` in the list — it should show a green **Connected** status
 
-If you see a red error instead:
-- Double-check that you replaced both `REPLACE_WITH_YOUR_KEY` and `REPLACE_WITH_YOUR_SECRET`
-- Confirm the `command` path points to an actual Node 22 binary (`node --version` in terminal)
-- Run the binary directly to see the raw error:
-  ```bash
-  node <path-to-index.js>
-  ```
-  Common causes: wrong node path, `openssl`/`zstd` not installed, or a stray space in a secret value.
 
 ---
 
