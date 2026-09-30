@@ -9,10 +9,9 @@ In this lab, you will download, install, and configure **IBM Bob** (IDE and CLI/
 ## Part 1 — Request Access & Download IBM Bob
 
 ### Step 1.1 — Access & Sign In
-IBM Bob requires access approval with your IBMid:
-1. Visit the [IBM Bob sign-up page](https://w3.ibm.com/w3publisher/bob).
-2. Complete and submit the access request form if not already granted.
-3. Once approved, proceed to the [IBM Bob Download Page](https://bob.ibm.com/download).
+1. Visit [https://bob.ibm.com/trial](https://bob.ibm.com/trial) to start your free trial.
+2. Sign up or sign in with your IBM account (or create one if you don't have one yet).
+3. Once signed in, proceed to the [IBM Bob Download Page](https://bob.ibm.com/download).
 
 ### Step 1.2 — Download and Install IBM Bob IDE
 
@@ -49,7 +48,7 @@ Check your chip type: Click ** (Apple menu) → About This Mac** → check **
 
 1. Launch **IBM Bob** from your Applications (macOS), Start Menu (Windows), or launcher (Linux).
 2. On first launch, click **Sign In** when prompted.
-3. Complete the authentication flow in your default browser using your approved IBMid credentials.
+3. Complete the authentication flow in your default browser using your IBM account credentials.
 4. Return to IBM Bob once browser confirmation appears.
 
 ---
