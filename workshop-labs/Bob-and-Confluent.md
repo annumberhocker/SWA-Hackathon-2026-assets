@@ -71,12 +71,10 @@ open ~/.bob/settings/mcp.json
 # or: nano ~/.bob/settings/mcp.json
 ```
 
-The file already contains the correct values for `BOOTSTRAP_SERVERS`, `SCHEMA_REGISTRY_URL`,
-`SCHEMA_REGISTRY_API_KEY`, `SCHEMA_REGISTRY_API_SECRET`, `CONFLUENT_CLOUD_API_KEY`,
-`CONFLUENT_CLOUD_API_SECRET`, all Flink settings, and the catalog/database names.
+The file already contains most of the necessary values.
 
-**You only need to replace two values** — your personal cluster-scoped Kafka API key and secret,
-which were handed out by the instructor:
+**You only need to replace four values** — your personal flink pool id, cluster name, and the cluster-scoped Kafka API key and secret,
+which will be provided by the instructor:
 
 ```json
 {
@@ -99,7 +97,7 @@ which were handed out by the instructor:
         "FLINK_API_SECRET": "...",
         "FLINK_ENV_ID": "env-xxxxxx",
         "FLINK_ORG_ID": "...",
-        "FLINK_COMPUTE_POOL_ID": "lfcp-xxxxx",
+        "FLINK_COMPUTE_POOL_ID": "REPLACE_WITH_YOUR_COMPUTE_POOL_ID",
         "FLINK_REST_ENDPOINT": "https://flink.us-east-2.aws.confluent.cloud",
         "FLINK_CATALOG_NAME": "IBM-Hackathon-demo-test",
         "FLINK_DATABASE_NAME": "REPLACE_WITH_YOUR_CLUSTER_NAME"
@@ -110,16 +108,17 @@ which were handed out by the instructor:
 ```
 
 Make these edits:
-1. Replace `REPLACE_WITH_YOUR_KEY` with the `KAFKA_API_KEY` from your instructor handout
-2. Replace `REPLACE_WITH_YOUR_SECRET` with the `KAFKA_API_SECRET` from your instructor handout
-3. Replace `REPLACE_WITH_YOUR_CLUSTER_NAME` with the `CLUSTER_NAME` from your instructor handout
-4. Update the `command` and first `args` entry with the two paths you copied in Step 1.2
+1. Replace `REPLACE_WITH_YOUR_KEY` with the provided `KAFKA_API_KEY`
+2. Replace `REPLACE_WITH_YOUR_SECRET` with the provided `KAFKA_API_SECRET`
+3. Replace `REPLACE_WITH_YOUR_COMPUTE_POOL_IDE` with the provided `FLINK_COMPUTE_POOL_ID`
+4. Replace `REPLACE_WITH_YOUR_CLUSTER_NAME` with the provided `CLUSTER_NAME`
+5. Update the `command` and first `args` entry with the two paths you copied in Step 1.2
 
 Save the file.
 
 > ⚠️ **`KAFKA_API_KEY` must be cluster-scoped.** This is a different key type from the global
 > Cloud API key already filled in the template. Your instructor has created cluster-scoped keys
-> — one per participant — and printed them on the handout sheet.
+> — one per participant — and will provide to you.
 
 ### Step 1.4 — Verify the Connection in Bob
 
