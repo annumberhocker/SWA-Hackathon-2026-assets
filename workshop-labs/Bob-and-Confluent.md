@@ -94,7 +94,7 @@ Replace the `/FULL/PATH` values accordingly:
 
 Save the file.
 
-### Step 1.4 Test MCP server
+### Step 1.5 - Test MCP server
 
 ```
 npx @confluentinc/mcp-confluent \
@@ -105,10 +105,11 @@ You can also verify which tools are available with:
 ```bash
 npx @confluentinc/mcp-confluent \
   --config ./config.yaml \
+  -e ./.env \
   --list-tools
   ```
 
-### Step 1.5 — Verify the Connection in Bob
+### Step 1.6 — Verify the Connection in Bob
 
 1. Open Bob
 2. Click the **gear icon** (top-right) → **MCP Servers**
