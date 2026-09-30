@@ -137,7 +137,27 @@ If you see a red error instead:
 
 ---
 
-## Part 2 — Explore the Conflent cluster from Bob
+## Part 2 — Explore the Confluent cluster from Bob
+
+### Step 2.1 — Set environment
+Tell Bob which Environment you are working in:
+
+```
+My confluent cloud env is env-xxxxx
+```
+> Replace `env-xxxxx` with the `FLINK_ENV_ID` value from your `mcp.json`.
+
+### Step 2.2 — List clusters
+
+Next, ask Bob to list all of the clusters in the environment: 
+
+```
+List all of the clusters in my Confluent Cloud environment
+```
+
+Bob will call mcp__confluent__list-clusters and return a list.
+
+### Step 2.3 — List Schema Registry information
 
 Tell Bob your Schema Registry URL once so it reuses it for the rest of the session:
 
