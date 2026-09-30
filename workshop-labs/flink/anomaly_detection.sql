@@ -24,7 +24,7 @@ WITH windowed_schedule AS (
         window_time,
         AVG(`value`)       AS avg_value
     FROM TABLE(
-        TUMBLE(TABLE `flight-events`, DESCRIPTOR(event_time), INTERVAL '10' SECONDS)
+        TUMBLE(TABLE `IBM-Hackathon-demo-test`.`cluster-gcc`.`flight-events`, DESCRIPTOR(event_time), INTERVAL '10' SECONDS)
     )
     GROUP BY aircraft_id, metric, unit, hub, window_start, window_end, window_time
 ),
