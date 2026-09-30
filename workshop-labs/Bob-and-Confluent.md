@@ -137,7 +137,7 @@ If you see a red error instead:
 
 ---
 
-## Part 2 — Explore the Confluent cluster from Bob
+## Part 2 — Explore the Confluent cloud account
 
 ### Step 2.1 — Set environment
 Tell Bob which Environment you are working in:
@@ -184,10 +184,16 @@ Flink will write detected anomalies into a topic called `ops-alerts`. Create it 
 
 ### Step 3.1 — Create the Topic
 
-In the Bob chat, type:
+Tell Bob what cluster you are using:
 
 ```
-Create a Kafka topic called 'ops-alerts' on cluster `my-cluster`
+My Confluent cluster is `my-cluster`
+```
+
+Then in Bob chat, type:
+
+```
+Create a Kafka topic called 'ops-alerts'
 ```
 
 Bob calls:
