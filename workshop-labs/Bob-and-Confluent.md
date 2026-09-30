@@ -137,23 +137,7 @@ If you see a red error instead:
 
 ---
 
-## Part 2 — Explore the Live Stream from Bob
-
-The flight simulator is already running and producing events. Before creating anything, use Bob
-to verify data is flowing.
-
-### Step 2.1 — List Topics
-
-In the Bob chat, type:
-
-```
-List all topics in my Confluent cluster
-```
-
-Bob will call `mcp__confluent__list-topics` and return a list. You should see `flight-events`
-in the results.
-
-### Step 2.2 — Check the Schema Registry
+## Part 2 — Explore the Conflent cluster from Bob
 
 Tell Bob your Schema Registry URL once so it reuses it for the rest of the session:
 
