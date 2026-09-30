@@ -94,7 +94,7 @@ Replace the `/FULL/PATH` values accordingly:
 
 Save the file.
 
-### Step 1.5 Test MCP server
+### Step 1.5 - Test MCP server
 
 ```
 npx @confluentinc/mcp-confluent \
