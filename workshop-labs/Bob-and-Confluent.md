@@ -187,7 +187,7 @@ Flink will write detected anomalies into a topic called `ops-alerts`. Create it 
 In the Bob chat, type:
 
 ```
-Create a Kafka topic called 'ops-alerts'
+Create a Kafka topic called 'ops-alerts' on cluster `my-cluster`
 ```
 
 Bob calls:
@@ -202,7 +202,7 @@ mcp__confluent__create-topics
 List all topics in my Confluent cluster
 ```
 
-You should now see both `flight-events` and `ops-alerts`.
+You should now see `ops-alerts`.
 
 ---
 
