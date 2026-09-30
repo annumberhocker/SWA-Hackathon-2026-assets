@@ -105,6 +105,7 @@ You can also verify which tools are available with:
 ```bash
 npx @confluentinc/mcp-confluent \
   --config ./config.yaml \
+  -e ./.env \
   --list-tools
   ```
 
