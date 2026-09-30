@@ -394,6 +394,5 @@ Search for topics by name 'ops-alerts'
 
 ---
 
-**Lab complete.** The anomaly detection pipeline is live. In the next lab you will connect
-the `ops-alerts` consumer to a watsonx Orchestrate supervisor agent that automatically
-triages each alert and dispatches notifications.
+**Lab complete.** The anomaly detection pipeline is live. In the next lab you will
+create a watsonx Orchestrate triage agent that will triage alerts using a knowledge base.
