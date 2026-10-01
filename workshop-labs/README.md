@@ -54,27 +54,84 @@ In this lab, you configure the watsonx Orchestrate (WXO) ADK MCP server in Bob, 
 
 ---
 
+### [Lab 2 (No-Code Alternative): Build the Flight Triage Agent via the WXO UI](WXO-No-Code.md)
+**Focus:** Agentic AI — Browser-Only, No CLI Required
+
+In this lab, you build the exact same `flight_triage_agent` as Lab 2 entirely through the watsonx Orchestrate browser UI — no code, no terminal, no MCP configuration needed. Ideal for participants who prefer a point-and-click workflow.
+
+**Key Highlights:**
+- **Knowledge Base:** Upload and index `flight_ops_runbook.pdf` directly in the WXO console.
+- **Agent Builder:** Configure the agent name, model, style, instructions, and knowledge base attachment through form fields.
+- **In-Browser Testing:** Send CRITICAL, HIGH, and LOW severity anomaly alerts via the WXO chat preview panel.
+- **Equivalent Outcome:** Produces the same deployed agent and validated triage results as the Bob-driven Lab 2 path.
+
+---
+
 ## Lab Architecture & Data Flow
 
-```
-+-----------------------------------------------------------------------------------+
-|                                 1. Confluent Cloud                                 |
-|                                                                                   |
-|  [Flight Simulator] ---> [flight-events] ---> [Flink AI Job] ---> [ops-alerts]    |
-|                               (Topic)     (AI_DETECT_ANOMALIES)       (Topic)     |
-+--------------------------------------------------------------------------|--------+
-                                                                           |
-                                                                           v
-+-----------------------------------------------------------------------------------+
-|                               2. watsonx Orchestrate                              |
-|                                                                                   |
-|  [Runbook PDF] ---> [Knowledge Base] ---> [flight_triage_agent] ---> [Triage SOP] |
-|                                                                                   |
-+-----------------------------------------------------------------------------------+
-                                         ^
-                                         |
-                                [IBM Bob Assistant]
-                             (Orchestration via MCP)
+```mermaid
+flowchart LR
+
+    subgraph SIM["✈  Flight Simulator"]
+        direction TB
+        A1["N101AX · AX101 ORD→LAX"]
+        A2["N202AX · AX202 ORD→JFK"]
+        A3["N303AX · AX303 DFW→MIA"]
+        A4["N404AX · AX404 DFW→SEA"]
+    end
+
+    subgraph CC["Confluent Cloud"]
+        direction TB
+
+        subgraph TOPICS_IN["Kafka Topics (inbound)"]
+            T1[("flight-events")]
+        end
+
+        subgraph FLINK["Flink Streaming Job"]
+            direction TB
+            W["TUMBLE window\n10 s avg per aircraft + metric"]
+            AI["AI_DETECT_ANOMALIES\nARIMA · 99% confidence band\nscore = deviation / band width"]
+            F["Filter\nis_anomaly = TRUE\nscore > 0.95"]
+            W --> AI --> F
+        end
+
+        subgraph TOPICS_OUT["Kafka Topics (outbound)"]
+            T2[("ops-alerts\nentity_id · metric · value\nanomalyscore · hub · detected_at")]
+        end
+
+        TOPICS_IN --> FLINK --> TOPICS_OUT
+    end
+
+    subgraph WXO["watsonx Orchestrate"]
+        direction TB
+
+        KB[("Knowledge Base\nflight_ops_runbook.pdf\n§1 Gate Operations\n§2 Departure Delays\n§3 Turnaround Disruptions")]
+
+        AGT["flight_triage_agent\nnative · react_core\ngroq/openai/gpt-oss-120b"]
+
+        OUT["Structured Triage Summary\nFlight · Severity · Urgency\nRunbook § · Recommended Action\nServiceNow Short Description"]
+
+        KB -- "RAG retrieval" --> AGT
+        AGT --> OUT
+    end
+
+    BOB["IBM Bob\n(MCP Orchestration)"]
+
+    SIM -- "departure_delay\ngate_wait\nturnaround_time" --> T1
+    T2 -- "anomaly alert\npayload" --> AGT
+    BOB -. "Lab 1: Flink &\nKafka topics" .-> CC
+    BOB -. "Lab 2: Knowledge base\n& agent deploy" .-> WXO
+
+    style SIM fill:#e8f4fd,stroke:#3b82d4,color:#1f2328
+    style CC fill:#fff8e7,stroke:#d97706,color:#1f2328
+    style TOPICS_IN fill:#fef3c7,stroke:#d97706,color:#1f2328
+    style FLINK fill:#fde68a,stroke:#b45309,color:#1f2328
+    style TOPICS_OUT fill:#fef3c7,stroke:#d97706,color:#1f2328
+    style WXO fill:#f3f0ff,stroke:#7c5cd8,color:#1f2328
+    style KB fill:#ede9fe,stroke:#7c5cd8,color:#1f2328
+    style AGT fill:#ddd6fe,stroke:#7c5cd8,color:#1f2328
+    style OUT fill:#ede9fe,stroke:#7c5cd8,color:#1f2328
+    style BOB fill:#f0fdf4,stroke:#16a34a,color:#1f2328
 ```
 
 ---
@@ -87,6 +144,7 @@ workshop-labs/
 ├── Install-Bob.md                     # Prerequisite: IBM Bob Installation & Setup
 ├── Bob-and-Confluent.md               # Lab 1: Confluent Cloud & Flink Anomaly Detection
 ├── Bob-and-WXO.md                     # Lab 2: watsonx Orchestrate & Knowledge Base Triage
+├── WXO-No-Code.md                     # Lab 2 (No-Code Alt): WXO UI — Flight Triage Agent
 ├── mcp.json                           # Bob MCP configuration template
 ├── flink/
 │   ├── alerts_table.sql               # Flink SQL DDL for ops-alerts table
