@@ -7,49 +7,7 @@ In these labs, you will learn how to use **IBM Bob** as an intelligent developer
 ---
 ## Lab Architecture & Data Flow
 
-```mermaid
-flowchart TD
-
-    BOB["🤖 IBM Bob\n(MCP Orchestration)"]
-
-    subgraph CC["Confluent Cloud"]
-        subgraph SIM["✈ Flight Simulator"]
-        end
-
-        T1[("flight-events topic")]
-
-        subgraph FLINK["Flink Streaming Job"]
-            AI["AI_DETECT_ANOMALIES"]
-        end
-
-        T2[("ops-alerts topic")]
-
-        SIM --> T1 --> FLINK --> T2
-    end
-
-    subgraph WXO["watsonx Orchestrate"]
-        KB[("Knowledge Base\nflight_ops_runbook.pdf")]
-        AGT["flight_triage_agent"]
-        OUT["Structured Triage Summary"]
-
-        KB -- "RAG retrieval" --> AGT
-        AGT --> OUT
-    end
-
-    CC -. "Lab 1: topics,\nFlink & anomaly detection" .-> BOB
-    WXO -. "Lab 2: knowledge base\n& agent deploy" .-> BOB
-    T2 -- "anomaly alert\npayload" --> AGT
-    CC ~~~ WXO
-
-    style BOB fill:#f0fdf4,stroke:#16a34a,color:#1f2328
-    style SIM fill:#e8f4fd,stroke:#3b82d4,color:#1f2328
-    style CC fill:#fff8e7,stroke:#d97706,color:#1f2328
-    style FLINK fill:#fde68a,stroke:#b45309,color:#1f2328
-    style WXO fill:#f3f0ff,stroke:#7c5cd8,color:#1f2328
-    style KB fill:#ede9fe,stroke:#7c5cd8,color:#1f2328
-    style AGT fill:#ddd6fe,stroke:#7c5cd8,color:#1f2328
-    style OUT fill:#ede9fe,stroke:#7c5cd8,color:#1f2328
-```
+![Lab Architecture & Data Flow](images/ibm_bob_confluent_wxo_architecture.png)
 
 ---
 
