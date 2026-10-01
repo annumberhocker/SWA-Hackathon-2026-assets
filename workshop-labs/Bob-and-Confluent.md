@@ -15,9 +15,7 @@ through natural-language prompts.
 **What you will do in this lab:**
 1. Configure the Confluent MCP server in Bob (filling in your own API credentials)
 2. Verify the connection and explore the live `flight-events` stream from Bob
-3. Create the `ops-alerts` topic using a Bob prompt
-4. Deploy the Flink SQL alerts table definition
-5. Deploy the Flink SQL anomaly detection job and watch it run
+3. Deploy the Flink materialized table that creates the `ops-alerts` topic and starts the anomaly detection job in one step
 
 ---
 
@@ -123,7 +121,7 @@ Tell Bob which Environment you are working in:
 ```
 My confluent cloud env is env-xxxxx
 ```
-> Replace `env-xxxxx` with the `FLINK_ENV_ID` value from your `mcp.json`.
+> Replace `env-xxxxx` with the `FLINK_ENV_ID` value from your `.env` file.
 
 ### Step 2.2 — List clusters
 
@@ -143,7 +141,7 @@ Tell Bob your Schema Registry URL once so it reuses it for the rest of the sessi
 My Schema Registry URL is https://psrc-xxxxx.us-east-2.aws.confluent.cloud — use it for all Schema Registry calls
 ```
 
-> Replace `psrc-xxxxx…` with the `SCHEMA_REGISTRY_URL` value from your `mcp.json`.
+> Replace `psrc-xxxxx…` with the `SCHEMA_REGISTRY_URL` value from your `.env` file.
 
 Then ask:
 
@@ -156,173 +154,56 @@ the simulator registered automatically when it started producing.
 
 ---
 
-## Part 3 — Create the `ops-alerts` Topic
+## Part 3 — Deploy the Anomaly Detection Pipeline
 
-Flink will write detected anomalies into a topic called `ops-alerts`. Create it now using Bob.
+The flight simulator is continuously producing telemetry events — gate wait times, departure delays, and turnaround durations — into the `flight-events` Kafka topic. In this part you will deploy a Flink streaming job that reads those events in real time, averages each metric over 10-second windows, and runs Confluent's `AI_DETECT_ANOMALIES` function to identify aircraft or flights behaving outside their normal baseline. When an anomaly is confirmed with high confidence, the job writes an alert record to a new `ops-alerts` topic, which the watsonx Orchestrate triage agent in the next lab will consume and act on.
 
-### Step 3.1 — Create the Topic
+A single `CREATE OR ALTER MATERIALIZED TABLE` statement in `flink/anomaly_detection_materialized.sql` does everything in one shot: it creates the `ops-alerts` Kafka topic, defines the table schema, and starts the continuous anomaly detection job — all without any manual topic creation or separate DDL step.
 
-Tell Bob what cluster you are using:
+### Step 3.1 — Understand What the SQL Does
 
-```
-My Confluent cluster is `my-cluster`
-```
-> Replace `my-cluster` with the cluster name assigned to you provided by your instructor.
+The file `flink/anomaly_detection_materialized.sql` does three things in one statement:
 
-Then in Bob chat, type:
+1. **Creates (or evolves) the `ops-alerts` table** — defines all columns, the `WATERMARK`, and binds to the `ops-alerts` Kafka topic with `cleanup-policy = delete`.
+2. **Runs the streaming query continuously** — reads from `flight-events`, applies a 10-second tumbling window per aircraft + metric, calls `AI_DETECT_ANOMALIES`, and writes only confirmed anomalies to `ops-alerts`.
+3. **Stays RUNNING indefinitely** — `START_MODE = RESUME_OR_FROM_BEGINNING` means Flink resumes from where it left off if the statement is restarted.
 
-```
-Create a Kafka topic called 'ops-alerts'
-```
+The query is structured in two CTEs:
 
-Bob calls:
-```
-mcp__confluent__create-topics
-  { "topicNames": ["ops-alerts"] }
-```
+**`windowed_schedule`** — groups raw events into 10-second tumbling windows and averages each metric. This reduces noise before anomaly scoring.
 
-### Step 3.2 — Confirm the Topic Exists
+**`anomaly_results`** — calls `AI_DETECT_ANOMALIES` as an analytic function over an unbounded window partitioned by `(entity_id, stream, metric)`. This gives the model full history for each aircraft-metric pair to build its baseline.
 
-```
-List all topics in my Confluent cluster
-```
-
-You should now see `ops-alerts`.
-
----
-
-## Part 4 — Deploy the Flink Alerts Table
-
-Before the anomaly detection job can write to `ops-alerts`, you need to create a Flink table
-definition that binds that topic to a typed schema. This is defined in `flink/alerts_table.sql`.
-
-### Step 4.1 — Understand What the SQL Does
-
-The statement creates a Flink table called `ops-alerts` with the following schema:
-
-| Column | Type | Description |
-|---|---|---|
-| `entity_id` | STRING | Aircraft identifier |
-| `stream` | STRING | Always `"schedule"` in this demo |
-| `metric` | STRING | `gate_wait`, `departure_delay`, or `turnaround_time` |
-| `value` | DOUBLE | Measured metric value |
-| `unit` | STRING | Unit of measure |
-| `anomaly_score` | DOUBLE | Score in `[0, 1]` — higher = more anomalous |
-| `is_anomaly` | BOOLEAN | `TRUE` when the anomaly detection model fires |
-| `hub` | STRING | Airport hub code |
-| `detected_at` | TIMESTAMP(3) | Wall-clock time Bob's Flink job emitted the row |
-| `event_time` | TIMESTAMP(3) | Event time from the originating window |
-
-The `WATERMARK FOR event_time` clause tells Flink how to handle late-arriving events.
-The `WITH ('kafka.cleanup-policy' = 'delete')` clause binds to the **existing** `ops-alerts` topic
-you just created — it does not recreate it.
-
-### Step 4.2 — Run the Statement from Bob
-
-Copy the SQL below and paste it into Bob with this prompt:
-
-```
-Run Flink SQL statement named 'ops-alerts-table-def' from flink/alerts_table.sql
-```
-
-Bob calls:
-```
-mcp__confluent__create-flink-statement
-  {
-    "statementName": "ops-alerts-table-def",
-    "statement": "CREATE TABLE IF NOT EXISTS `ops-alerts` ..."
-  }
-```
-
-### Step 4.3 — Verify the Statement Completed
-
-```
-Show me the status of the Flink statement named 'ops-alerts-table-def'
-```
-
-Bob calls `mcp__confluent__read-flink-statement`. A DDL `CREATE TABLE` statement should reach
-**COMPLETED** status quickly (within a few seconds). If it shows **FAILED**, read the error
-message Bob returns — a common cause is the `ops-alerts` topic not yet existing (check Part 3).
-
----
-
-## Part 5 — Deploy the Anomaly Detection Job
-
-This is the main streaming job. It reads from `flight-events`, applies a 10-second tumbling
-window to average each metric per aircraft, runs Confluent's `AI_DETECT_ANOMALIES` function over
-the windowed averages, and writes rows where `is_anomaly = TRUE` and `anomaly_score > 0.95`
-into `ops-alerts`.
-
-### Step 5.1 — Understand the Query
-
-The job is structured in two CTEs:
-
-**`windowed_schedule`** — groups raw events into 10-second tumbling windows and averages each
-metric. This reduces noise before anomaly scoring.
-
-**`anomaly_results`** — calls `AI_DETECT_ANOMALIES` as an analytic function over an unbounded
-window partitioned by `(entity_id, stream, metric)`. This gives the model full history for each
-aircraft-metric pair to build its baseline.
-
-The outer `SELECT` and `WHERE` clause filters to only the rows that are true anomalies with a
-high confidence score, then writes them to `ops-alerts`.
+The outer `SELECT` and `WHERE` filters to only true anomalies with a high confidence score and writes them to `ops-alerts`.
 
 Key parameters:
-- `minContextSize = 20` — the model waits for 20 windows (~3.5 minutes at 10-second intervals)
-  before producing any output. **This is expected behaviour — the first few minutes will appear quiet.**
+- `minContextSize = 20` — the model waits for 20 windows (~3.5 minutes at 10-second intervals) before producing any output. **This is expected behaviour — the first few minutes will appear quiet.**
 - `confidencePercentage = 99.0` — requires 99% confidence before flagging an anomaly
 - `anomaly_score > 0.95` — additional threshold on the normalized deviation
 
-### Step 5.2 — Run the Statement from Bob
+### Step 3.2 — Run the Statement from Bob
 
 In the Bob chat, type:
 
 ```
-Read flink/anomaly_detection.sql and run it as a long-running Flink streaming job named 'gate-change-anomaly-detection'. It should stay in RUNNING status continuously.
+Read flink/anomaly_detection_materialized.sql and run it as a Flink statement named 'gate-change-anomaly-detection'. It should stay in RUNNING status continuously.
 ```
 
-Bob calls:
-```
-mcp__confluent__create-flink-statement
-  {
-    "statementName": "gate-change-anomaly-detection",
-    "statement": "INSERT INTO `ops-alerts` WITH windowed_schedule AS ..."
-  }
-```
+Bob calls `mcp__confluent__create-flink-statement` with the full SQL from the file.
 
-### Step 5.3 — Confirm the Job is Running
+### Step 3.3 — Confirm the Job is Running
 
 ```
 Show me the status of the Flink statement named 'gate-change-anomaly-detection'
 ```
 
-You should see status **RUNNING**. Unlike the DDL in Step 4, this INSERT job runs indefinitely —
-that is correct and expected. Do not stop it.
+You should see status **RUNNING**. This job runs indefinitely — that is correct and expected. Do not stop it.
 
-### Step 5.4 — List All Running Flink Statements
+### Step 3.4 — Wait for Anomalies (Warmup Period)
 
-```
-List all my Flink statements
-```
+The `minContextSize = 20` parameter means the model needs 20 completed 10-second windows (~3.5 minutes) before it begins scoring. During this warmup period `ops-alerts` will be empty — this is normal.
 
-Bob calls `mcp__confluent__list-flink-statements`. You should see both:
-- `ops-alerts-table-def` — COMPLETED
-- `gate-change-anomaly-detection` — RUNNING
-
-### Step 5.5 — Wait for Anomalies (Warmup Period)
-
-The `minContextSize = 20` parameter means the model needs 20 completed 10-second windows
-(~3.5 minutes) before it begins scoring. During this warmup period `ops-alerts` will be empty
-— this is normal.
-
-After the warm-up, ask Bob to check for output:
-
-```
-List all Flink statements and tell me which ones are currently running
-```
-
-To verify anomalies are flowing into `ops-alerts`, check the topic in the Confluent Cloud UI:
-**Topics → ops-alerts → Messages** — you should start seeing rows appear after the warmup.
+To verify anomalies are flowing into `ops-alerts` after the warmup, check the topic in the Confluent Cloud UI: **Topics → ops-alerts → Messages** — you should start seeing rows appear.
 
 ---
 
@@ -366,7 +247,7 @@ Search for topics by name 'ops-alerts'
 | Bob MCP shows red / Failed | Wrong node path or empty credential in `mcp.json` | Re-check `command`, `KAFKA_API_KEY`, `KAFKA_API_SECRET` |
 | `CREATE TABLE` fails with schema conflict | `DISTRIBUTED INTO` was included | Remove `DISTRIBUTED INTO` clause |
 | `CREATE TABLE` fails — topic not found | `ops-alerts` topic not created | Redo Part 3 |
-| INSERT job shows FAILED immediately | Table definition not run first | Verify `ops-alerts-table-def` is COMPLETED before running the INSERT |
+| INSERT job shows FAILED immediately | Materialized table statement failed | Check that `flink/anomaly_detection_materialized.sql` was submitted without modification |
 | `ops-alerts` receives no messages after 5 min | Warmup not complete, or threshold too high | Wait the full ~3.5 min warmup; check the simulator is still producing |
 | `list-schemas` returns empty | SR URL not set in session | Tell Bob your SR URL (see Step 2.2) |
 
