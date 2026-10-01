@@ -74,44 +74,38 @@ flowchart TD
 
     BOB["🤖 IBM Bob\n(MCP Orchestration)"]
 
-    subgraph CC["Confluent Cloud"]
+    subgraph TOOLS["&nbsp;"]
         direction LR
 
-        subgraph SIM["✈ Flight Simulator"]
-            direction TB
-            A1["N101AX · AX101 ORD→LAX"]
-            A2["N202AX · AX202 ORD→JFK"]
-            A3["N303AX · AX303 DFW→MIA"]
-            A4["N404AX · AX404 DFW→SEA"]
+        subgraph CC["Confluent Cloud"]
+            subgraph SIM["✈ Flight Simulator"]
+            end
+
+            T1[("flight-events topic")]
+
+            subgraph FLINK["Flink Streaming Job"]
+                AI["AI_DETECT_ANOMALIES"]
+                AI
+            end
+
+            T2[("ops-alerts topic")]
+
+            SIM --> T1 --> FLINK --> T2
         end
 
-        T1[("flight-events\ntopic")]
+        subgraph WXO["watsonx Orchestrate"]
+            direction LR
 
-        subgraph FLINK["Flink Streaming Job"]
-            direction TB
-            W["TUMBLE window\n10 s avg per aircraft + metric"]
-            AI["AI_DETECT_ANOMALIES\nARIMA · 99% confidence band\nscore = deviation / band width"]
-            F["Filter\nis_anomaly = TRUE AND score > 0.95"]
-            W --> AI --> F
+            KB[("Knowledge Base
+            flight_ops_runbook.pdf")]
+
+            AGT["flight_triage_agent"]
+
+            OUT["Structured Triage Summary"]
+
+            KB -- "RAG retrieval" --> AGT
+            AGT --> OUT
         end
-
-        T2[("ops-alerts topic\nentity_id · metric · value\nanomalyscore · hub · detected_at")]
-
-        SIM -- "departure_delay\ngate_wait\nturnaround_time" --> T1
-        T1 --> FLINK --> T2
-    end
-
-    subgraph WXO["watsonx Orchestrate"]
-        direction LR
-
-        KB[("Knowledge Base\nflight_ops_runbook.pdf\n§1 Gate Operations\n§2 Departure Delays\n§3 Turnaround Disruptions")]
-
-        AGT["flight_triage_agent\nnative · react_core\ngroq/openai/gpt-oss-120b"]
-
-        OUT["Structured Triage Summary\nFlight · Severity · Urgency\nRunbook § · Recommended Action\nServiceNow Short Description"]
-
-        KB -- "RAG retrieval" --> AGT
-        AGT --> OUT
     end
 
     BOB -. "Lab 1: topics,\nFlink & anomaly detection" .-> CC
@@ -126,6 +120,7 @@ flowchart TD
     style KB fill:#ede9fe,stroke:#7c5cd8,color:#1f2328
     style AGT fill:#ddd6fe,stroke:#7c5cd8,color:#1f2328
     style OUT fill:#ede9fe,stroke:#7c5cd8,color:#1f2328
+    style TOOLS fill:none,stroke:none
 ```
 
 ---
