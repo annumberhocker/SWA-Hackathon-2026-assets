@@ -36,9 +36,6 @@ source ~/.zshrc     # or ~/.bashrc on Linux
 nvm install 22
 nvm use 22
 node --version      # must show v22.x.x
-
-# macOS only — install required native libraries
-brew install openssl zstd
 ```
 
 ### Step 1.2 — Generate the Confluent MCP configuration
