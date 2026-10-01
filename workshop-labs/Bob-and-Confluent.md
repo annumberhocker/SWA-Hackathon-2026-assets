@@ -48,13 +48,13 @@ The directory will contain a new `config.yaml` file:
 
 ### Step 1.3 — Update Your Credentials
 
-Your instructor has given you a pre-filled `.env` file. Edit it:
+Your instructor has given you a pre-filled `env.lab` file. Edit it:
 
 ```bash
 # From the SWA-Hackathon-2026-assets/workshop-labs directory
-open ./.env
-# or: code ./.env
-# or: nano ./.env
+open ./env.lab
+# or: code ./env.lab
+# or: nano ./env.lab
 ```
 
 Make these edits:
@@ -80,7 +80,7 @@ Replace the `/FULL/PATH` values accordingly:
      "-c",
      "/FULL/PATH/confluent-mcp/config.yaml",
      "-e",
-     "/FULL/PATH/swa-hackathon-2026/assets/workshop-labs/.env"
+     "/FULL/PATH/swa-hackathon-2026/assets/workshop-labs/env.lab"
    ],
    "cwd": "/FULL/PATH/confluent-mcp",
    "disabled": false
@@ -94,13 +94,13 @@ Save the file.
 ```
 npx @confluentinc/mcp-confluent \
   -c /FULL/PATH/confluent-mcp/config.yaml \
-  -e ./.env
+  -e ./env.lab
 ```
 You can also verify which tools are available with:
 ```bash
 npx @confluentinc/mcp-confluent \
   --config ./config.yaml \
-  -e ./.env \
+  -e ./env.lab \
   --list-tools
   ```
 
@@ -121,7 +121,7 @@ Tell Bob which Environment you are working in:
 ```
 My confluent cloud env is env-xxxxx
 ```
-> Replace `env-xxxxx` with the `FLINK_ENV_ID` value from your `.env` file.
+> Replace `env-xxxxx` with the `FLINK_ENV_ID` value from your `env.lab` file.
 
 ### Step 2.2 — List clusters
 
@@ -141,7 +141,7 @@ Tell Bob your Schema Registry URL once so it reuses it for the rest of the sessi
 My Schema Registry URL is https://psrc-xxxxx.us-east-2.aws.confluent.cloud — use it for all Schema Registry calls
 ```
 
-> Replace `psrc-xxxxx…` with the `SCHEMA_REGISTRY_URL` value from your `.env` file.
+> Replace `psrc-xxxxx…` with the `SCHEMA_REGISTRY_URL` value from your `env.lab` file.
 
 Then ask:
 
