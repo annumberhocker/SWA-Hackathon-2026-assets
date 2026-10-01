@@ -181,7 +181,21 @@ Key parameters:
 - `confidencePercentage = 99.0` — requires 99% confidence before flagging an anomaly
 - `anomaly_score > 0.95` — additional threshold on the normalized deviation
 
-### Step 3.2 — Run the Statement from Bob
+### Step 3.2 — Update the Cluster Name in the SQL
+
+Before running the job, open `flink/anomaly_detection_materialized.sql` and replace the `REPLACE_WITH_YOUR_CLUSTER` placeholder on line 29 with your Kafka cluster name (the value of `FLINK_DATABASE_NAME` from your `env.lab` file):
+
+```sql
+-- Before:
+CREATE OR ALTER MATERIALIZED TABLE `IBM-Hackathon-demo-test`.`REPLACE_WITH_YOUR_CLUSTER`.`ops-alerts` (
+
+-- After (example):
+CREATE OR ALTER MATERIALIZED TABLE `IBM-Hackathon-demo-test`.`your-cluster-name`.`ops-alerts` (
+```
+
+Save the file before continuing.
+
+### Step 3.3 — Run the Statement from Bob
 
 In the Bob chat, type:
 
@@ -191,7 +205,7 @@ Read flink/anomaly_detection_materialized.sql and run it as a Flink statement na
 
 Bob calls `mcp__confluent__create-flink-statement` with the full SQL from the file.
 
-### Step 3.3 — Confirm the Job is Running
+### Step 3.4 — Confirm the Job is Running
 
 ```
 Show me the status of the Flink statement named 'gate-change-anomaly-detection'
@@ -199,7 +213,7 @@ Show me the status of the Flink statement named 'gate-change-anomaly-detection'
 
 You should see status **RUNNING**. This job runs indefinitely — that is correct and expected. Do not stop it.
 
-### Step 3.4 — Wait for Anomalies (Warmup Period)
+### Step 3.5 — Wait for Anomalies (Warmup Period)
 
 The `minContextSize = 20` parameter means the model needs 20 completed 10-second windows (~3.5 minutes) before it begins scoring. During this warmup period `ops-alerts` will be empty — this is normal.
 
