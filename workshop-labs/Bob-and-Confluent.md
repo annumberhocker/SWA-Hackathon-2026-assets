@@ -32,7 +32,7 @@ Open a terminal and run:
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
 source ~/.zshrc     # or ~/.bashrc on Linux
 
-# Install and activate Node.js 22
+# Install and activate Node.js 22 if you have an earlier version
 nvm install 22
 nvm use 22
 node --version      # must show v22.x.x
