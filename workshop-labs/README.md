@@ -70,40 +70,39 @@ In this lab, you build the exact same `flight_triage_agent` as Lab 2 entirely th
 ## Lab Architecture & Data Flow
 
 ```mermaid
-flowchart LR
+flowchart TD
 
-    subgraph SIM["✈  Flight Simulator"]
-        direction TB
-        A1["N101AX · AX101 ORD→LAX"]
-        A2["N202AX · AX202 ORD→JFK"]
-        A3["N303AX · AX303 DFW→MIA"]
-        A4["N404AX · AX404 DFW→SEA"]
-    end
+    BOB["🤖 IBM Bob\n(MCP Orchestration)"]
 
     subgraph CC["Confluent Cloud"]
-        direction TB
+        direction LR
 
-        subgraph TOPICS_IN["Kafka Topics (inbound)"]
-            T1[("flight-events")]
+        subgraph SIM["✈ Flight Simulator"]
+            direction TB
+            A1["N101AX · AX101 ORD→LAX"]
+            A2["N202AX · AX202 ORD→JFK"]
+            A3["N303AX · AX303 DFW→MIA"]
+            A4["N404AX · AX404 DFW→SEA"]
         end
+
+        T1[("flight-events\ntopic")]
 
         subgraph FLINK["Flink Streaming Job"]
             direction TB
             W["TUMBLE window\n10 s avg per aircraft + metric"]
             AI["AI_DETECT_ANOMALIES\nARIMA · 99% confidence band\nscore = deviation / band width"]
-            F["Filter\nis_anomaly = TRUE\nscore > 0.95"]
+            F["Filter\nis_anomaly = TRUE AND score > 0.95"]
             W --> AI --> F
         end
 
-        subgraph TOPICS_OUT["Kafka Topics (outbound)"]
-            T2[("ops-alerts\nentity_id · metric · value\nanomalyscore · hub · detected_at")]
-        end
+        T2[("ops-alerts topic\nentity_id · metric · value\nanomalyscore · hub · detected_at")]
 
-        TOPICS_IN --> FLINK --> TOPICS_OUT
+        SIM -- "departure_delay\ngate_wait\nturnaround_time" --> T1
+        T1 --> FLINK --> T2
     end
 
     subgraph WXO["watsonx Orchestrate"]
-        direction TB
+        direction LR
 
         KB[("Knowledge Base\nflight_ops_runbook.pdf\n§1 Gate Operations\n§2 Departure Delays\n§3 Turnaround Disruptions")]
 
@@ -115,23 +114,18 @@ flowchart LR
         AGT --> OUT
     end
 
-    BOB["IBM Bob\n(MCP Orchestration)"]
-
-    SIM -- "departure_delay\ngate_wait\nturnaround_time" --> T1
+    BOB -. "Lab 1: topics,\nFlink & anomaly detection" .-> CC
+    BOB -. "Lab 2: knowledge base\n& agent deploy" .-> WXO
     T2 -- "anomaly alert\npayload" --> AGT
-    BOB -. "Lab 1: Flink &\nKafka topics" .-> CC
-    BOB -. "Lab 2: Knowledge base\n& agent deploy" .-> WXO
 
+    style BOB fill:#f0fdf4,stroke:#16a34a,color:#1f2328
     style SIM fill:#e8f4fd,stroke:#3b82d4,color:#1f2328
     style CC fill:#fff8e7,stroke:#d97706,color:#1f2328
-    style TOPICS_IN fill:#fef3c7,stroke:#d97706,color:#1f2328
     style FLINK fill:#fde68a,stroke:#b45309,color:#1f2328
-    style TOPICS_OUT fill:#fef3c7,stroke:#d97706,color:#1f2328
     style WXO fill:#f3f0ff,stroke:#7c5cd8,color:#1f2328
     style KB fill:#ede9fe,stroke:#7c5cd8,color:#1f2328
     style AGT fill:#ddd6fe,stroke:#7c5cd8,color:#1f2328
     style OUT fill:#ede9fe,stroke:#7c5cd8,color:#1f2328
-    style BOB fill:#f0fdf4,stroke:#16a34a,color:#1f2328
 ```
 
 ---
