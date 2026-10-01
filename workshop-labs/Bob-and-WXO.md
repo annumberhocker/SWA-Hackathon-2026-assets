@@ -59,12 +59,12 @@ Add or update the `watsonx-orchestrate-adk` entry inside `mcpServers`:
         "ibm-watsonx-orchestrate-mcp-server"
       ],
       "env": {
-        "WO_INSTANCE": "https://api.us-east.orchestrate.ibm.com",
+        "WO_INSTANCE": "https://api.REPLACE_WITH_WXO_REGION.orchestrate.ibm.com/instances/REPLACE_WITH_WXO_INSTANCE_ID",
         "WO_API_KEY": "REPLACE_WITH_YOUR_WXO_API_KEY",
-        "WXO_MCP_WORKING_DIRECTORY": "/Users/you/orchestrate",
+        "WXO_MCP_WORKING_DIRECTORY": "/FULL/PATH/swa-hackathon-2026/assets/workshop-labs/orchestrate",
         "WXO_MCP_DEBUG": "true"
       },
-      "timeout": 300
+      "timeout": 300000
     },
     "watsonx-orchestrate-adk-docs": {
       "type": "streamable-http",
