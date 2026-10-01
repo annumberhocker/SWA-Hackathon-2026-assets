@@ -30,157 +30,66 @@ Before starting, make sure you have:
 
 ## Part 1 — Log In to watsonx Orchestrate
 
-### Step 1.1 — Open the WXO Console
+### Step 1.1 — Log In to IBM Cloud
 
-Navigate to your tenant URL in a browser (provided by the instructor). It will look like:
+Open a browser and go to [https://cloud.ibm.com](https://cloud.ibm.com). Sign in with your **IBMid** credentials.
 
-```
-https://<your-tenant-region>.orchestrate.ibm.com
-```
+![IBM Cloud login page showing the IBMid sign-in form.](images/IBM_Cloud_Login.png)
 
-> 📸 **Screenshot placeholder:** WXO login page showing the IBMid sign-in form.
-> `[SCREENSHOT: wxo-login.png]`
+### Step 1.2 — Open the Resource List
 
-### Step 1.2 — Sign In
+After logging in, click the **hamburger menu** (☰) in the top-left corner to open the navigation menu, then click **Resource list**.
 
-Enter your credentials and click **Sign in**. You will land on the watsonx Orchestrate home screen.
+![IBM Cloud top-left hamburger menu open with "Resource list" highlighted.](images/Resource_List.png)
 
-> 📸 **Screenshot placeholder:** WXO home/dashboard screen after successful login.
-> `[SCREENSHOT: wxo-home-dashboard.png]`
+### Step 1.3 — Locate the watsonx Orchestrate Instance
 
----
+In the Resource list, expand the **AI / Machine Learning** section. Find the row whose name corresponds to the **watsonx Orchestrate** product and click it to open the service instance details.
 
-## Part 2 — Import the Flight Operations Runbook Knowledge Base
+![Resource list with "AI / Machine Learning" section expanded and the watsonx Orchestrate instance highlighted.](images/Choose_Orchestrate.png)
 
-The triage agent relies on RAG (Retrieval-Augmented Generation) over the Flight Operations Runbook PDF. You must create and index the knowledge base before creating the agent.
+### Step 1.4 — Launch watsonx Orchestrate
 
-### Step 2.1 — Navigate to Knowledge Bases
+On the service instance details page, click **Launch watsonx Orchestrate**. This opens the WXO console in a new browser tab.
 
-From the left navigation sidebar, click **AI Builders** → **Knowledge Bases**.
+![watsonx Orchestrate service instance page with the "Launch watsonx Orchestrate" button highlighted.](images/Launch_Orchestrate.png)
 
-> 📸 **Screenshot placeholder:** Left nav sidebar with "AI Builders" expanded and "Knowledge Bases" highlighted.
-> `[SCREENSHOT: wxo-nav-knowledge-bases.png]`
-
-### Step 2.2 — Create a New Knowledge Base
-
-Click the **New knowledge base** button (top-right).
-
-> 📸 **Screenshot placeholder:** Knowledge Bases list page with the "New knowledge base" button highlighted.
-> `[SCREENSHOT: wxo-kb-list-new-button.png]`
-
-### Step 2.3 — Fill in Knowledge Base Details
-
-In the creation dialog, fill in:
-
-| Field | Value |
-|---|---|
-| **Name** | `flight_ops_runbook` |
-| **Description** | `Gate change, departure delay, and turnaround anomaly procedures for the Gate Change Cascade demo. Reference: GCC-2024 Rev 1.0.` |
-
-> 📸 **Screenshot placeholder:** "New knowledge base" creation form with Name and Description fields filled in.
-> `[SCREENSHOT: wxo-kb-create-form.png]`
-
-### Step 2.4 — Upload the Runbook PDF
-
-Click **Add files** (or drag and drop) to upload the runbook:
-
-1. Click **Add files** or the upload area.
-2. Navigate to and select `flight_ops_runbook.pdf` from where you downloaded it.
-3. Confirm the file appears in the upload list.
-
-> 📸 **Screenshot placeholder:** File upload dialog with `flight_ops_runbook.pdf` selected or shown in the upload area.
-> `[SCREENSHOT: wxo-kb-upload-pdf.png]`
-
-### Step 2.5 — Save and Index
-
-Click **Create** (or **Save**) to submit the knowledge base. WXO will begin chunking and indexing the PDF document.
-
-> 📸 **Screenshot placeholder:** Knowledge base creation in progress — status shown as "Indexing" or "Processing".
-> `[SCREENSHOT: wxo-kb-indexing-status.png]`
-
-### Step 2.6 — Wait for Indexing to Complete
-
-The indexing process typically takes 1–3 minutes. Refresh the Knowledge Bases list page periodically until the `flight_ops_runbook` entry shows a status of **Ready** (or **Indexed**).
-
-> 📸 **Screenshot placeholder:** Knowledge Bases list with `flight_ops_runbook` showing "Ready" / green status indicator.
-> `[SCREENSHOT: wxo-kb-ready-status.png]`
-
-> ⚠️ **Do not proceed to Part 3 until the knowledge base status is Ready.** An agent attached to an un-indexed knowledge base will be unable to retrieve runbook content.
+You will land on the watsonx Orchestrate home screen.
 
 ---
 
-## Part 3 — Create the Flight Triage Agent
+## Part 2 — Create the Flight Triage Agent
 
-### Step 3.1 — Navigate to Agents
+### Step 2.1 — Navigate to Build
 
-From the left navigation sidebar, click **AI Builders** → **Agents**.
+Click the **hamburger menu** (☰) in the top-left corner and click **Build**.
 
-> 📸 **Screenshot placeholder:** Left nav with "Agents" highlighted under "AI Builders".
-> `[SCREENSHOT: wxo-nav-agents.png]`
+![Hamburger menu open with "Build" highlighted.](images/Build.png)
 
-### Step 3.2 — Create a New Agent
+### Step 2.2 — Create a New Agent
 
-Click the **New agent** button (top-right).
+Click **Create agent**, then click **Create from scratch**.
 
-> 📸 **Screenshot placeholder:** Agents list page with the "New agent" button highlighted.
-> `[SCREENSHOT: wxo-agents-list-new-button.png]`
+![Create agent options with "Create from scratch" highlighted.](images/Create_From_Scratch.png)
 
-### Step 3.3 — Set Agent Name and Description
-
-In the agent creation form, fill in the **Name** and **Description** fields.
+### Step 2.3 — Fill in the Agent Name, Description, and Instructions
 
 > ⚠️ **Important — Multi-Tenant Sharing:** All workshop participants share the same WXO tenant. You **must** append your initials to the agent name to avoid overwriting a colleague's work.
 
-| Field | Value |
-|---|---|
-| **Name** | `flight_triage_agent_<initials>` (e.g., `flight_triage_agent_js`) |
-| **Display Name** | `Flight Triage Agent (<INITIALS>)` (e.g., `Flight Triage Agent (JS)`) |
-| **Description** | `Triages real-time flight schedule anomaly alerts from Confluent Kafka. Uses the Flight Operations Runbook knowledge base to produce structured recommendations and mitigation options for operational disruptions.` |
+Fill in the following fields:
 
-> 📸 **Screenshot placeholder:** New agent form with Name, Display Name, and Description fields filled in.
-> `[SCREENSHOT: wxo-agent-create-name-desc.png]`
-
-### Step 3.4 — Select the LLM
-
-Scroll to the **Model** section. From the model dropdown, select:
-
+**Agent Name:**
 ```
-groq/openai/gpt-oss-120b
+flight_triage_agent_<initials>
+```
+For example: `flight_triage_agent_js`
+
+**Description:**
+```
+Triages real-time flight schedule anomaly alerts from Confluent Kafka. Uses the Flight Operations Runbook knowledge base to produce structured recommendations and mitigation options for operational disruptions.
 ```
 
-If this model is not available on your tenant, ask your instructor for the recommended model name, or choose `watsonx/meta-llama/llama-3-3-70b-instruct` as an alternative.
-
-> 📸 **Screenshot placeholder:** Agent form showing the Model dropdown with a model selected.
-> `[SCREENSHOT: wxo-agent-model-selection.png]`
-
-### Step 3.5 — Select Agent Style
-
-In the **Style** section, choose:
-
-```
-react_core
-```
-
-> 📸 **Screenshot placeholder:** Agent style selection showing "react_core" selected.
-> `[SCREENSHOT: wxo-agent-style-react-core.png]`
-
-### Step 3.6 — Attach the Knowledge Base
-
-Scroll to the **Knowledge Bases** section. Click **Add knowledge base** (or the `+` button).
-
-From the list of available knowledge bases, select **`flight_ops_runbook`**.
-
-> 📸 **Screenshot placeholder:** Knowledge base attachment panel showing `flight_ops_runbook` selected or appearing in the "Selected" list.
-> `[SCREENSHOT: wxo-agent-kb-attach.png]`
-
-Confirm `flight_ops_runbook` appears in the attached knowledge bases list.
-
-> 📸 **Screenshot placeholder:** Agent form showing `flight_ops_runbook` in the knowledge base section as attached.
-> `[SCREENSHOT: wxo-agent-kb-attached-confirmed.png]`
-
-### Step 3.7 — Add Agent Instructions
-
-Scroll to the **Instructions** section. Paste the full instruction block below into the text area:
+**Instructions:** paste the full block below into the Instructions field:
 
 ```
 You are an automated flight schedule anomaly processor. Never ask questions.
@@ -244,42 +153,65 @@ Processing steps — execute in order:
    - Short Description for ServiceNow: "[severity] [flight_number] [metric] anomaly at [hub]"
 ```
 
-> 📸 **Screenshot placeholder:** Instructions text area in the agent creation form with the full instruction block pasted in.
-> `[SCREENSHOT: wxo-agent-instructions-pasted.png]`
+![Agent profile showing the Name, Description, and Instructions fields filled in.](images/Agent_Profile.png)
 
-### Step 3.8 — Leave Tools Empty
+---
 
-Scroll to the **Tools** section. Confirm it is empty — this agent intentionally uses no external tools and relies **only** on the knowledge base for its recommendations.
+## Part 3 — Add the Knowledge Base
 
-> 📸 **Screenshot placeholder:** Empty Tools section in the agent form.
-> `[SCREENSHOT: wxo-agent-tools-empty.png]`
+The triage agent uses RAG (Retrieval-Augmented Generation) over the Flight Operations Runbook PDF. In this part you will add the knowledge base directly from within your agent.
 
-### Step 3.9 — Save and Deploy the Agent
+### Step 3.1 — Open the Knowledge Tab
 
-Click **Save** (or **Create agent**) at the top-right or bottom of the form.
+From within your agent, click the **Knowledge** tab at the top of the screen.
 
-> 📸 **Screenshot placeholder:** Agent form Save/Create button highlighted.
-> `[SCREENSHOT: wxo-agent-save-button.png]`
+### Step 3.2 — Add a New Knowledge Source
 
-WXO will create the agent and return you to the Agents list. Confirm your agent (`flight_triage_agent_<initials>`) appears in the list.
+Click **Add source**, then click **New knowledge**, then click **Upload files**, then click **Next**.
 
-> 📸 **Screenshot placeholder:** Agents list showing `flight_triage_agent_<initials>` as a new entry.
-> `[SCREENSHOT: wxo-agent-list-confirmed.png]`
+![Add source flow showing the "New knowledge" and "Upload files" options.](images/Add_Source.png)
+
+### Step 3.3 — Upload the Runbook PDF
+
+Click **Add files** and select `flight_ops_runbook.pdf` from where you downloaded it. Click **Next**.
+
+![Upload area with flight_ops_runbook.pdf selected.](images/Add_Knowledge_File.png)
+
+### Step 3.4 — Name and Save the Knowledge Base
+
+In the **Name** field, enter:
+
+```
+Flight Ops Runbook
+```
+
+In the **Description** field, enter:
+
+```
+Gate change, departure delay, and turnaround anomaly procedures for the Gate Change Cascade demo. Reference: GCC-2024 Rev 1.0.
+```
+
+Click **Save**.
+
+![Knowledge base name and description form filled in.](images/Knowledge_Details.png)
+
+WXO will begin chunking and indexing the PDF. This may take a few minutes. When indexing is complete, you will be notified that the knowledge is **Ready**.
+
+![Notification that the knowledge base is Ready.](images/Knowledge_Ready.png)
+
+> ⚠️ **Do not proceed to Part 4 until you receive the Ready notification.** An agent with an un-indexed knowledge base will be unable to retrieve runbook content.
 
 ---
 
 ## Part 4 — Test Your Triage Agent in the WXO Chat
 
-### Step 4.1 — Open the Agent's Chat Preview
+### Step 4.1 — Use the Draft Preview
 
-Click your agent name (`flight_triage_agent_<initials>`) in the Agents list to open its detail page. Then click the **Preview** or **Test** button (typically shown in the top-right or as a chat panel on the right).
-
-> 📸 **Screenshot placeholder:** Agent detail page with the Preview / Test chat panel visible on the right side.
-> `[SCREENSHOT: wxo-agent-detail-preview.png]`
+The draft preview panel is on the right side of the screen you are already on. Paste each alert payload directly into the chat input and press **Enter** to send.
 
 ### Step 4.2 — Send a CRITICAL Alert (Gate Wait)
 
-Paste the following anomaly alert payload into the chat input and press **Send**:
+Paste the following anomaly alert payload into the draft preview chat input and press **Enter**:
 
 ```
 Alert received:
@@ -295,12 +227,9 @@ Alert received:
 Please triage this alert and provide runbook recommendations based on the flight_ops_runbook knowledge base.
 ```
 
-> 📸 **Screenshot placeholder:** Chat preview panel with the alert payload typed in the input box before sending.
-> `[SCREENSHOT: wxo-chat-input-critical-alert.png]`
-
 ### Step 4.3 — Verify the Triage Response
 
-The agent should respond with a structured summary. Verify the following are correct:
+The agent should respond with a structured summary. Verify the following expected values are present — note that the exact wording of the response may vary since it is generated by an LLM, but the key values should match:
 
 | Check | Expected Value |
 |---|---|
@@ -311,12 +240,11 @@ The agent should respond with a structured summary. Verify the following are cor
 | Recommended option | `Option A` (immediate action) |
 | Output format | Structured `**Flight Triage Summary**` block |
 
-> 📸 **Screenshot placeholder:** Agent response in the chat panel showing the structured Flight Triage Summary with correct values for the N303AX CRITICAL gate_wait alert.
-> `[SCREENSHOT: wxo-chat-response-critical.png]`
+![Draft preview showing the CRITICAL gate_wait alert and the agent's structured triage response for N303AX.](images/Critical_Alert.png)
 
 ### Step 4.4 — Send a HIGH Alert (Departure Delay)
 
-Send a second test alert to verify a different runbook section is retrieved:
+Paste the following into the draft preview and press **Enter**:
 
 ```
 Alert received:
@@ -332,18 +260,17 @@ Alert received:
 Please triage this alert.
 ```
 
-Verify the agent:
+Verify the expected values are present in the response:
 - Maps `N101AX` to **AX101** (ORD → LAX)
 - Sets severity to **HIGH** (0.75 ≥ 0.7)
 - Cites **§2 Departure Delays** from the runbook
 - Selects **Option A** (anomaly_score ≥ 0.7 → CRITICAL/HIGH → Option A)
 
-> 📸 **Screenshot placeholder:** Chat panel showing the second test alert and the agent's structured triage response for N101AX departure_delay HIGH.
-> `[SCREENSHOT: wxo-chat-response-high-delay.png]`
+![Draft preview showing the HIGH departure_delay alert and the agent's structured triage response for N101AX.](images/High_Alert.png)
 
 ### Step 4.5 — Send a LOW Alert (Turnaround Time)
 
-Send a third test to exercise the lower-severity path:
+Paste the following into the draft preview and press **Enter**:
 
 ```
 Alert received:
@@ -359,14 +286,13 @@ Alert received:
 Please triage this alert.
 ```
 
-Verify the agent:
+Verify the expected values are present in the response:
 - Maps `N404AX` to **AX404** (DFW → SEA)
 - Sets severity to **LOW** (0.38 < 0.5)
 - Cites **§3 Turnaround Time Disruptions** from the runbook
 - Selects **Option C** (monitor)
 
-> 📸 **Screenshot placeholder:** Chat panel showing the LOW severity turnaround_time response with §3 runbook reference and Option C selected.
-> `[SCREENSHOT: wxo-chat-response-low-turnaround.png]`
+![Draft preview showing the LOW turnaround_time alert and the agent's structured triage response for N404AX.](images/Low_Alert.png)
 
 ---
 
@@ -386,8 +312,6 @@ What is the procedure outlined in the runbook for a turnaround time anomaly exce
 Summarize all three operational disruption categories covered in the runbook and their recommended immediate actions.
 ```
 
-> 📸 **Screenshot placeholder:** Chat panel showing one of the free-form runbook retrieval questions and the agent's grounded response.
-> `[SCREENSHOT: wxo-chat-freeform-runbook-query.png]`
 
 ---
 
