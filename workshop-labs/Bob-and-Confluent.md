@@ -197,18 +197,20 @@ Save the file before continuing.
 
 ### Step 3.3 — Run the Statement from Bob
 
-In the Bob chat, type:
+In the Bob chat, type (replacing `xx` with your initials):
 
 ```
-Read flink/anomaly_detection_materialized.sql and run it as a Flink statement named 'gate-change-anomaly-detection'. It should stay in RUNNING status continuously.
+Read flink/anomaly_detection_materialized.sql and run it as a Flink statement named 'gate-change-anomaly-detection-xx'.
 ```
+
+> **Why add your initials?** All participants share the same Confluent Cloud environment. Appending your initials (e.g. `gate-change-anomaly-detection-jk`) makes your statement easy to identify in the Confluent UI under **Flink → Statements**.
 
 Bob calls `mcp__confluent__create-flink-statement` with the full SQL from the file.
 
 ### Step 3.4 — Confirm the Job is Running
 
 ```
-Show me the status of the Flink statement named 'gate-change-anomaly-detection'
+Show me the status of the Flink statement named 'gate-change-anomaly-detection-xx'
 ```
 
 You should see status **RUNNING**. This job runs indefinitely — that is correct and expected. Do not stop it.

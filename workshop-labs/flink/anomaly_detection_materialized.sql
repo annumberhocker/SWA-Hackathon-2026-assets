@@ -37,6 +37,7 @@ CREATE OR ALTER MATERIALIZED TABLE `IBM-Hackathon-demo-test`.`REPLACE_WITH_YOUR_
     hub             STRING,
     detected_at     TIMESTAMP(3),
     event_time      TIMESTAMP(3),
+    alert_id        STRING,
     WATERMARK FOR event_time AS event_time - INTERVAL '2' SECOND
 )
 WITH (
@@ -95,7 +96,8 @@ SELECT
     anomaly.is_anomaly  AS is_anomaly,
     hub,
     CAST(CURRENT_TIMESTAMP AS TIMESTAMP(3)) AS detected_at,
-    window_time         AS event_time
+    window_time         AS event_time,
+    CONCAT(entity_id, '-', metric, '-', CAST(window_time AS STRING)) AS alert_id
 FROM anomaly_results
 WHERE anomaly.is_anomaly = TRUE
   AND ABS(avg_value - anomaly.forecast_value)
