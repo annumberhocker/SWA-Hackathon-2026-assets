@@ -322,6 +322,10 @@ Ask 'flight_triage_agent_<initials>': "What are the escalation triggers for depa
 | LLM model error during chat | Specified LLM not available on tenant | Use `list_models` and update `llm` in the agent configuration |
 | MCP tool execution timeout | Network latency or large PDF indexing | Increase `"timeout": 300` in `mcp.json` |
 
+## Additional References
+
+[Tutorial - Build agentic workflows with watsonx Orchestrate and IBM Bob](https://developer.ibm.com/tutorials/build-programmatic-agentic-workflows-watsonx-orchestrate-bob/)
+
 ---
 
 **Lab complete.** You have successfully integrated Bob with watsonx Orchestrate, loaded an operational runbook PDF into a vector knowledge base, and deployed an intelligent flight triage agent driven entirely by RAG knowledge base retrieval.
