@@ -28,9 +28,9 @@ Create one `env.lab` file per participant with their individual values filled in
 
 ## Prerequisites
 
-- Admin access to the shared Confluent Cloud environment (`env-9o530m` or your own)
+- Admin access to the shared Confluent Cloud environment
 - Admin access to a watsonx Orchestrate instance
-- The lab cluster, Flink compute pool, and Schema Registry already provisioned
+- The main workshop cluster, Flink compute pool, and Schema Registry already provisioned
 - Individual Kafka clusters and Flink compute pools pre-created for each participant (or participants will create their own)
 
 ---
