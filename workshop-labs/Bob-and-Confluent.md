@@ -229,7 +229,7 @@ Once anomalies are flowing, try these Bob prompts to explore the data:
 ```
 Run a Flink SQL query named 'sample-ops-alerts' to show the 10 most recent messages from the ops-alerts topic:
 
-SELECT * FROM `ops-alerts` ORDER BY detected_at DESC LIMIT 10;
+SELECT * FROM `ops-alerts` ORDER BY detected_at DESC LIMIT 5;
 ```
 
 Bob will call `mcp__confluent__create-flink-statement` to submit the query and then
