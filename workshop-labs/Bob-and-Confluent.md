@@ -212,8 +212,7 @@ Bob calls `mcp__confluent__create-flink-statement` with the full SQL from the fi
 ```
 Show me the status of the Flink statement named 'gate-change-anomaly-detection-xx'
 ```
-
-You should see status **RUNNING**. This job runs indefinitely — that is correct and expected. Do not stop it.
+You should see status **COMPLETED**. The `CREATE OR ALTER MATERIALIZED TABLE DDL` completes immediately once Confluent registers the table and hands off to the background streaming refresh job. The continuous anomaly detection is now running in the background writing to `your-cluster cluster.ops-alerts`. Expect the first anomalies to appear after an ~3.5 minute warmup.
 
 ### Step 3.5 — Wait for Anomalies (Warmup Period)
 
