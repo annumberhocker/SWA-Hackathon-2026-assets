@@ -228,10 +228,14 @@ To verify anomalies are flowing into `ops-alerts` after the warmup, check the to
 Once anomalies are flowing, try these Bob prompts to explore the data:
 
 ```
-Run a Flink SQL query named 'sample-ops-alerts' to show the 10 most recent messages from the ops-alerts topic:
+Run a Flink SQL query named 'sample-ops-alerts-xx' to sample 10 messages from the ops-alerts topic:
 
-SELECT * FROM `ops-alerts` ORDER BY detected_at DESC LIMIT 10;
+SELECT * FROM `IBM-Hackathon-demo-test`.`REPLACE_WITH_YOUR_CLUSTER`.`ops-alerts` /*+ OPTIONS('scan.startup.mode'='earliest-offset') */ LIMIT 10;
 ```
+
+> Replace `REPLACE_WITH_YOUR_CLUSTER` with your cluster name (`FLINK_DATABASE_NAME` from `env.lab`) and `xx` with your initials.
+
+The `/*+ OPTIONS('scan.startup.mode'='earliest-offset') */` hint is required — without it Flink reads from the current offset and returns no results for messages already in the topic.
 
 Bob will call `mcp__confluent__create-flink-statement` to submit the query and then
 `mcp__confluent__read-flink-statement` to fetch and display the results. You should see rows
