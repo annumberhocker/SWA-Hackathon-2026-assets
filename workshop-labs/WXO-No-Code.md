@@ -175,6 +175,9 @@ Click **Add source**, then click **New knowledge**, then click **Upload files**,
 
 Click **Add files** and select `flight_ops_runbook.pdf` from where you downloaded it. Click **Next**.
 
+- The **`flight_ops_runbook.pdf`** file can be downloaded from this repository:
+  `workshop-labs/orchestrate/knowledge-bases/flight_ops_runbook.pdf`
+
 ![Upload area with flight_ops_runbook.pdf selected.](images/Add_Knowledge_File.png)
 
 ### Step 3.4 — Name and Save the Knowledge Base
