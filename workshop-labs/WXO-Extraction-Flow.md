@@ -283,20 +283,6 @@ Click the blue **Done** button in the top-right corner of the workflow builder.
 
 ---
 
-## What You Accomplished
-
-In this lab, you:
-
-1. ✅ Logged into the watsonx Orchestrate browser UI
-2. ✅ Navigated to Build and created a new agent from scratch
-3. ✅ Configured the agent name, description, and instructions for the work order extraction flow
-4. ✅ Opened the Tools tab, selected Agentic workflow, named it, and started building
-5. ✅ Added a Present to User message step to prompt the user for a work order file upload
-6. ✅ Added a Document Extractor step, defined the extraction schema, and verified the document
-7. ✅ Added a Generative Prompt step with variables mapped from the Document Extractor
-8. ✅ Added a second Present to User message displaying the generated summary and saved the workflow
-
----
 
 ## Part 7 — Test the Agent
 
