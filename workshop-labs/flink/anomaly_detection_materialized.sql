@@ -13,7 +13,7 @@
 --   anomaly_results     AI_DETECT_ANOMALIES per (entity_id, metric)
 --   final SELECT        score=[0,1], filter is_anomaly=TRUE AND score > 0.95
 --
--- minContextSize=20 → minimum data points before detection begins (~3.5 min warmup at 10s windows).
+-- minContextSize=5 → minimum data points before detection begins (~10s warmup at 2s windows).
 -- Raise the 0.95 threshold to reduce false-positive alert volume.
 --
 -- Re-running this statement evolves the table in place (same `ops-alerts`
@@ -55,7 +55,7 @@ WITH windowed_schedule AS (
         window_time,
         AVG(`value`)       AS avg_value
     FROM TABLE(
-        TUMBLE(TABLE `IBM-Hackathon-demo-test`.`cluster-gcc`.`flight-events`, DESCRIPTOR(event_time), INTERVAL '10' SECONDS)
+        TUMBLE(TABLE `IBM-Hackathon-demo-test`.`cluster-gcc`.`flight-events`, DESCRIPTOR(event_time), INTERVAL '2' SECONDS)
     )
     GROUP BY aircraft_id, metric, unit, hub, window_start, window_end, window_time
 ),
@@ -73,7 +73,7 @@ anomaly_results AS (
             avg_value,
             window_time,
             JSON_OBJECT(
-                'minContextSize' VALUE 20,
+                'minContextSize' VALUE 5,
                 'maxContextSize' VALUE 512,
                 'confidencePercentage' VALUE 99.0
             )

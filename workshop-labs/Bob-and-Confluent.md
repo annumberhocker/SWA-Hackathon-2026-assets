@@ -2,20 +2,20 @@
 
 **Hackathon Track: Streaming AI with IBM Bob & Confluent Cloud**
 
-In this lab you will configure the Confluent MCP server inside Bob, create a Kafka topic for
-anomaly alerts, and deploy two Flink SQL statements that detect real-time anomalies in a live
-flight-events stream. By the end Bob will be orchestrating your entire Confluent Cloud environment
-through natural-language prompts.
+In this lab you will configure the Confluent MCP server inside Bob, and deploy a Flink SQL
+statement that detects real-time anomalies in a live flight-events stream. By the end Bob will
+be orchestrating your entire Confluent Cloud environment through natural-language prompts.
 
 **What is already running for you:**
 - The `flight-events` Kafka topic exists and is populated with watermarked flight metrics
 - The flight simulator is producing continuous events (gate_wait, departure_delay, turnaround_time)
-- The Confluent environment, cluster, Schema Registry, and Flink compute pool are provisioned
+- The Confluent environment, Cluster, Schema Registry, and Flink compute pool are provisioned
+- The instructor has given you an `env.lab` file with all of your credentials pre-filled
 
 **What you will do in this lab:**
-1. Configure the Confluent MCP server in Bob (filling in your own API credentials)
-2. Verify the connection and explore the live `flight-events` stream from Bob
-3. Deploy the Flink materialized table that creates the `ops-alerts` topic and starts the anomaly detection job in one step
+1. Create project-level `mcp.json` so Bob can connect to the Confluent
+2. Explore the live `flight-events` stream from Bob
+3. Deploy the Flink materialized table that creates the `ops-alerts` topic and starts the anomaly detection job
 
 ---
 
@@ -33,115 +33,134 @@ source ~/.zshrc     # or ~/.bashrc on Linux
 # Install and activate Node.js 22 if you have an earlier version
 nvm install 22
 nvm use 22
-node --version      # must show v22.x.x
+node --version
+which node   
+which npx    
 ```
 
-### Step 1.2 — Generate the Confluent MCP configuration
+### Step 1.2 — Clone the Lab Repository
+
+Clone the hackathon assets repository to your local machine:
 
 ```bash
-mkdir ~/confluent-mcp
-cd ~/confluent-mcp
-npx @confluentinc/mcp-confluent --init-config
+git clone https://github.com/your-org/SWA-Hackathon-2026-assets.git
+cd SWA-Hackathon-2026-assets
 ```
-The directory will contain a new `config.yaml` file: 
 
+### Step 1.3 — Save Your `env.lab` File
 
-### Step 1.3 — Update Your Credentials
+Your instructor will provide you with a personalised `env.lab` file that contains your specific
+cluster details and API keys. Save it into the following directory:
 
-Your instructor has given you a pre-filled `env.lab` file. Edit it:
+```
+SWA-Hackathon-2026-assets/workshop-labs/env.lab
+```
+
+You can do this from the terminal:
 
 ```bash
-# From the SWA-Hackathon-2026-assets/workshop-labs directory
-open ./env.lab
-# or: code ./env.lab
-# or: nano ./env.lab
+# Copy the file your instructor provided to the correct location
+cp ~/Downloads/env.lab ~/path/to/SWA-Hackathon-2026-assets/workshop-labs/env.lab
 ```
 
-Make these edits:
-1. Replace `REPLACE_WITH_YOUR_KEY` with the provided `KAFKA_API_KEY`
-2. Replace `REPLACE_WITH_YOUR_SECRET` with the provided `KAFKA_API_SECRET`
-3. Replace `REPLACE_WITH_YOUR_CLUSTER_ID` with the provided `KAFKA_CLUSTER_ID`
-4. Replace `REPLACE_WITH_YOUR_COMPUTE_POOL_ID` with the provided `FLINK_COMPUTE_POOL_ID`
-5. Replace `REPLACE_WITH_YOUR_CLUSTER_NAME` with the provided `FLINK_DATABASE_NAME`
+Or drag and drop it into the `workshop-labs/` folder using Finder.
 
-Save the file
 
-### Step 1.4 — Update `mcp.json` 
+### Step 1.4 — Open the Project in Bob and Register the MCP Server
 
-In this lab directory, there is a pre-filled `mcp-confluent.json` template. If you don't already have a `~/.bob/settings/mcp.json` file, copy the provided `mcp-confluent.json` file into `~/.bob/settings/mcp.json`. If you do, just add the `confluent` stanza from the `mcp-confluent.json` file to the list of other mcp servers defined
+**1. Open the project folder in Bob**
 
-Replace the `/FULL/PATH` values accordingly: 
+In Bob, go to **File → Open** → select the `SWA-Hackathon-2026-assets` folder
+
+This sets `SWA-Hackathon-2026-assets/` as the project workspace, which is required for the
+project-level MCP configuration to take effect.
+
+**2. Open the Bob MCP settings**
+
+- Click the **gear icon** (top-right) → **MCP**
+- Click **+** → set **Configuration Scope** to `SWA-Hackathon-2026-assets`
+
+Bob will create and open a `.bob/mcp.json` file at the project root. 
+
+**3. Paste the MCP server configuration**
+
+Copy the full contents of `workshop-labs/mcp-confluent.json` and paste them into this new `.bob/mcp.json`, replacing the scaffolding:
+
+```json
+{
+  "mcpServers": {
+    "confluent": {
+      "command": "/FULL/PATH/.nvm/versions/node/v22.23.3/bin/node",
+      "args": [
+        "FULL/PATH/.nvm/versions/node/v22.23.3/bin/npx",
+        "-y",
+        "@confluentinc/mcp-confluent",
+        "-e",
+        "/FULL/PATH/SWA-Hackathon-2026-assets/workshop-labs/env.lab"
+      ],
+      "disabled": false
+    }
+  }
+}
 ```
- "confluent": {
-   "command": "npx",
-   "args": [
-     "-y",
-     "@confluentinc/mcp-confluent",
-     "-c",
-     "/FULL/PATH/confluent-mcp/config.yaml",
-     "-e",
-     "/FULL/PATH/swa-hackathon-2026/assets/workshop-labs/env.lab"
-   ],
-   "cwd": "/FULL/PATH/confluent-mcp",
-   "disabled": false
- }
-```
 
-Save the file.
+**4. Replace the path placeholder**
 
-### Step 1.5 - Test MCP server
+Replace `/FULL/PATH/SWA-Hackathon-2026-assets` with the actual path on your machine. To find it, run:
 
-```
-npx @confluentinc/mcp-confluent \
-  -c /FULL/PATH/confluent-mcp/config.yaml \
-  -e ./env.lab
-```
-You can also verify which tools are available with:
 ```bash
-npx @confluentinc/mcp-confluent \
-  --config ./config.yaml \
-  -e ./env.lab \
-  --list-tools
-  ```
+echo $(pwd)/workshop-labs/env.lab
+# Example output: /Users/yourname/projects/SWA-Hackathon-2026-assets/workshop-labs/env.lab
+```
 
-### Step 1.6 — Verify the Connection in Bob
+So your final `.bob/mcp.json` entry should look like:
 
-1. Open Bob
-2. Click the **gear icon** (top-right) → **MCP Servers**
-3. Find `confluent` in the list — it should show a green **Connected** status
+```json
+"-e",
+"/Users/yourname/projects/SWA-Hackathon-2026-assets/workshop-labs/env.lab"
+```
 
+**5. Save the file**
+
+Save `.bob/mcp.json`. Bob will detect the change and automatically start the Confluent MCP server
+using the credentials in your `env.lab` file.
+
+### Step 1.5 — Verify the Connection in Bob
+
+1. In Bob, click the **gear icon** (top-right) → **MCP Servers**
+2. Find `confluent` in the list — it should show a green **Connected** status
+
+If it shows red, see the [Troubleshooting](#troubleshooting-reference) section at the bottom.
 
 ---
 
-## Part 2 — Explore the Confluent cloud account
+## Part 2 — Explore the Confluent Cloud Account
 
-### Step 2.1 — Set environment
-Tell Bob which Environment you are working in:
+### Step 2.1 — Set Environment
+
+Tell Bob which Confluent environment you are working in:
 
 ```
-My confluent cloud env is env-xxxxx
+My Confluent Cloud environment ID is env-9o530m
 ```
-> Replace `env-xxxxx` with the `FLINK_ENV_ID` value from your `env.lab` file.
 
-### Step 2.2 — List clusters
+### Step 2.2 — List Clusters
 
-Next, ask Bob to list all of the clusters in the environment: 
+Ask Bob to list the clusters in the environment:
 
 ```
 List all of the clusters in my Confluent Cloud environment
 ```
 
-Bob will call mcp__confluent__list-clusters and return a list.
+Bob calls `mcp__confluent__list-clusters` and returns a list. Confirm you can see your assigned cluster.
 
-### Step 2.3 — List Schema Registry information
+### Step 2.3 — List Schema Registry Information
 
-Tell Bob your Schema Registry URL once so it reuses it for the rest of the session:
+Tell Bob your Schema Registry URL so it reuses it for the rest of the session:
 
 ```
-My Schema Registry URL is https://psrc-xxxxx.us-east-2.aws.confluent.cloud — use it for all Schema Registry calls
+My Schema Registry URL is https://psrc-zpjqd6q.us-east-2.aws.confluent.cloud — use it for all Schema Registry calls
 ```
-
-> Replace `psrc-xxxxx…` with the `SCHEMA_REGISTRY_URL` value from your `env.lab` file.
 
 Then ask:
 
@@ -150,40 +169,57 @@ List all schemas in my Schema Registry
 ```
 
 Bob calls `mcp__confluent__list-schemas`. You should see `flight-events-value` — the JSON schema
-the simulator registered automatically when it started producing.
+the simulator registered when it started producing.
 
 ---
 
 ## Part 3 — Deploy the Anomaly Detection Pipeline
 
-The flight simulator is continuously producing telemetry events — gate wait times, departure delays, and turnaround durations — into the `flight-events` Kafka topic. In this part you will deploy a Flink streaming job that reads those events in real time, averages each metric over 10-second windows, and runs Confluent's `AI_DETECT_ANOMALIES` function to identify aircraft or flights behaving outside their normal baseline. When an anomaly is confirmed with high confidence, the job writes an alert record to a new `ops-alerts` topic, which the watsonx Orchestrate triage agent in the next lab will consume and act on.
+The flight simulator is continuously producing telemetry events — gate wait times, departure delays,
+and turnaround durations — into the `flight-events` Kafka topic. In this part you will deploy a
+Flink streaming job that reads those events in real time, averages each metric over 10-second
+windows, and runs Confluent's `AI_DETECT_ANOMALIES` function to identify aircraft behaving outside
+their normal baseline. When an anomaly is confirmed with high confidence, the job writes an alert
+record to a new `ops-alerts` topic, which the watsonx Orchestrate triage agent in the next lab
+will consume and act on.
 
-A single `CREATE OR ALTER MATERIALIZED TABLE` statement in `flink/anomaly_detection_materialized.sql` does everything in one shot: it creates the `ops-alerts` Kafka topic, defines the table schema, and starts the continuous anomaly detection job — all without any manual topic creation or separate DDL step.
+A single `CREATE OR ALTER MATERIALIZED TABLE` statement in `flink/anomaly_detection_materialized.sql`
+does everything in one shot: it creates the `ops-alerts` Kafka topic, defines the table schema, and
+starts the continuous anomaly detection job — all without any manual topic creation or separate DDL step.
 
 ### Step 3.1 — Understand What the SQL Does
 
 The file `flink/anomaly_detection_materialized.sql` does three things in one statement:
 
-1. **Creates (or evolves) the `ops-alerts` table** — defines all columns, the `WATERMARK`, and binds to the `ops-alerts` Kafka topic with `cleanup-policy = delete`.
-2. **Runs the streaming query continuously** — reads from `flight-events`, applies a 10-second tumbling window per aircraft + metric, calls `AI_DETECT_ANOMALIES`, and writes only confirmed anomalies to `ops-alerts`.
-3. **Stays RUNNING indefinitely** — `START_MODE = RESUME_OR_FROM_BEGINNING` means Flink resumes from where it left off if the statement is restarted.
+1. **Creates (or evolves) the `ops-alerts` table** — defines all columns, the `WATERMARK`, and
+   binds to the `ops-alerts` Kafka topic.
+2. **Runs the streaming query continuously** — reads from `flight-events`, applies a 10-second
+   tumbling window per aircraft + metric, calls `AI_DETECT_ANOMALIES`, and writes only confirmed
+   anomalies to `ops-alerts`.
+3. **Stays RUNNING indefinitely** — `START_MODE = RESUME_OR_FROM_BEGINNING` means Flink resumes
+   from where it left off if the statement is restarted.
 
 The query is structured in two CTEs:
 
-**`windowed_schedule`** — groups raw events into 10-second tumbling windows and averages each metric. This reduces noise before anomaly scoring.
+**`windowed_schedule`** — groups raw events into 10-second tumbling windows and averages each
+metric. This reduces noise before anomaly scoring.
 
-**`anomaly_results`** — calls `AI_DETECT_ANOMALIES` as an analytic function over an unbounded window partitioned by `(entity_id, stream, metric)`. This gives the model full history for each aircraft-metric pair to build its baseline.
+**`anomaly_results`** — calls `AI_DETECT_ANOMALIES` as an analytic function over an unbounded
+window partitioned by `(entity_id, stream, metric)`. This gives the model full history per
+aircraft-metric pair to build its baseline.
 
-The outer `SELECT` and `WHERE` filters to only true anomalies with a high confidence score and writes them to `ops-alerts`.
+The outer `SELECT` and `WHERE` filters to only true anomalies with a high confidence score.
 
 Key parameters:
-- `minContextSize = 20` — the model waits for 20 windows (~3.5 minutes at 10-second intervals) before producing any output. **This is expected behaviour — the first few minutes will appear quiet.**
+- `minContextSize = 20` — the model waits for 20 windows (~3.5 minutes at 10-second intervals)
+  before producing any output. **This is expected — the first few minutes will appear quiet.**
 - `confidencePercentage = 99.0` — requires 99% confidence before flagging an anomaly
 - `anomaly_score > 0.95` — additional threshold on the normalized deviation
 
 ### Step 3.2 — Update the Cluster Name in the SQL
 
-Before running the job, open `flink/anomaly_detection_materialized.sql` and replace the `REPLACE_WITH_YOUR_CLUSTER` placeholder on line 29 with your Kafka cluster name (the value of `FLINK_DATABASE_NAME` from your `env.lab` file):
+Open `flink/anomaly_detection_materialized.sql` and replace the `REPLACE_WITH_YOUR_CLUSTER`
+placeholder with your cluster name (the same value you put in `flink.database_name` in `config.yaml`):
 
 ```sql
 -- Before:
@@ -203,7 +239,9 @@ In the Bob chat, type (replacing `xx` with your initials):
 Read flink/anomaly_detection_materialized.sql and run it as a Flink statement named 'gate-change-anomaly-detection-xx'.
 ```
 
-> **Why add your initials?** All participants share the same Confluent Cloud environment. Appending your initials (e.g. `gate-change-anomaly-detection-jk`) makes your statement easy to identify in the Confluent UI under **Flink → Statements**.
+> **Why add your initials?** All participants share the same Confluent Cloud environment. Appending
+> your initials (e.g. `gate-change-anomaly-detection-jk`) makes your statement easy to identify
+> in the Confluent UI under **Flink → Statements**.
 
 Bob calls `mcp__confluent__create-flink-statement` with the full SQL from the file.
 
@@ -212,33 +250,41 @@ Bob calls `mcp__confluent__create-flink-statement` with the full SQL from the fi
 ```
 Show me the status of the Flink statement named 'gate-change-anomaly-detection-xx'
 ```
-You should see status **COMPLETED**. The `CREATE OR ALTER MATERIALIZED TABLE DDL` completes immediately once Confluent registers the table and hands off to the background streaming refresh job. The continuous anomaly detection is now running in the background writing to `your-cluster cluster.ops-alerts`. Expect the first anomalies to appear after an ~3.5 minute warmup.
+
+You should see status **COMPLETED**. The `CREATE OR ALTER MATERIALIZED TABLE` DDL completes
+immediately once Confluent registers the table and hands off to the background streaming refresh
+job. The continuous anomaly detection is now running in the background, writing to
+`your-cluster.ops-alerts`. Expect the first anomalies to appear after an ~10 second warmup.
 
 ### Step 3.5 — Wait for Anomalies (Warmup Period)
 
-The `minContextSize = 20` parameter means the model needs 20 completed 10-second windows (~3.5 minutes) before it begins scoring. During this warmup period `ops-alerts` will be empty — this is normal.
+The `minContextSize = 5` parameter means the model needs 5 completed 2-second windows
+(~10 seconds) before it begins scoring. During this warmup period `ops-alerts` will be empty —
+this is normal.
 
-To verify anomalies are flowing into `ops-alerts` after the warmup, check the topic in the Confluent Cloud UI: **Topics → ops-alerts → Messages** — you should start seeing rows appear.
+To verify anomalies are flowing after the warmup, check the topic in the Confluent Cloud UI:
+**Topics → ops-alerts → Messages** — you should start seeing rows appear.
 
 ---
 
-## Part 6 — Explore and Discuss
+## Part 4 — Explore and Discuss
 
-Once anomalies are flowing, try these Bob prompts to explore the data:
+Once anomalies are flowing, try these Bob prompts:
 
 ```
 Run a Flink SQL query named 'sample-ops-alerts-xx' to sample 10 messages from the ops-alerts topic:
 
-SELECT * FROM `IBM-Hackathon-demo-test`.`REPLACE_WITH_YOUR_CLUSTER`.`ops-alerts` /*+ OPTIONS('scan.startup.mode'='earliest-offset') */ LIMIT 10;
+SELECT * FROM `IBM-Hackathon-demo-test`.`your-cluster-name`.`ops-alerts` /*+ OPTIONS('scan.startup.mode'='earliest-offset') */ LIMIT 10;
 ```
 
-> Replace `REPLACE_WITH_YOUR_CLUSTER` with your cluster name (`FLINK_DATABASE_NAME` from `env.lab`) and `xx` with your initials.
+> Replace `your-cluster-name` with your cluster name and `xx` with your initials.
 
-The `/*+ OPTIONS('scan.startup.mode'='earliest-offset') */` hint is required — without it Flink reads from the current offset and returns no results for messages already in the topic.
+The `/*+ OPTIONS('scan.startup.mode'='earliest-offset') */` hint is required — without it Flink
+reads from the current offset and returns no results for messages already in the topic.
 
-Bob will call `mcp__confluent__create-flink-statement` to submit the query and then
-`mcp__confluent__read-flink-statement` to fetch and display the results. You should see rows
-with `is_anomaly = true` and an `anomaly_score` close to or above `0.95`.
+Bob calls `mcp__confluent__create-flink-statement` to submit the query and then
+`mcp__confluent__get-flink-statement-results` to fetch and display the results. You should see
+rows with `is_anomaly = true` and an `anomaly_score` close to or above `0.95`.
 
 ```
 Search for topics related to 'alerts' in my Schema Registry
@@ -253,7 +299,7 @@ Search for topics by name 'ops-alerts'
 ```
 
 **Discussion questions:**
-- What would you need to change to catch anomalies faster? (Hint: look at `minContextSize` and the window interval)
+- What would you change to catch anomalies faster? (Hint: look at `minContextSize` and the window interval)
 - The `confidencePercentage` is set to 99.0. What happens to alert volume if you lower it to 95.0?
 - What downstream system would you connect `ops-alerts` to next in a real airline ops scenario?
 
@@ -263,12 +309,15 @@ Search for topics by name 'ops-alerts'
 
 | Symptom | Likely Cause | Fix |
 |---|---|---|
-| Bob MCP shows red / Failed | Wrong node path or empty credential in `mcp.json` | Re-check `command`, `KAFKA_API_KEY`, `KAFKA_API_SECRET` |
-| `CREATE TABLE` fails with schema conflict | `DISTRIBUTED INTO` was included | Remove `DISTRIBUTED INTO` clause |
-| `CREATE TABLE` fails — topic not found | `ops-alerts` topic not created | Redo Part 3 |
-| INSERT job shows FAILED immediately | Materialized table statement failed | Check that `flink/anomaly_detection_materialized.sql` was submitted without modification |
-| `ops-alerts` receives no messages after 5 min | Warmup not complete, or threshold too high | Wait the full ~3.5 min warmup; check the simulator is still producing |
-| `list-schemas` returns empty | SR URL not set in session | Tell Bob your SR URL (see Step 2.2) |
+| Bob MCP shows red / Failed | `npx` not on Bob's PATH (nvm or Homebrew install) | Install Node.js from **https://nodejs.org** (LTS `.pkg` installer) — this puts `npx` in `/usr/local/bin` which Bob can always find |
+| Bob MCP shows red / Failed | `/FULL/PATH` placeholder not replaced in `.bob/mcp.json` | Replace with the absolute path from `echo $(pwd)/workshop-labs/env.lab` (Step 1.4) |
+| Bob MCP shows red / Failed | Wrong or missing credentials in `config.yaml` | Re-check the five user-specific values in `confluent-mcp/config.yaml` |
+| Bob MCP shows red / Failed | Bob opened without project root as workspace | Open Bob with `SWA-Hackathon-2026-assets/` as the workspace folder |
+| MCP server starts but Flink tools missing | `flink` block incomplete in `config.yaml` | Ensure all five Flink fields are filled: `endpoint`, `auth`, `organization_id`, `environment_id`, `compute_pool_id` |
+| `CREATE TABLE` fails with schema conflict | `DISTRIBUTED INTO` was included | Remove `DISTRIBUTED INTO` clause from the SQL |
+| INSERT job shows FAILED immediately | Materialized table statement failed | Verify `flink/anomaly_detection_materialized.sql` cluster name was updated in Step 3.2 |
+| `ops-alerts` receives no messages after 5 min | Warmup not complete, or threshold too high | Wait for the warmup to complete; confirm the simulator is still producing |
+| `list-schemas` returns empty | SR URL not set in session | Tell Bob your SR URL (Step 2.3) |
 
 ---
 
@@ -277,4 +326,6 @@ create a watsonx Orchestrate triage agent that will triage alerts using a knowle
 
 ## References
 
-[Confluent MCP Server](https://docs.confluent.io/cloud/current/ai/ai-tools/open-source-mcp-server.html#configure-your-mcp-client)
+- [Confluent Open-Source MCP Server docs](https://docs.confluent.io/cloud/current/ai/ai-tools/open-source-mcp-server.html)
+- [mcp-confluent GitHub repository](https://github.com/confluentinc/mcp-confluent)
+- [mcp-confluent Configuration Guide](https://github.com/confluentinc/mcp-confluent/blob/main/CONFIGURATION.md)
