@@ -218,14 +218,14 @@ Key parameters:
 
 ### Step 3.2 — Update the Cluster Name in the SQL
 
-Open `flink/anomaly_detection_materialized.sql` and replace the `REPLACE_WITH_YOUR_CLUSTER`
-placeholder with your cluster name (the same value you put in `flink.database_name` in `config.yaml`):
+Open `flink/anomaly_detection_materialized.sql` and replace the `REPLACE_WITH_YOUR_CLUSTER_NAME`
+placeholder with the value of `FLINK_DATABASE_NAME` from your `workshop-labs/env.lab` file:
 
 ```sql
 -- Before:
-CREATE OR ALTER MATERIALIZED TABLE `IBM-Hackathon-demo-test`.`REPLACE_WITH_YOUR_CLUSTER`.`ops-alerts` (
+CREATE OR ALTER MATERIALIZED TABLE `IBM-Hackathon-demo-test`.`REPLACE_WITH_YOUR_CLUSTER_NAME`.`ops-alerts` (
 
--- After (example):
+-- After (example, using FLINK_DATABASE_NAME=your-cluster-name from env.lab):
 CREATE OR ALTER MATERIALIZED TABLE `IBM-Hackathon-demo-test`.`your-cluster-name`.`ops-alerts` (
 ```
 

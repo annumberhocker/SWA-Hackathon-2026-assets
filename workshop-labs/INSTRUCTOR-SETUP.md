@@ -196,7 +196,7 @@ Use the same **global** API key as `CONFLUENT_CLOUD_API_KEY` / `CONFLUENT_CLOUD_
 ### `WO_INSTANCE`
 
 The URL of your watsonx Orchestrate instance.  
-Example: `https://api.us-south.assistant.watson.cloud.ibm.com/instances/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx`
+Example: `https://api.<region>.assistant.watson.cloud.ibm.com/instances/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx`
 
 **Where to find it:**
 1. Sign in to [IBM Cloud](https://cloud.ibm.com)
@@ -211,10 +211,6 @@ An IBM Cloud API key with access to the watsonx Orchestrate instance.
 1. In [IBM Cloud](https://cloud.ibm.com), click your **avatar** (top-right) → **IBM Cloud API keys**
 2. Click **Create an IBM Cloud API key** → name it → **Create**
 3. Copy the key immediately — it is shown only once
-
-### `WO_TRIAGE_AGENT_ID`
-
-Leave blank — this is added after the agent is deployed in Lab 2.
 
 ---
 
@@ -254,13 +250,7 @@ Also verify no blank required fields remain:
 
 Distribute `env.lab` to participants as part of the lab starter kit. Participants will:
 
-1. Place `env.lab` in the `workshop-labs/` directory alongside `mcp.json`
+1. Place `env.lab` in the `workshop-labs/` directory alongside the `.json` files
 2. Open it to read their cluster and API key values when prompted during the lab
-3. Reference it in the Confluent MCP server launch command:
-   ```bash
-   npx @confluentinc/mcp-confluent \
-     -c ~/confluent-mcp/config.yaml \
-     -e ./env.lab
-   ```
 
 > ⚠️ Do **not** commit `env.lab` to git — add it to `.gitignore`. It contains real API keys and secrets.
