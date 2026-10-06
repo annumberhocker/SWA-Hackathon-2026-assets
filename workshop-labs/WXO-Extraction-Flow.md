@@ -109,13 +109,13 @@ Rather than handling each step individually, agents can start an agentic workflo
 
 Click the **Tools** tab at the top of the agent editor.
 
-![Tools tab selected at the top of the agent editor.](images/add_tool.png)
+![Tools tab selected at the top of the agent editor.](images/Add_tool.png)
 
 ### Step 3.2 — Select Agentic Workflow
 
 Click **Add tool**, then click **Agentic workflow**.
 
-![Add tool menu with "Agentic workflow" option highlighted.](images/agentic_workflow.png)
+![Add tool menu with "Agentic workflow" option highlighted.](images/Agentic_workflow.png)
 
 ### Step 3.3 — Name the Workflow
 
@@ -157,7 +157,7 @@ Please upload the work order you would like to extract.
 
 Still within the green user activity box, click the **+** sign directly below the Message 1 step. Then click **Collect from user**, then click **File upload**. This is where the user will upload their work order for extraction.
 
-![User activity box showing the plus sign, Collect from user, and File upload options.](images/user_activity.png)
+![User activity box showing the plus sign, Collect from user, and File upload options.](images/User_Activity.png)
 
 ---
 
@@ -283,20 +283,6 @@ Click the blue **Done** button in the top-right corner of the workflow builder.
 
 ---
 
-## What You Accomplished
-
-In this lab, you:
-
-1. ✅ Logged into the watsonx Orchestrate browser UI
-2. ✅ Navigated to Build and created a new agent from scratch
-3. ✅ Configured the agent name, description, and instructions for the work order extraction flow
-4. ✅ Opened the Tools tab, selected Agentic workflow, named it, and started building
-5. ✅ Added a Present to User message step to prompt the user for a work order file upload
-6. ✅ Added a Document Extractor step, defined the extraction schema, and verified the document
-7. ✅ Added a Generative Prompt step with variables mapped from the Document Extractor
-8. ✅ Added a second Present to User message displaying the generated summary and saved the workflow
-
----
 
 ## Part 7 — Test the Agent
 
