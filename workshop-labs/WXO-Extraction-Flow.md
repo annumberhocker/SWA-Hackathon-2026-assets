@@ -109,13 +109,13 @@ Rather than handling each step individually, agents can start an agentic workflo
 
 Click the **Tools** tab at the top of the agent editor.
 
-![Tools tab selected at the top of the agent editor.](images/add_tool.png)
+![Tools tab selected at the top of the agent editor.](images/Add_tool.png)
 
 ### Step 3.2 — Select Agentic Workflow
 
 Click **Add tool**, then click **Agentic workflow**.
 
-![Add tool menu with "Agentic workflow" option highlighted.](images/agentic_workflow.png)
+![Add tool menu with "Agentic workflow" option highlighted.](images/Agentic_workflow.png)
 
 ### Step 3.3 — Name the Workflow
 
