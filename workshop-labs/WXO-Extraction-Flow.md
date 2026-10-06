@@ -157,7 +157,7 @@ Please upload the work order you would like to extract.
 
 Still within the green user activity box, click the **+** sign directly below the Message 1 step. Then click **Collect from user**, then click **File upload**. This is where the user will upload their work order for extraction.
 
-![User activity box showing the plus sign, Collect from user, and File upload options.](images/user_activity.png)
+![User activity box showing the plus sign, Collect from user, and File upload options.](images/User_Activity.png)
 
 ---
 
