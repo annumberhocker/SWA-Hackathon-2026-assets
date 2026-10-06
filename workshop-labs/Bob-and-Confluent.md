@@ -177,7 +177,7 @@ the simulator registered when it started producing.
 
 The flight simulator is continuously producing telemetry events — gate wait times, departure delays,
 and turnaround durations — into the `flight-events` Kafka topic. In this part you will deploy a
-Flink streaming job that reads those events in real time, averages each metric over 10-second
+Flink streaming job that reads those events in real time, averages each metric over 2-second
 windows, and runs Confluent's `AI_DETECT_ANOMALIES` function to identify aircraft behaving outside
 their normal baseline. When an anomaly is confirmed with high confidence, the job writes an alert
 record to a new `ops-alerts` topic, which the watsonx Orchestrate triage agent in the next lab
@@ -193,7 +193,7 @@ The file `flink/anomaly_detection_materialized.sql` does three things in one sta
 
 1. **Creates (or evolves) the `ops-alerts` table** — defines all columns, the `WATERMARK`, and
    binds to the `ops-alerts` Kafka topic.
-2. **Runs the streaming query continuously** — reads from `flight-events`, applies a 10-second
+2. **Runs the streaming query continuously** — reads from `flight-events`, applies a 2-second
    tumbling window per aircraft + metric, calls `AI_DETECT_ANOMALIES`, and writes only confirmed
    anomalies to `ops-alerts`.
 3. **Stays RUNNING indefinitely** — `START_MODE = RESUME_OR_FROM_BEGINNING` means Flink resumes
@@ -201,7 +201,7 @@ The file `flink/anomaly_detection_materialized.sql` does three things in one sta
 
 The query is structured in two CTEs:
 
-**`windowed_schedule`** — groups raw events into 10-second tumbling windows and averages each
+**`windowed_schedule`** — groups raw events into 2-second tumbling windows and averages each
 metric. This reduces noise before anomaly scoring.
 
 **`anomaly_results`** — calls `AI_DETECT_ANOMALIES` as an analytic function over an unbounded
@@ -211,8 +211,8 @@ aircraft-metric pair to build its baseline.
 The outer `SELECT` and `WHERE` filters to only true anomalies with a high confidence score.
 
 Key parameters:
-- `minContextSize = 20` — the model waits for 20 windows (~3.5 minutes at 10-second intervals)
-  before producing any output. **This is expected — the first few minutes will appear quiet.**
+- `minContextSize = 5` — the model waits for 5 completed 2-second windows (~10 seconds)
+  before producing any output. **This is expected — the first few seconds will appear quiet.**
 - `confidencePercentage = 99.0` — requires 99% confidence before flagging an anomaly
 - `anomaly_score > 0.95` — additional threshold on the normalized deviation
 
@@ -311,9 +311,9 @@ Search for topics by name 'ops-alerts'
 |---|---|---|
 | Bob MCP shows red / Failed | `npx` not on Bob's PATH (nvm or Homebrew install) | Install Node.js from **https://nodejs.org** (LTS `.pkg` installer) — this puts `npx` in `/usr/local/bin` which Bob can always find |
 | Bob MCP shows red / Failed | `/FULL/PATH` placeholder not replaced in `.bob/mcp.json` | Replace with the absolute path from `echo $(pwd)/workshop-labs/env.lab` (Step 1.4) |
-| Bob MCP shows red / Failed | Wrong or missing credentials in `config.yaml` | Re-check the five user-specific values in `confluent-mcp/config.yaml` |
+| Bob MCP shows red / Failed | Wrong or missing credentials in `env.lab` | Re-check that your `workshop-labs/env.lab` file was saved correctly and the path in `.bob/mcp.json` points to it (Step 1.4) |
 | Bob MCP shows red / Failed | Bob opened without project root as workspace | Open Bob with `SWA-Hackathon-2026-assets/` as the workspace folder |
-| MCP server starts but Flink tools missing | `flink` block incomplete in `config.yaml` | Ensure all five Flink fields are filled: `endpoint`, `auth`, `organization_id`, `environment_id`, `compute_pool_id` |
+| MCP server starts but Flink tools missing | Flink credentials missing from `env.lab` | Ensure all Flink fields are set in `env.lab`: `FLINK_REST_ENDPOINT`, `FLINK_API_KEY`, `FLINK_API_SECRET`, `FLINK_ORG_ID`, `FLINK_ENV_ID`, `FLINK_COMPUTE_POOL_ID` |
 | `CREATE TABLE` fails with schema conflict | `DISTRIBUTED INTO` was included | Remove `DISTRIBUTED INTO` clause from the SQL |
 | INSERT job shows FAILED immediately | Materialized table statement failed | Verify `flink/anomaly_detection_materialized.sql` cluster name was updated in Step 3.2 |
 | `ops-alerts` receives no messages after 5 min | Warmup not complete, or threshold too high | Wait for the warmup to complete; confirm the simulator is still producing |

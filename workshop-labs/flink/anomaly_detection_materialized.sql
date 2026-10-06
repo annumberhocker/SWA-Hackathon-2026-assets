@@ -26,7 +26,7 @@
 --    schema stays compatible. Do NOT add DISTRIBUTED INTO for an existing topic.
 -- ============================================================================
 
-CREATE OR ALTER MATERIALIZED TABLE `IBM-Hackathon-demo-test`.`janki-cluster`.`ops-alerts` (
+CREATE OR ALTER MATERIALIZED TABLE `IBM-Hackathon-demo-test`.`REPLACE_WITH_YOUR_CLUSTER`.`ops-alerts` (
     entity_id       STRING,
     `stream`        STRING,
     metric          STRING,
