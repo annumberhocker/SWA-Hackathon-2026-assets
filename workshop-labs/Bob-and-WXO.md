@@ -70,7 +70,8 @@ Append the `watsonx-orchestrate-adk` and `watsonx-orchestrate-adk-docs` clauses 
       "timeout": 300000,
       "env": {
         "WO_INSTANCE": "REPLACE_WITH_WO_INSTANCE",
-        "WO_API_KEY": "REPLACE_WITH_WO_API_KEY",        "WXO_MCP_WORKING_DIRECTORY": "/FULL/PATH/To/SWA-Hackathon-2026-assets/workshop-labs/orchestrate",
+        "WO_API_KEY": "REPLACE_WITH_WO_API_KEY",
+        "WXO_MCP_WORKING_DIRECTORY": "/FULL/PATH/To/SWA-Hackathon-2026-assets/workshop-labs/orchestrate",
         "WXO_MCP_DEBUG": "false"
       }
     },
