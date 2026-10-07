@@ -60,7 +60,38 @@ SCHEMA_REGISTRY_API_SECRET=YOUR_SR_API_SECRET
 
 ### 4. Create the Kafka topic (if it doesn't exist)
 
-In Confluent Cloud, create a topic named `flight-events` with your preferred partition count (3 is a reasonable default).
+**Option A — Confluent CLI:**
+
+Log in to the Confluent CLI (add `--save` to persist credentials):
+
+```bash
+confluent login --save
+```
+
+Set your default environment and cluster so you don't need to pass `--cluster` on every command:
+
+```bash
+confluent environment use <ENV_ID>
+confluent kafka cluster use <CLUSTER_ID>
+```
+
+Replace `<ENV_ID>` and `<CLUSTER_ID>` with your values (e.g. `env-abc123` and `lkc-abc123`), which you can find under **Confluent Cloud → your cluster → Cluster Settings**.
+
+Then create the topic:
+
+```bash
+confluent kafka topic create flight-events --partitions 3
+```
+
+**Option B — Confluent Cloud UI:**
+
+1. Go to [confluent.cloud](https://confluent.cloud) and open your environment.
+2. Select your Kafka cluster.
+3. In the left navigation, click **Topics**.
+4. Click **Add topic**.
+5. Enter `flight-events` as the topic name.
+6. Set **Partitions** to `3`.
+7. Click **Create with defaults** (or adjust retention/cleanup settings as needed).
 
 ## Running the Producer
 
