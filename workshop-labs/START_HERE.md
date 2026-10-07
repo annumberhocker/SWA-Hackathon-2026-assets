@@ -11,9 +11,9 @@ In these labs, you will learn how to use **IBM Bob** as an intelligent developer
 
 ---
 
-## Getting Started: Clone the Repository
+## First Step: Clone the Repository
 
-Before starting the labs, clone this repository to your local machine and navigate into the `workshop-labs` directory:
+Before starting the labs, clone this repository to your local machine and navigate into the `workshop-labs` directory. Open a terminal window and enter these commands:
 
 ```bash
 git clone https://github.com/ibm-build-lab/SWA-Hackathon-2026-assets.git
@@ -23,16 +23,14 @@ cd SWA-Hackathon-2026-assets/workshop-labs
 Open this folder in your IDE or workspace where IBM Bob is configured.
 
 ---
-
-## Available Labs
-
-### [Prerequisite Lab: Installing and Setting Up IBM Bob](Install-Bob.md)
+## [Prerequisite For Bob Labs: Installing and Setting Up IBM Bob](Install-Bob.md)
 **Focus:** Tooling, IDE Installation, Authentication & Shell Setup
 **Required for:** Lab 1 (`Bob-and-Confluent.md`) and Lab 2 (`Bob-and-WXO.md`) — complete this before starting any `Bob-and-*` lab.
 
 In this introductory guide, you will install the IBM Bob IDE application (macOS, Windows, or Linux), sign in with your IBMid, optionally install Bob Shell (CLI), and verify your MCP configuration interface.
 
 ---
+## Available Labs
 
 ### [Lab 1: Bob + Confluent — Real-Time Flight Anomaly Detection](Bob-and-Confluent.md)
 **Focus:** Real-Time Stream Processing & In-Stream AI
