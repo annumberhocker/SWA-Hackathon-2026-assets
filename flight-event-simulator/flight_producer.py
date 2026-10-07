@@ -118,6 +118,8 @@ def compute_anomaly_offset(anomaly, profile):
 def delivery_report(err, msg):
     if err is not None:
         print(f"Delivery failed for {msg.key()}: {err}")
+    else:
+        print(f"✓ [{msg.topic()}] key={msg.key().decode()} partition={msg.partition()} offset={msg.offset()}")
 
 
 def _to_dict(obj, ctx):

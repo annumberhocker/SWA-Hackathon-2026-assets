@@ -92,7 +92,7 @@ confluent kafka topic create flight-events --partitions 3
 ```bash
 python3 -m venv .venv
 source .venv/bin/activate
-pip install confluent-kafka python-dotenv
+pip install -r requirements.txt
 ```
 
 ### 2. Start the producer
