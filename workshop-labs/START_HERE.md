@@ -19,11 +19,8 @@ Before starting the labs, clone this repository to your local machine and naviga
 git clone https://github.com/annumberhocker/SWA-Hackathon-2026-assets.git
 cd SWA-Hackathon-2026-assets/workshop-labs
 ```
-
-Open this folder in your IDE or workspace where IBM Bob is configured.
-
 ---
-## [Prerequisite For Bob Labs: Installing and Setting Up IBM Bob](Install-Bob.md)
+## [Prerequisite For the Bob Labs: Installing and Setting Up IBM Bob](Install-Bob.md)
 **Focus:** Tooling, IDE Installation, Authentication & Shell Setup
 **Required for:** Lab 1 (`Bob-and-Confluent.md`) and Lab 2 (`Bob-and-WXO.md`) — complete this before starting any `Bob-and-*` lab.
 
