@@ -40,7 +40,7 @@ which npx
 
 ### Step 1.2 — Clone the Lab Repository
 
-If you haven't already, clone the hackathon assets repository to your local machine:
+If you haven't already, clone the hackathon assets repository to your local machine. From a terminal window type the following commands:
 
 ```bash
 git clone https://github.com/your-org/SWA-Hackathon-2026-assets.git
@@ -49,18 +49,18 @@ cd SWA-Hackathon-2026-assets
 
 ### Step 1.3 — Save Your `env.lab` File
 
-Your instructor will provide you with a personalised `env.lab` file that contains your specific
+Your instructor will provide you with a personalised `env` file that contains your specific
 cluster details and API keys. Save it into the following directory:
 
 ```
 SWA-Hackathon-2026-assets/workshop-labs/env.lab
 ```
 
-You can do this from the terminal:
+You can do this from the terminal after you have downloaded the file:
 
 ```bash
 # Copy the file your instructor provided to the correct location
-cp ~/Downloads/env.lab ~/path/to/SWA-Hackathon-2026-assets/workshop-labs/env.lab
+cp ~/Downloads/env.<name> ~/path/to/SWA-Hackathon-2026-assets/workshop-labs/env.lab
 ```
 
 Or drag and drop it into the `workshop-labs/` folder using Finder.
