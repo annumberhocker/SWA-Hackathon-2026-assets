@@ -24,19 +24,11 @@ In this lab, you will configure the watsonx Orchestrate ADK MCP server in Bob, i
 
 ### Step 1.1 — Install Prerequisites
 
-Ensure you have Python 3.11+ and `uv` / `uvx` installed.
-
-Open a terminal and run:
-
-```bash
-# Check python version (requires Python 3.10+)
-python3 --version
-
-# Check or install uv (modern Python package manager)
-curl -LsSf https://astral.sh/uv/install.sh | sh
-source ~/.zshrc     # or ~/.bashrc on Linux
-uvx --version
+Ensure you have Python 3.11+ and `uv` / `uvx` installed. You can prompt Bob with: 
 ```
+Help me check that I have `uvx` and `Python 3.11` or higher installed. If not, install it.
+```
+Respond to Bob's prompts through the process.
 
 ### Step 1.2 — Open the Project in Bob and Configure Project-Level `mcp.json`
 
