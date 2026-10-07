@@ -24,15 +24,7 @@ Produces a continuous stream of simulated flight schedule metrics to a Confluent
 cd flight-event-simulator
 ```
 
-### 2. Create a virtual environment and install dependencies
-
-```bash
-python3 -m venv .venv
-source .venv/bin/activate
-pip install confluent-kafka python-dotenv
-```
-
-### 3. Configure your credentials
+### 2. Configure your credentials
 
 Copy the example env file and fill in your Confluent Cloud values:
 
@@ -58,7 +50,7 @@ SCHEMA_REGISTRY_API_SECRET=YOUR_SR_API_SECRET
 
 > **Note:** The Kafka API key must be **cluster-scoped**, not a Global API key.
 
-### 4. Create the Kafka topic (if it doesn't exist)
+### 3. Create the Kafka topic (if it doesn't exist)
 
 **Option A — Confluent CLI:**
 
@@ -94,6 +86,16 @@ confluent kafka topic create flight-events --partitions 3
 7. Click **Create with defaults** (or adjust retention/cleanup settings as needed).
 
 ## Running the Producer
+
+### 1. Create a virtual environment and install dependencies
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+pip install confluent-kafka python-dotenv
+```
+
+### 2. Start the producer
 
 ```bash
 python flight_producer.py
