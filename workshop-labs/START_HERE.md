@@ -16,7 +16,7 @@ In these labs, you will learn how to use **IBM Bob** as an intelligent developer
 Before starting the labs, clone this repository to your local machine and navigate into the `workshop-labs` directory. Open a terminal window and enter these commands:
 
 ```bash
-git clone https://github.com/ibm-build-lab/SWA-Hackathon-2026-assets.git
+git clone https://github.com/annumberhocker/SWA-Hackathon-2026-assets.git
 cd SWA-Hackathon-2026-assets/workshop-labs
 ```
 
