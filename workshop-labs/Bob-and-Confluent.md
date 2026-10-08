@@ -23,49 +23,17 @@ be orchestrating your entire Confluent Cloud environment through natural-languag
 
 ### Step 1.1 — Install Prerequisites
 
-Open a terminal and run:
+Ensure you have Node.js 22+ and `npx` installed. You can prompt Bob with:
 
-```bash
-# Install nvm (if not already installed)
-curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
-source ~/.zshrc     # or ~/.bashrc on Linux
-
-# Install and activate Node.js 22 if you have an earlier version
-nvm install 22
-nvm use 22
-node --version
-which node   
-which npx    
 ```
+Help me check that I have Node.js 22 or higher and npx installed. If not, help me install them using nvm.
+```
+
+Respond to Bob's prompts through the process.
 
 ### Step 1.2 — Download and Unzip the Lab Repository
 
-If you haven't already, download and unzip the hackathon assets repository to your local machine:
-
-1. Open [https://github.com/annumberhocker/SWA-Hackathon-2026-assets](https://github.com/annumberhocker/SWA-Hackathon-2026-assets) in your browser.
-2. Click the green **Code** button → **Download ZIP** (saves `SWA-Hackathon-2026-assets-main.zip` to your Downloads folder).
-3. Open a terminal and run the unzip command for your operating system:
-
-**macOS / Linux:**
-```bash
-# Unzip the downloaded file and enter the folder
-unzip ~/Downloads/SWA-Hackathon-2026-assets-main.zip -d ~/
-cd ~/SWA-Hackathon-2026-assets-main
-```
-
-**Windows (PowerShell):**
-```powershell
-# Unzip the downloaded file and enter the folder
-Expand-Archive -Path "$HOME\Downloads\SWA-Hackathon-2026-assets-main.zip" -DestinationPath "$HOME"
-cd "$HOME\SWA-Hackathon-2026-assets-main"
-```
-
-*(Alternatively, you can download and unzip entirely via the command line):*
-```bash
-curl -L -o SWA-Hackathon-2026-assets.zip https://github.com/annumberhocker/SWA-Hackathon-2026-assets/archive/refs/heads/main.zip
-unzip SWA-Hackathon-2026-assets.zip
-cd SWA-Hackathon-2026-assets-main
-```
+If you haven't already downloaded the workshop repository, follow the instructions in the [First Step: Get the Repository](START_HERE.md#first-step-get-the-repository) section of `START_HERE.md` to download and extract the repository on your machine.
 
 ### Step 1.3 — Save Your `env.lab` File
 

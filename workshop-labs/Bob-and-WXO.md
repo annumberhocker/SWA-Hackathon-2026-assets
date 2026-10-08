@@ -24,13 +24,17 @@ In this lab, you will configure the watsonx Orchestrate ADK MCP server in Bob, i
 
 ### Step 1.1 — Install Prerequisites
 
-Ensure you have Python 3.11+ and `uv` / `uvx` installed. You can prompt Bob with: 
+Ensure you have Python 3.11+ and `uv` / `uvx` installed. You can prompt Bob with:
 ```
 Help me check that I have `uvx` and `Python 3.11` or higher installed. If not, install it.
 ```
 Respond to Bob's prompts through the process.
 
-### Step 1.2 — Configure the watsonx Orchestrate MCP Server in Bob
+### Step 1.2 — Download and Unzip the Lab Repository
+
+If you haven't already downloaded the workshop repository, follow the instructions in the [First Step: Get the Repository](START_HERE.md#first-step-get-the-repository) section of `START_HERE.md` to download and extract the repository on your machine.
+
+### Step 1.3 — Configure the watsonx Orchestrate MCP Server in Bob
 
 1. **Open the project folder in Bob**
    In Bob, go to **File → Open** → select the `SWA-Hackathon-2026-assets` folder.
@@ -46,7 +50,7 @@ Respond to Bob's prompts through the process.
 
    Bob will read your `workshop-labs/env.lab` credentials, resolve the working directory path, and update `.bob/mcp.json` automatically while preserving any existing MCP servers.
 
-### Step 1.3 — Verify the Connection in Bob
+### Step 1.4 — Verify the Connection in Bob
 
 1. In Bob, click the **gear icon** (top-right) → **MCP Servers** (or **MCP**).
 2. Find `watsonx-orchestrate-adk` and `watsonx-orchestrate-adk-docs` in the list — they should show a green **Connected** status.
