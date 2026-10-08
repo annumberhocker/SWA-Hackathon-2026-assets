@@ -46,7 +46,9 @@ cd "$HOME\SWA-Hackathon-2026-assets-main\workshop-labs"
 ```
 
 ---
-## [Prerequisite For the Bob Labs: Installing and Setting Up IBM Bob](Install-Bob.md)
+## Prerequisite For the Bob Labs
+
+### [Installing and Setting Up IBM Bob](Install-Bob.md)
 **Focus:** Tooling, IDE Installation, Authentication & Shell Setup
 **Required for:** Lab 1 (`Bob-and-Confluent.md`) and Lab 2 (`Bob-and-WXO.md`) — complete this before starting any `Bob-and-*` lab.
 
