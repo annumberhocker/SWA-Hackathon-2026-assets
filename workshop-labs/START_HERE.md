@@ -17,12 +17,13 @@ Before starting the labs, download and unzip a local copy of this repository:
 
 ### Option A — Command Line (`curl` + `unzip`):
 
-Open a terminal and run:
+Open a terminal and run these commands one at a time:
 
 ```bash
 curl -L -o SWA-Hackathon-2026-assets.zip https://github.com/annumberhocker/SWA-Hackathon-2026-assets/archive/refs/heads/main.zip
-unzip SWA-Hackathon-2026-assets.zip
-cd SWA-Hackathon-2026-assets-main/workshop-labs
+unzip SWA-Hackathon-2026-assets-main.zip
+mv SWA-Hackathon-2026-assets-main SWA-Hackathon-2026-assets
+cd SWA-Hackathon-2026-assets/workshop-labs
 ```
 
 ### Option B — Browser Download:
