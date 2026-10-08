@@ -1,4 +1,4 @@
-- anomaly_detection_materialized.sql
+-- anomaly_detection_materialized.sql
 -- ============================================================================
 -- Single CREATE OR ALTER MATERIALIZED TABLE that replaces BOTH:
 --   alerts_table.sql       (CREATE TABLE `ops-alerts`)
