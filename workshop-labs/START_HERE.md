@@ -11,14 +11,30 @@ In these labs, you will learn how to use **IBM Bob** as an intelligent developer
 
 ---
 
-## First Step: Clone the Repository
+## First Step: Get the Repository
 
-Before starting the labs, clone this repository to your local machine and navigate into the `workshop-labs` directory. Open a terminal window and enter these commands:
+Before starting the labs, get a local copy of this repository and navigate into the `workshop-labs` directory.
+
+**Option A — Git clone:**
+
+Open a terminal and run:
 
 ```bash
 git clone https://github.com/annumberhocker/SWA-Hackathon-2026-assets.git
 cd SWA-Hackathon-2026-assets/workshop-labs
 ```
+
+**Option B — Download and unzip:**
+
+1. Open [https://github.com/annumberhocker/SWA-Hackathon-2026-assets](https://github.com/annumberhocker/SWA-Hackathon-2026-assets) in your browser.
+2. Click the green **Code** button → **Download ZIP**.
+3. Unzip the downloaded file to a location of your choice.
+4. Open a terminal, navigate into the unzipped folder:
+
+```bash
+cd SWA-Hackathon-2026-assets-main/workshop-labs
+```
+
 ---
 ## [Prerequisite For the Bob Labs: Installing and Setting Up IBM Bob](Install-Bob.md)
 **Focus:** Tooling, IDE Installation, Authentication & Shell Setup
