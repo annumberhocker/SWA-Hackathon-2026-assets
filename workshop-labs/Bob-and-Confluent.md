@@ -38,19 +38,39 @@ which node
 which npx    
 ```
 
-### Step 1.2 — Clone the Lab Repository
+### Step 1.2 — Download and Unzip the Lab Repository
 
-If you haven't already, clone the hackathon assets repository to your local machine. From a terminal window type the following commands:
+If you haven't already, download and unzip the hackathon assets repository to your local machine:
 
+1. Open [https://github.com/annumberhocker/SWA-Hackathon-2026-assets](https://github.com/annumberhocker/SWA-Hackathon-2026-assets) in your browser.
+2. Click the green **Code** button → **Download ZIP** (saves `SWA-Hackathon-2026-assets-main.zip` to your Downloads folder).
+3. Open a terminal and run the unzip command for your operating system:
+
+**macOS / Linux:**
 ```bash
-git clone https://github.com/your-org/SWA-Hackathon-2026-assets.git
-cd SWA-Hackathon-2026-assets
+# Unzip the downloaded file and enter the folder
+unzip ~/Downloads/SWA-Hackathon-2026-assets-main.zip -d ~/
+cd ~/SWA-Hackathon-2026-assets-main
+```
+
+**Windows (PowerShell):**
+```powershell
+# Unzip the downloaded file and enter the folder
+Expand-Archive -Path "$HOME\Downloads\SWA-Hackathon-2026-assets-main.zip" -DestinationPath "$HOME"
+cd "$HOME\SWA-Hackathon-2026-assets-main"
+```
+
+*(Alternatively, you can download and unzip entirely via the command line):*
+```bash
+curl -L -o SWA-Hackathon-2026-assets.zip https://github.com/annumberhocker/SWA-Hackathon-2026-assets/archive/refs/heads/main.zip
+unzip SWA-Hackathon-2026-assets.zip
+cd SWA-Hackathon-2026-assets-main
 ```
 
 ### Step 1.3 — Save Your `env.lab` File
 
 Your instructor will provide you with a personalised `env` file that contains your specific
-cluster details and API keys. Save it into the following directory:
+cluster details and API keys. Save it as:
 
 ```
 SWA-Hackathon-2026-assets/workshop-labs/env.lab
@@ -66,156 +86,26 @@ cp ~/Downloads/env.<name> ~/path/to/SWA-Hackathon-2026-assets/workshop-labs/env.
 Or drag and drop it into the `workshop-labs/` folder using Finder.
 
 
-### Step 1.4 — Open the Project in Bob and Configure `.bob/mcp.json`
+### Step 1.4 — Configure the Confluent MCP Server in Bob
 
-The file `.bob/mcp.json` at the root of your project tells Bob which external MCP servers (tools) are enabled.
+1. **Open the project folder in Bob**
+   In Bob, go to **File → Open** → select the `SWA-Hackathon-2026-assets` folder.
 
----
+   > **Important:** Opening this folder sets it as your active workspace root, allowing Bob to load project-level MCP tools automatically.
 
-#### 1. Open the Project Folder in Bob
+2. **Tell Bob to configure the MCP server**
+   In the Bob chat panel, simply type:
 
-In Bob, go to **File → Open** → select the `SWA-Hackathon-2026-assets` folder.
+   ```
+   Add the Confluent MCP server configuration from workshop-labs/mcp-confluent.json to .bob/mcp.json. Resolve the paths for node, npx, and the workshop-labs/env.lab file on my machine.
+   ```
 
-> **Important:** Opening this specific folder sets it as your active workspace root, allowing Bob to load project-level MCP tools automatically.
-
----
-
-#### 2. Get Your Local System Paths
-
-Open your terminal in the `SWA-Hackathon-2026-assets` project folder and run these three commands to find your absolute paths:
-
-```bash
-which node
-# Example output: /Users/yourname/.nvm/versions/node/v22.23.3/bin/node
-
-which npx
-# Example output: /Users/yourname/.nvm/versions/node/v22.23.3/bin/npx
-
-echo $(pwd)/workshop-labs/env.lab
-# Example output: /Users/yourname/projects/SWA-Hackathon-2026-assets/workshop-labs/env.lab
-```
-
-Keep these three path strings handy — you will insert them into your configuration in the next step.
-
----
-
-#### 3. Open or Create `.bob/mcp.json`
-
-- Click the **gear icon** (top-right) → **MCP** (or **MCP Servers**).
-- Click **+** → set **Configuration Scope** to `SWA-Hackathon-2026-assets`.
-- Bob will create and open `.bob/mcp.json` in your editor. (If it already exists, you can also open `.bob/mcp.json` directly from the file explorer).
-
----
-
-#### 4. Update `.bob/mcp.json` (Choose Scenario A or B)
-
-Depending on whether your `.bob/mcp.json` already has other MCP servers configured, follow the matching scenario below:
-
----
-
-##### **Scenario A — If `.bob/mcp.json` is new or only has empty scaffolding `{}`**
-
-Replace the **entire** content of `.bob/mcp.json` with the following block, plugging in your actual paths from Step 2:
-
-```json
-{
-  "mcpServers": {
-    "confluent": {
-      "command": "/YOUR/PATH/TO/bin/node",
-      "args": [
-        "/YOUR/PATH/TO/bin/npx",
-        "-y",
-        "@confluentinc/mcp-confluent",
-        "-e",
-        "/YOUR/PATH/TO/SWA-Hackathon-2026-assets/workshop-labs/env.lab"
-      ],
-      "disabled": false
-    }
-  }
-}
-```
-
-*Example with sample paths filled in:*
-```json
-{
-  "mcpServers": {
-    "confluent": {
-      "command": "/Users/alex/.nvm/versions/node/v22.23.3/bin/node",
-      "args": [
-        "/Users/alex/.nvm/versions/node/v22.23.3/bin/npx",
-        "-y",
-        "@confluentinc/mcp-confluent",
-        "-e",
-        "/Users/alex/projects/SWA-Hackathon-2026-assets/workshop-labs/env.lab"
-      ],
-      "disabled": false
-    }
-  }
-}
-```
-
----
-
-##### **Scenario B — If `.bob/mcp.json` ALREADY contains other MCP servers (e.g. watsonx Orchestrate)**
-
-In JSON, all server definitions live inside the `"mcpServers": { ... }` object and must be separated by a **comma (`,`)**.
-
-1. Find the closing brace `}` of the existing server inside `"mcpServers"`.
-2. Add a comma `,` right after that `}`.
-3. Paste the `"confluent": { ... }` definition block right after the comma.
-
-Here is a side-by-side view:
-
-**Before (only existing server present):**
-```json
-{
-  "mcpServers": {
-    "watsonx-orchestrate-adk": {
-      "command": "uvx",
-      ...
-    }
-  }
-}
-```
-
-**After (adding `"confluent"` with comma separation):**
-```json
-{
-  "mcpServers": {
-    "watsonx-orchestrate-adk": {
-      "command": "uvx",
-      ...
-    },
-    "confluent": {
-      "command": "/YOUR/PATH/TO/bin/node",
-      "args": [
-        "/YOUR/PATH/TO/bin/npx",
-        "-y",
-        "@confluentinc/mcp-confluent",
-        "-e",
-        "/YOUR/PATH/TO/SWA-Hackathon-2026-assets/workshop-labs/env.lab"
-      ],
-      "disabled": false
-    }
-  }
-}
-```
-
-> **Shortcut:** A ready-made combined template with both Confluent and watsonx Orchestrate definitions is available in [`workshop-labs/mcp.json`](workshop-labs/mcp.json). You can copy the contents of `workshop-labs/mcp.json` into `.bob/mcp.json` and replace the path placeholders.
-
-> **💡 Pro Tip (Let Bob do it!):** You can also ask Bob in the chat:
-> *"Please update my `.bob/mcp.json` to add the Confluent MCP server using node at `<path from which node>`, npx at `<path from which npx>`, and env file at `<path from echo $(pwd)/workshop-labs/env.lab>`."*
-
----
-
-#### 5. Save the File
-
-Save `.bob/mcp.json` (`Cmd+S` on macOS or `Ctrl+S` on Windows/Linux). Bob will automatically reload and start the Confluent MCP server using the credentials in your `env.lab` file.
+   Bob will discover your local paths, create or update `.bob/mcp.json` automatically, and preserve any existing MCP servers.
 
 ### Step 1.5 — Verify the Connection in Bob
 
-1. In Bob, click the **gear icon** (top-right) → **MCP Servers**
-2. Find `confluent` in the list — it should show a green **Connected** status
+1. In Bob, click the **gear icon** (top-right) → **MCP Servers** (or **MCP**).
+2. Find `confluent` in the list — it should show a green **Connected** status.
 
 If it shows red, see the [Troubleshooting](#troubleshooting-reference) section at the bottom.
 

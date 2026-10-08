@@ -30,66 +30,26 @@ Help me check that I have `uvx` and `Python 3.11` or higher installed. If not, i
 ```
 Respond to Bob's prompts through the process.
 
-### Step 1.2 — Open the Project in Bob and Configure Project-Level `mcp.json`
+### Step 1.2 — Configure the watsonx Orchestrate MCP Server in Bob
 
-**1. Open the project folder in Bob**
+1. **Open the project folder in Bob**
+   In Bob, go to **File → Open** → select the `SWA-Hackathon-2026-assets` folder.
 
-In Bob, go to **File → Open** → select the `SWA-Hackathon-2026-assets` folder.
+   > **Important:** Opening this folder sets it as your active workspace root, allowing Bob to load project-level MCP tools automatically.
 
-This sets `SWA-Hackathon-2026-assets/` as the project workspace, which is required for the project-level MCP configuration to take effect.
+2. **Tell Bob to configure the MCP server**
+   In the Bob chat panel, simply type:
 
-**2. Open the Bob MCP settings**
+   ```
+   Add the watsonx Orchestrate MCP server configuration from workshop-labs/mcp-wxo.json to .bob/mcp.json. Use the credentials from workshop-labs/env.lab and set the working directory to the workshop-labs/orchestrate folder.
+   ```
 
-- Click the **gear icon** (top-right) → **MCP**
-- Click **+** → set **Configuration Scope** to `SWA-Hackathon-2026-assets`
-
-Bob will open the `.bob/mcp.json` file at the project root.
-
-**3. Append the WXO MCP Server Configurations**
-
-Append the `watsonx-orchestrate-adk` and `watsonx-orchestrate-adk-docs` clauses from `workshop-labs/mcp-wxo.json` into the `mcpServers` object in your `.bob/mcp.json`. Make sure you include the `,` between any existing MCP clauses and the new ones:
-
-```json
-{
-  "mcpServers": {
-    "watsonx-orchestrate-adk": {
-      "command": "uvx",
-      "args": [
-        "ibm-watsonx-orchestrate-mcp-server"
-      ],
-      "cwd": "/FULL/PATH/To/SWA-Hackathon-2026-assets/workshop-labs/orchestrate",
-      "disabled": false,
-      "timeout": 300000,
-      "env": {
-        "WO_INSTANCE": "REPLACE_WITH_WO_INSTANCE",
-        "WO_API_KEY": "REPLACE_WITH_WO_API_KEY",
-        "WXO_MCP_WORKING_DIRECTORY": "/FULL/PATH/To/SWA-Hackathon-2026-assets/workshop-labs/orchestrate",
-        "WXO_MCP_DEBUG": "false"
-      }
-    },
-    "watsonx-orchestrate-adk-docs": {
-      "type": "streamable-http",
-      "url": "https://developer.watson-orchestrate.ibm.com/mcp"
-    }
-  }
-}
-```
-
-**4. Replace Credentials and Path Placeholders**
-
-1. **Find your repo clone path**: Run `pwd` in your terminal at the root of the cloned repository (e.g. `/Users/yourname/projects/SWA-Hackathon-2026-assets`).
-2. **Update Paths**: Replace `/FULL/PATH/To/SWA-Hackathon-2026-assets` in both `cwd` and `WXO_MCP_WORKING_DIRECTORY` with your actual repository path.
-3. **Update Credentials**: Open `workshop-labs/env.lab` in your editor and copy the values into `.bob/mcp.json`:
-   - Replace `REPLACE_WITH_WO_INSTANCE` with the value of `WO_INSTANCE` from `env.lab` (the watsonx Orchestrate instance URL).
-   - Replace `REPLACE_WITH_WO_API_KEY` with the value of `WO_API_KEY` from `env.lab` (the WXO API key).
-
-Save the file.
+   Bob will read your `workshop-labs/env.lab` credentials, resolve the working directory path, and update `.bob/mcp.json` automatically while preserving any existing MCP servers.
 
 ### Step 1.3 — Verify the Connection in Bob
 
-1. Open Bob
-2. Click the **gear icon** (top-right) → **MCP**
-3. Find `watsonx-orchestrate-adk` and `watsonx-orchestrate-adk-docs` in the list — they should show a green **Connected** status.
+1. In Bob, click the **gear icon** (top-right) → **MCP Servers** (or **MCP**).
+2. Find `watsonx-orchestrate-adk` and `watsonx-orchestrate-adk-docs` in the list — they should show a green **Connected** status.
 
 ---
 

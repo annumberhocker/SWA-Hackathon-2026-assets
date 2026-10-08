@@ -13,25 +13,30 @@ In these labs, you will learn how to use **IBM Bob** as an intelligent developer
 
 ## First Step: Get the Repository
 
-Before starting the labs, get a local copy of this repository and navigate into the `workshop-labs` directory.
-
-**Option A — Git clone:**
-
-Open a terminal and run:
-
-```bash
-git clone https://github.com/annumberhocker/SWA-Hackathon-2026-assets.git
-cd SWA-Hackathon-2026-assets/workshop-labs
-```
-
-**Option B — Download and unzip:**
+Before starting the labs, download and unzip a local copy of this repository:
 
 1. Open [https://github.com/annumberhocker/SWA-Hackathon-2026-assets](https://github.com/annumberhocker/SWA-Hackathon-2026-assets) in your browser.
-2. Click the green **Code** button → **Download ZIP**.
-3. Unzip the downloaded file to a location of your choice.
-4. Open a terminal, navigate into the unzipped folder:
+2. Click the green **Code** button → **Download ZIP** (saves `SWA-Hackathon-2026-assets-main.zip` to your Downloads folder).
+3. Open a terminal and run the unzip command for your operating system:
 
+**macOS / Linux:**
 ```bash
+# Unzip to your home folder and navigate into workshop-labs
+unzip ~/Downloads/SWA-Hackathon-2026-assets-main.zip -d ~/
+cd ~/SWA-Hackathon-2026-assets-main/workshop-labs
+```
+
+**Windows (PowerShell):**
+```powershell
+# Unzip to your user folder and navigate into workshop-labs
+Expand-Archive -Path "$HOME\Downloads\SWA-Hackathon-2026-assets-main.zip" -DestinationPath "$HOME"
+cd "$HOME\SWA-Hackathon-2026-assets-main\workshop-labs"
+```
+
+*(Alternatively, you can download and unzip entirely via the command line):*
+```bash
+curl -L -o SWA-Hackathon-2026-assets.zip https://github.com/annumberhocker/SWA-Hackathon-2026-assets/archive/refs/heads/main.zip
+unzip SWA-Hackathon-2026-assets.zip
 cd SWA-Hackathon-2026-assets-main/workshop-labs
 ```
 
