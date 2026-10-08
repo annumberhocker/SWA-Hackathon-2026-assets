@@ -239,7 +239,7 @@ Ask Bob to list the clusters in the environment:
 List all of the clusters in my Confluent Cloud environment
 ```
 
-Bob calls `mcp__confluent__list-clusters` and returns a list. Confirm you can see your assigned cluster.
+Bob calls the Confluent MCP `list-clusters` tool and returns a list. Confirm you can see your assigned cluster.
 
 ### Step 2.3 — List Schema Registry Information
 
@@ -255,8 +255,7 @@ Then ask:
 List all schemas in my Schema Registry
 ```
 
-Bob calls `mcp__confluent__list-schemas`. You should see `flight-events-value` — the JSON schema
-the simulator registered when it started producing.
+Bob calls the Confluent MCP `list-schemas` tool. You should see `flight-events-value` — the JSON schema the simulator registered when it started producing.
 
 ---
 
@@ -330,10 +329,11 @@ Read flink/anomaly_detection_materialized.sql and run it as a Flink statement na
 > your initials (e.g. `gate-change-anomaly-detection-jk`) makes your statement easy to identify
 > in the Confluent UI under **Flink → Statements**.
 
-Bob calls `mcp__confluent__create-flink-statement` with the full SQL from the file.
+Bob will call the MCP Confluent `create-flink-statement` tool with the full SQL from the file.
 
 ### Step 3.4 — Confirm the Job is Running
 
+In the Bob chat, type (replacing xx with your initials):
 ```
 Show me the status of the Flink statement named 'gate-change-anomaly-detection-xx'
 ```
@@ -369,8 +369,8 @@ SELECT * FROM `IBM-Hackathon-demo-test`.`your-cluster-name`.`ops-alerts` /*+ OPT
 The `/*+ OPTIONS('scan.startup.mode'='earliest-offset') */` hint is required — without it Flink
 reads from the current offset and returns no results for messages already in the topic.
 
-Bob calls `mcp__confluent__create-flink-statement` to submit the query and then
-`mcp__confluent__get-flink-statement-results` to fetch and display the results. You should see
+Bob will call the MCP Confluent `create-flink-statement` tool to submit the query and then
+`get-flink-statement-results` tool to fetch and display the results. You should see
 rows with `is_anomaly = true` and an `anomaly_score` close to or above `0.95`.
 
 ```

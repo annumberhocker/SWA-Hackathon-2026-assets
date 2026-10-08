@@ -105,7 +105,7 @@ In the Bob chat, type:
 Check the watsonx Orchestrate MCP server version and list all available models
 ```
 
-Bob calls `mcp__watsonx-orchestrate-adk__check_version` and `mcp__watsonx-orchestrate-adk__list_models`. You will see supported foundation models available on your tenant.
+Bob calls the watsonx MCP `check_version` and `list_models` tools. You will see supported foundation models available on your tenant.
 
 ### Step 2.2 — List Current Agents and Knowledge Bases
 
@@ -115,7 +115,7 @@ In the Bob chat, type:
 List all existing agents and knowledge bases in my watsonx Orchestrate tenant
 ```
 
-Bob calls `mcp__watsonx-orchestrate-adk__list_agents` and `mcp__watsonx-orchestrate-adk__list_knowledge_bases`.
+Bob calls the watsonx MCP `list_agents` and `list_knowledge_bases` tools and returns the existing resources configured in your tenant.
 
 ---
 
@@ -148,11 +148,7 @@ In the Bob chat, type:
 Import the knowledge base from orchestrate/knowledge-bases/flight_ops_runbook.yaml
 ```
 
-Bob calls:
-```
-mcp__watsonx-orchestrate-adk__import_knowledge_bases
-  { "file_path": "orchestrate/knowledge-bases/flight_ops_runbook.yaml" }
-```
+Bob calls the watsonx MCP `import_knowledge_bases` tool to upload and begin indexing the runbook document.
 
 ### Step 3.3 — Check Knowledge Base Indexing Status
 
@@ -162,8 +158,7 @@ Knowledge bases take a few moments to process, chunk, and index the uploaded PDF
 Check the status of the knowledge base named 'flight_ops_runbook'
 ```
 
-Bob calls `mcp__watsonx-orchestrate-adk__check_knowledge_base_status` with `name: "flight_ops_runbook"`.
-Wait until the status returns as **indexed** / **ready**.
+Bob calls the watsonx MCP `check_knowledge_base_status` tool with `name: "flight_ops_runbook"`. Wait until the status returns as **indexed** / **ready**.
 
 ---
 
@@ -217,11 +212,7 @@ In the Bob chat, ask Bob to import your agent spec file (or instruct Bob to crea
 Import the agent from orchestrate/agents/flight_triage_agent.yaml
 ```
 
-Bob calls:
-```
-mcp__watsonx-orchestrate-adk__import_agent
-  { "path": "orchestrate/agents/flight_triage_agent.yaml", "app_id": null }
-```
+Bob calls the watsonx MCP `import_agent` tool to register your custom agent definition with watsonx Orchestrate.
 
 ### Step 4.3 — Confirm Your Agent is Listed
 
@@ -231,7 +222,7 @@ In the Bob chat, type:
 List my native agents and confirm that flight_triage_agent_<initials> is available
 ```
 
-Bob calls `mcp__watsonx-orchestrate-adk__list_agents` with `kind: "native"`. You should see `flight_triage_agent_<initials>` registered and attached to `flight_ops_runbook`.
+Bob calls the watsonx MCP `list_agents` tool with `kind: "native"`. You should see `flight_triage_agent_<initials>` registered and attached to `flight_ops_runbook`.
 
 ---
 
@@ -261,17 +252,7 @@ Alert received:
 Please triage this alert and provide runbook recommendations based on the flight_ops_runbook knowledge base.
 ```
 
-Bob calls:
-```
-mcp__watsonx-orchestrate-adk__chat_with_agent
-  {
-    "chat_request": {
-      "agent_name": "flight_triage_agent_<initials>",
-      "message": "...",
-      "include_reasoning": true
-    }
-  }
-```
+Bob calls the watsonx MCP `chat_with_agent` tool to pass the anomaly payload to your agent and retrieve its triage analysis.
 
 ### Step 5.2 — Inspect the Agent's Response
 
