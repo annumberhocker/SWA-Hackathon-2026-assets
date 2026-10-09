@@ -7,7 +7,7 @@ In these labs, you will learn how to use **IBM Bob** as an intelligent developer
 ---
 ## The Story
 
-AeroX Airlines monitors 4 aircraft across ORD and DFW hubs in real time. When Confluent Flink
+AeroX Airlines monitors 4 aircraft across ORD and DFW hubs in real time. When a **Confluent Flink** job
 detects an anomalous spike in **gate wait times**, **departure delays**, or **turnaround duration** —
 a **Triage Agent** in watsonx Orchestrate can evaluate the alert using a RAG knowledge 
 base of gate operations procedures and respond with a mitigation plan.
