@@ -181,9 +181,18 @@ WXO will begin chunking and indexing the PDF. This may take a few minutes. When 
 
 ## Part 4 — Test Your Triage Agent in the WXO Chat
 
-### Step 4.1 — Use the Draft Preview
+### Step 4.1 — Use the Draft Preview to Ask a Natural Language Question
 
-The draft preview panel is on the right side of the screen you are already on. Paste each alert payload directly into the chat input and press **Enter** to send.
+The draft preview panel is on the right side of the screen you are already on. Paste each question or alert payload directly into the chat input and press **Enter** to send.
+
+Before sending an alert payload, confirm that the agent can retrieve information directly from the PDF knowledge base. 
+Paste the following into the draft preview chat input and press **Enter**:
+
+```
+What does the runbook say about gate conflicts?
+```
+The agent should respond with a plain-language answer drawn from Section §1 of the Flight Operations Runbook - no triage summary format, no fleet lookups. 
+
 
 ### Step 4.2 — Send a CRITICAL Alert (Gate Wait)
 
