@@ -5,6 +5,16 @@ Welcome to the hands-on workshop labs for the **Hackathon Track: Streaming AI wi
 In these labs, you will learn how to use **IBM Bob** as an intelligent developer and operational assistant to configure, deploy, orchestrate, and test real-time event streaming pipelines and AI agent workflows through natural language prompts.
 
 ---
+## The Story
+
+AeroX Airlines monitors 4 aircraft across ORD and DFW hubs in real time. When Confluent Flink
+detects an anomalous spike in gate wait times, departure delays, or turnaround duration —
+a **Triage Agent** in watsonx Orchestrate can evaluate the alert using a RAG knowledge 
+base of gate operations procedures and respond with a mitigation plan.
+
+These labs demonstrate how to use both watsonx Orchestrate no-code UI and pro-code ADK to create agents as well as how to connect and drive Confluent using IBM Bob, our knowledgeable technical assistant designed to help with software development, technology questions, and related tasks.
+
+---
 ## Lab Architecture & Data Flow
 
 ![Lab Architecture & Data Flow](images/ibm_bob_confluent_wxo_architecture.png)
