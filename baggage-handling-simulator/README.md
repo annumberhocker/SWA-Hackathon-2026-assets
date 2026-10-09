@@ -12,6 +12,7 @@ Produces a continuous stream of simulated baggage handling events and operationa
 | `baggage_producer.py` | Main producer — runs the Kafka publish loop |
 | `config.py` | Reads credentials from `.env` and defines fleet/topic/event constants |
 | `env.example` | Template for your `.env` credentials file |
+| `flink/add_watermarks.sql` | Flink SQL — adds event-time column and watermark to `baggage-events` |
 
 ## Prerequisites
 
@@ -46,22 +47,37 @@ SCHEMA_REGISTRY_API_SECRET=YOUR_SR_API_SECRET
 
 > **Note:** The Kafka API key must be **cluster-scoped**, not a Global API key.
 
-### 3. Create the Kafka topic (if it doesn't exist)
+### 3. Create the Kafka topic
 
 **Option A — Confluent CLI:**
+
+Log in and set your default environment and cluster (values are found under **Cluster Settings** in the Confluent Cloud UI):
 
 ```bash
 confluent login --save
 confluent environment use <ENV_ID>
 confluent kafka cluster use <CLUSTER_ID>
+```
+
+Create the topic:
+
+```bash
 confluent kafka topic create baggage-events --partitions 3
+```
+
+Confirm it was created:
+
+```bash
+confluent kafka topic list | grep baggage-events
 ```
 
 **Option B — Confluent Cloud UI:**
 
 1. Go to [confluent.cloud](https://confluent.cloud) and open your environment.
-2. Select your Kafka cluster → **Topics** → **Add topic**.
-3. Enter `baggage-events`, set **Partitions** to `3`, click **Create with defaults**.
+2. Select your Kafka cluster → left nav **Topics** → **Add topic**.
+3. Enter `baggage-events` as the topic name.
+4. Set **Partitions** to `3`.
+5. Click **Create with defaults** (retention and cleanup settings can be left at defaults for the simulator).
 
 ### 4. Create a virtual environment and install dependencies
 
@@ -78,6 +94,67 @@ python baggage_producer.py
 ```
 
 Events will be produced every 2 seconds. Press **Ctrl+C** to stop gracefully.
+
+---
+
+## Flink Watermarks
+
+Before running Flink SQL queries that use event-time windows or joins over `baggage-events`, you must add an `event_time` column and a watermark strategy. The SQL is in [`flink/add_watermarks.sql`](flink/add_watermarks.sql).
+
+### Prerequisites
+
+- The `baggage_producer.py` simulator must be **running and producing messages** before you execute these statements. Confluent Cloud Flink infers the table schema from the live Schema Registry; if no messages have been published the table will appear with only raw `BYTES` columns.
+- You need a Flink compute pool in the same Confluent Cloud environment as the `baggage-events` topic.
+
+### Steps
+
+Open the Flink SQL workspace in the Confluent Cloud UI (**Flink** → your compute pool → **New statement**).
+
+> ⚠️ Confluent Cloud Flink accepts **one statement per Run click**. Execute Step 1 and Step 2 separately, waiting for each to reach **COMPLETED** status before continuing.
+
+#### Verify schema is available
+
+Run this first to confirm the table columns are inferred (not raw `BYTES`):
+
+```sql
+DESCRIBE `baggage-events`;
+```
+
+Expected output includes typed columns such as `flight_number STRING`, `bag_id STRING`, `event_type STRING`, `value DOUBLE`, etc. If you only see `BYTES`, wait 10 seconds for the producer to publish and retry.
+
+#### Step 1 — Add the event_time column
+
+```sql
+ALTER TABLE `baggage-events`
+    ADD event_time AS `$rowtime`;
+```
+
+Wait for status **COMPLETED**. If this fails with a column-already-exists error, skip to Step 2.
+
+#### Step 2 — Attach the watermark
+
+```sql
+ALTER TABLE `baggage-events`
+    MODIFY WATERMARK FOR event_time AS event_time - INTERVAL '2' SECOND;
+```
+
+The 2-second lag tolerates minor out-of-order delivery from the simulator.
+
+#### Verify
+
+After both steps complete, run `DESCRIBE` again and confirm an `event_time` column with a `WATERMARK` annotation appears in the output:
+
+```sql
+DESCRIBE `baggage-events`;
+```
+
+You should now see a row similar to:
+
+```
+event_time    TIMESTAMP_LTZ(3) *ROWTIME*    AS `$rowtime`    WATERMARK FOR event_time AS event_time - INTERVAL '2' SECOND
+```
+
+The topic is now ready for event-time Flink queries such as tumbling-window aggregations on baggage KPIs or session-window tracking of individual bag journeys.
 
 ---
 
