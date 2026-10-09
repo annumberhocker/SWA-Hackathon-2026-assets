@@ -199,17 +199,41 @@ The agent should respond with a plain-language answer drawn from Section §1 of 
 Paste the following anomaly alert payload into the draft preview chat input and press **Enter**:
 
 ```
-Alert received:
-- entity_id: N303AX
-- stream: schedule
-- metric: gate_wait
-- value: 34.5
-- unit: minutes
-- anomaly_score: 0.96
-- hub: DFW
-- detected_at: 2026-09-30T17:00:00Z
-
-Please triage this alert and provide runbook recommendations based on the flight_ops_runbook knowledge base.
+{
+  "entity_id": {
+    "string": "N202AX"
+  },
+  "stream": {
+    "string": "schedule"
+  },
+  "metric": {
+    "string": "turnaround_time"
+  },
+  "value": {
+    "double": 59.05
+  },
+  "unit": {
+    "string": "minutes"
+  },
+  "anomaly_score": {
+    "double": 1
+  },
+  "is_anomaly": {
+    "boolean": true
+  },
+  "hub": {
+    "string": "ORD"
+  },
+  "detected_at": {
+    "long": 1791571248234
+  },
+  "event_time": {
+    "long": 1790790913999
+  },
+  "alert_id": {
+    "string": "N202AX-turnaround_time-2026-09-30 17:55:13.999"
+  }
+}
 ```
 
 ### Step 4.3 — Verify the Triage Response
@@ -218,12 +242,12 @@ The agent should respond with a structured summary. Verify the following expecte
 
 | Check | Expected Value |
 |---|---|
-| Flight mapping | `AX303` (DFW → MIA) |
-| Severity | `CRITICAL` (anomaly_score 0.96 ≥ 0.9) |
+| Flight mapping | `A202` |
+| Severity | `CRITICAL` |
 | ServiceNow Urgency | `1` |
-| Runbook section cited | `§1 Gate Operations & Conflicts` |
-| Recommended option | `Option A` (immediate action) |
-| Output format | Structured `**Flight Triage Summary**` block |
+| Runbook section cited | `§3 Option A — Ground Operations Escalation` |
+| Recommended action | `1. Dispatch Ramp Supervisor to gate immediately 2. Conduct root cause checklist (fueling, catering, cleaning, baggage loading, late inbound aircraft, maintenance) and address highest‑impact item first 3. Request priority fueling and/or catering if vendor SLA is breached 4. If cleaning is the root cause, authorize premium cleaning crew overtime 5. Update block‑out estimate in AIMS; notify Crew Scheduling 6. Open ServiceNow incident (urgency 1) and assign to Ground Operations` (immediate action) |
+
 
 ![Draft preview showing the CRITICAL gate_wait alert and the agent's structured triage response for N303AX.](images/Critical_Alert.png)
 
