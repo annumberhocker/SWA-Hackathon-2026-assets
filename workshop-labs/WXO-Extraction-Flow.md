@@ -22,14 +22,13 @@ Before starting, make sure you have:
 - Your **initials** ready to append to resource names (all participants share the same tenant)
 
 ---
-
 ## Part 1 — Log In to watsonx Orchestrate
 
 ### Step 1.1 — Log In to IBM Cloud
 
-Open a browser and go to [https://cloud.ibm.com](https://cloud.ibm.com). Sign in with your **IBMid** credentials.
+Open a browser and navigate to the IBM Cloud URL that was provided in Workshop Environment Email. Sign in with the credentials provided in the email.
 
-![IBM Cloud login page showing the IBMid sign-in form.](images/IBM_Cloud_Login.png)
+![IBM Cloud login page showing the IBMid sign-in form.](images/Environment_Login.png)
 
 ### Step 1.2 — Open the Resource List
 
@@ -55,15 +54,14 @@ You will land on the watsonx Orchestrate home screen.
 
 ## Part 2 — Create the Work Order Extraction Agent
 
-### Step 2.1 — Navigate to Build
+### Step 2.1 — Create a New Agent
+Click the **Create Agent** button in the top-right corner of the home screen.
 
-Click the **hamburger menu** (☰) in the top-left corner and click **Build**.
-
-![Hamburger menu open with "Build" highlighted.](images/Build.png)
+![Hamburger menu open with "Build" highlighted.](images/Home_Create_Agent.png)
 
 ### Step 2.2 — Create a New Agent
 
-Click **Create agent**, then click **Create from scratch**.
+Click **Create from scratch**.
 
 ![Create agent options with "Create from scratch" highlighted.](images/Create_From_Scratch.png)
 
@@ -94,7 +92,7 @@ You are the Maintenance Records Assistant for an airline's maintenance organizat
 - Never provide maintenance instructions, airworthiness determinations, or return-to-service decisions, even if asked. Direct those to qualified maintenance personnel.
 ```
 
-![Agent profile showing the Name, Description, and Instructions fields filled in.](images/work_order_agent_details.png)
+![Agent profile showing the Name, Description, and Instructions fields filled in.](images/Work_Order_Agent_Details.png)
 ---
 
 ## Part 3 — Add the Agentic Workflow Tool
