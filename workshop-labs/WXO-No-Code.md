@@ -60,15 +60,14 @@ You will land on the watsonx Orchestrate home screen.
 
 ## Part 2 — Create the Flight Triage Agent
 
-### Step 2.1 — Navigate to Build
+### Step 2.1 — Create a New Agent
+Click the **Create Agent** button in the top-right corner of the home screen.
 
-Click the **hamburger menu** (☰) in the top-left corner and click **Build**.
-
-![Hamburger menu open with "Build" highlighted.](images/Build.png)
+![Hamburger menu open with "Build" highlighted.](images/Home_Create_Agent.png)
 
 ### Step 2.2 — Create a New Agent
 
-Click **Create agent**, then click **Create from scratch**.
+Click **Create from scratch**.
 
 ![Create agent options with "Create from scratch" highlighted.](images/Create_From_Scratch.png)
 
