@@ -168,11 +168,11 @@ Please triage this alert.
 
 **[Type in Bob Chat]:**
 ```text
-Add the Confluent MCP server configuration from workshop-labs/mcp-confluent.json to .bob/mcp.json. Resolve the paths for node, npx, and the workshop-labs/env.lab file on my machine.
+Add the Confluent MCP server configuration from workshop-labs/mcp-confluent.json to .bob/mcp.json. Replace the /FULL/PATH placeholders with the output of `which node`, `realpath workshop-labs/confluent-mcp/node_modules/.bin/mcp-confluent`, and `realpath workshop-labs/env.lab`. Keep any existing MCP servers.
 ```
 
 **Speaker:**
-> *"Bob inspects our machine, finds `node` and `npx`, locates our `env.lab` credentials, and updates `.bob/mcp.json`. In Settings → MCP Servers, we see a green **Connected** status."*
+> *"Bob finds `node`, the MCP server we installed into the project, and our `env.lab` credentials, then updates `.bob/mcp.json`. In Settings → MCP Servers, we see a green **Connected** status."*
 
 ---
 

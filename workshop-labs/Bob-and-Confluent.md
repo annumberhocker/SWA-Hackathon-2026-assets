@@ -21,15 +21,17 @@ be orchestrating your entire Confluent Cloud environment through natural-languag
 
 ## Part 1 — Configure the Confluent MCP Server in Bob
 
-### Step 1.1 — Install Prerequisites
+### Step 1.1 — Install Node 22
 
-Ensure you have Node.js 22+ and `npx` installed. You can prompt Bob with:
+Install Node 22 with nvm:
 
+```bash
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash
+# open a new terminal, then:
+nvm install 22
+nvm alias default 22
+node -v        # should print v22.x
 ```
-Help me check that I have Node.js 22 or higher and npx installed. If not, help me install them using nvm.
-```
-
-Respond to Bob's prompts through the process.
 
 ### Step 1.2 — Download and Unzip the Lab Repository
 
@@ -54,23 +56,48 @@ cp ~/Downloads/env.<name> ~/path/to/SWA-Hackathon-2026-assets/workshop-labs/env.
 Or drag and drop it into the `workshop-labs/` folder using Finder.
 
 
-### Step 1.4 — Configure the Confluent MCP Server in Bob
+### Step 1.4 — Install the Confluent MCP Server into the Project
+
+Run these from the `SWA-Hackathon-2026-assets/` repo root.
+
+1. **Install the server**
+
+   ```bash
+   npm install --prefix workshop-labs/confluent-mcp @confluentinc/mcp-confluent
+   ```
+
+   If it fails because it can't download the prebuilt file, run `xcode-select --install` and run the command again.
+
+2. **Check that the native bindings load**
+
+   ```bash
+   cd workshop-labs/confluent-mcp && node -e "require('@confluentinc/kafka-javascript'); console.log('bindings OK')" && cd -
+   ```
+
+   You should see `bindings OK`.
+
+3. **Get the three absolute paths you'll need**
+
+   ```bash
+   which node
+   realpath workshop-labs/confluent-mcp/node_modules/.bin/mcp-confluent
+   realpath workshop-labs/env.lab
+   ```
+
+### Step 1.5 — Configure the Confluent MCP Server in Bob
 
 1. **Open the project folder in Bob**
    In Bob, go to **File → Open** → select the `SWA-Hackathon-2026-assets` folder.
 
    > **Important:** Opening this folder sets it as your active workspace root, allowing Bob to load project-level MCP tools automatically.
 
-2. **Tell Bob to configure the MCP server**
-   In the Bob chat panel, simply type:
+2. Ask Bob to set up the MCP server in the chat panel:
 
    ```
-   Add the Confluent MCP server configuration from workshop-labs/mcp-confluent.json to .bob/mcp.json. Resolve the paths for node, npx, and the workshop-labs/env.lab file on my machine.
+   Add the Confluent MCP server configuration from workshop-labs/mcp-confluent.json to .bob/mcp.json. Replace the /FULL/PATH placeholders with the output of `which node`, `realpath workshop-labs/confluent-mcp/node_modules/.bin/mcp-confluent`, and `realpath workshop-labs/env.lab`. Keep any existing MCP servers.
    ```
 
-   Bob will discover your local paths, create or update `.bob/mcp.json` automatically, and preserve any existing MCP servers.
-
-### Step 1.5 — Verify the Connection in Bob
+### Step 1.6 — Verify the Connection in Bob
 
 1. In Bob, click the **gear icon** (top-right) → **MCP Servers** (or **MCP**).
 2. Find `confluent` in the list — it should show a green **Connected** status.
@@ -254,9 +281,9 @@ Search for topics by name 'ops-alerts'
 
 | Symptom | Likely Cause | Fix |
 |---|---|---|
-| Bob MCP shows red / Failed | `npx` not on Bob's PATH (nvm or Homebrew install) | Install Node.js from **https://nodejs.org** (LTS `.pkg` installer) — this puts `npx` in `/usr/local/bin` which Bob can always find |
-| Bob MCP shows red / Failed | `/FULL/PATH` placeholder not replaced in `.bob/mcp.json` | Replace with the absolute path from `echo $(pwd)/workshop-labs/env.lab` (Step 1.4) |
-| Bob MCP shows red / Failed | Wrong or missing credentials in `env.lab` | Re-check that your `workshop-labs/env.lab` file was saved correctly and the path in `.bob/mcp.json` points to it (Step 1.4) |
+| MCP log shows `Could not locate the bindings file` | Native Kafka bindings didn't download during install | Run `xcode-select --install`, then rerun the `npm install` from Step 1.4 and check for `bindings OK` |
+| Bob MCP shows red / Failed | `/FULL/PATH` placeholder not replaced in `.bob/mcp.json` | Replace each one with the output of the commands in Step 1.4, item 3 |
+| Bob MCP shows red / Failed | Wrong or missing credentials in `env.lab` | Re-check that your `workshop-labs/env.lab` file was saved correctly and the path in `.bob/mcp.json` points to it (Step 1.5) |
 | Bob MCP shows red / Failed | Bob opened without project root as workspace | Open Bob with `SWA-Hackathon-2026-assets/` as the workspace folder |
 | MCP server starts but Flink tools missing | Flink credentials missing from `env.lab` | Ensure all Flink fields are set in `env.lab`: `FLINK_REST_ENDPOINT`, `FLINK_API_KEY`, `FLINK_API_SECRET`, `FLINK_ORG_ID`, `FLINK_ENV_ID`, `FLINK_COMPUTE_POOL_ID` |
 | `CREATE TABLE` fails with schema conflict | `DISTRIBUTED INTO` was included | Remove `DISTRIBUTED INTO` clause from the SQL |

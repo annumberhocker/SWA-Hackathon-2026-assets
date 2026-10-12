@@ -216,3 +216,11 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Node (installed during the lab)
+node_modules/
+package.json
+package-lock.json
+npm-debug.log*
+.npm/
+.nvmrc
