@@ -8,12 +8,22 @@ In this lab, you will download, install, and configure **IBM Bob** (IDE and CLI/
 
 ## Part 1 — Request Access & Download IBM Bob
 
-### Step 1.1 — Access & Sign In
+### Step 1.1 — Create an IBMid (If You Don't Have One)
+
+If you already have an IBMid, you can skip to **Step 1.2**.
+
+1. Go to the [IBM Account Registration](https://www.ibm.com/account/reg/us-en/signup?formid=urx-19776) page (or [IBM Cloud Registration](https://cloud.ibm.com/registration)).
+2. Enter your email address, first name, last name, and password.
+3. Select your country or region of residence.
+4. Check your email inbox for a verification code sent by IBM.
+5. Enter the 7-digit verification code on the registration page to verify your email and finish account creation.
+
+### Step 1.2 — Access & Sign In
 1. Visit [https://bob.ibm.com/trial](https://bob.ibm.com/trial) to start your free trial.
-2. Sign up or sign in with your IBM account (or create one if you don't have one yet).
+2. Sign in with your IBMid credentials.
 3. Once signed in, proceed to the [IBM Bob Download Page](https://bob.ibm.com/download).
 
-### Step 1.2 — Download and Install IBM Bob IDE
+### Step 1.3 — Download and Install IBM Bob IDE
 
 Choose the installer matching your operating system and CPU architecture:
 
