@@ -100,6 +100,15 @@ Run these from the `SWA-Hackathon-2026-assets/` repo root.
    Add the Confluent MCP server configuration from workshop-labs/mcp-confluent.json to .bob/mcp.json. Replace the /FULL/PATH placeholders with the output of `which node`, `realpath workshop-labs/confluent-mcp/node_modules/.bin/mcp-confluent`, and `realpath workshop-labs/env.lab`. Keep any existing MCP servers.
    ```
 
+3. **Reload the VS Code window**
+   Open the VS Code Command Palette (`Cmd+Shift+P` on macOS or `Ctrl+Shift+P` on Windows/Linux) and run:
+
+   ```
+   Developer: Reload Window
+   ```
+
+   This restarts the MCP client so Bob can load and connect to the Confluent MCP server.
+
 ### Step 1.6 — Verify the Connection in Bob
 
 1. In Bob, click the **gear icon** (top-right) → **MCP Servers** (or **MCP**).
@@ -129,22 +138,6 @@ List all of the clusters in my Confluent Cloud environment
 
 Bob calls the Confluent MCP `list-clusters` tool and returns a list. Confirm you can see your assigned cluster.
 
-### Step 2.3 — List Schema Registry Information
-
-Tell Bob your Schema Registry URL so it reuses it for the rest of the session:
-
-```
-My Schema Registry URL is https://psrc-zpjqd6q.us-east-2.aws.confluent.cloud — use it for all Schema Registry calls
-```
-
-Then ask:
-
-```
-List all schemas in my Schema Registry
-```
-
-Bob calls the Confluent MCP `list-schemas` tool. You should see `flight-events-value` — the JSON schema the simulator registered when it started producing.
-
 ---
 
 ## Part 3 — Deploy the Anomaly Detection Pipeline
@@ -170,8 +163,7 @@ The file `flink/anomaly_detection_materialized.sql` does three things in one sta
 2. **Runs the streaming query continuously** — reads from `flight-events`, applies a 2-second
    tumbling window per aircraft + metric, calls `AI_DETECT_ANOMALIES`, and writes only confirmed
    anomalies to `ops-alerts`.
-3. **Stays RUNNING indefinitely** — `START_MODE = RESUME_OR_FROM_BEGINNING` means Flink resumes
-   from where it left off if the statement is restarted.
+3. **Executes background refresh continuously** — The DDL statement itself shows `COMPLETED` once registered, while the managed background refresh job runs continuously. `START_MODE = RESUME_OR_FROM_BEGINNING` means Flink resumes from where it left off if the table is restarted.
 
 The query is structured in two CTEs:
 
@@ -207,23 +199,23 @@ Save the file before continuing.
 
 ### Step 3.3 — Run the Statement from Bob
 
-In the Bob chat, type (replacing `xx` with your initials):
+In the Bob chat, type (replacing `xxx` with your initials):
 
 ```
-Read flink/anomaly_detection_materialized.sql and run it as a Flink statement named 'gate-change-anomaly-detection-xx'.
+Read flink/anomaly_detection_materialized.sql and run it as a Flink statement named 'gate-change-anomaly-detection-xxx'.
 ```
 
 > **Why add your initials?** All participants share the same Confluent Cloud environment. Appending
-> your initials (e.g. `gate-change-anomaly-detection-jk`) makes your statement easy to identify
+> your initials (e.g. `gate-change-anomaly-detection-jks`) makes your statement easy to identify
 > in the Confluent UI under **Flink → Statements**.
 
 Bob will call the MCP Confluent `create-flink-statement` tool with the full SQL from the file.
 
 ### Step 3.4 — Confirm the Job is Running
 
-In the Bob chat, type (replacing xx with your initials):
+In the Bob chat, type (replacing `xxx` with your initials):
 ```
-Show me the status of the Flink statement named 'gate-change-anomaly-detection-xx'
+Show me the status of the Flink statement named 'gate-change-anomaly-detection-xxx'
 ```
 
 You should see status **COMPLETED**. The `CREATE OR ALTER MATERIALIZED TABLE` DDL completes
@@ -247,12 +239,12 @@ To verify anomalies are flowing after the warmup, check the topic in the Conflue
 Once anomalies are flowing, try these Bob prompts:
 
 ```
-Run a Flink SQL query named 'sample-ops-alerts-xx' to sample 10 messages from the ops-alerts topic:
+Run a Flink SQL query named 'sample-ops-alerts-xxx' to sample 10 messages from the ops-alerts topic:
 
 SELECT * FROM `IBM-Hackathon-demo-test`.`your-cluster-name`.`ops-alerts` /*+ OPTIONS('scan.startup.mode'='earliest-offset') */ LIMIT 10;
 ```
 
-> Replace `your-cluster-name` with your cluster name and `xx` with your initials.
+> Replace `your-cluster-name` with your cluster name and `xxx` with your initials.
 
 The `/*+ OPTIONS('scan.startup.mode'='earliest-offset') */` hint is required — without it Flink
 reads from the current offset and returns no results for messages already in the topic.

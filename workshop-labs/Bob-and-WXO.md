@@ -129,7 +129,7 @@ Bob calls the watsonx MCP `check_knowledge_base_status` tool with `name: "flight
 ## Part 4 — Create and Deploy Your Unique `flight_triage_agent_<initials>`
 
 > ⚠️ **Important — Multi-Tenant Sharing:**
-> All workshop participants share the same watsonx Orchestrate tenant. To avoid overwriting each other's work, **you must append your initials** to your agent's `name` and `display_name` (for example, `flight_triage_agent_js` for John Smith).
+> All workshop participants share the same watsonx Orchestrate tenant. To avoid overwriting each other's work, **you must append your initials** to your agent's `name` and `display_name` (for example, `flight_triage_agent_jms` for John Malcolm Smith).
 
 ### Step 4.1 — Customize Your Agent Specification
 

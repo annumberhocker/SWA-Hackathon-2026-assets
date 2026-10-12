@@ -6,7 +6,8 @@
 --
 -- The materialized table owns both the `ops-alerts` table definition and the
 -- continuous anomaly-detection query. Paste the whole file and click Run.
--- Status goes to Running and stays there. DO NOT stop it manually.
+-- Statement status shows COMPLETED once registered; the continuous refresh query
+-- runs in the background. DO NOT delete the table statement.
 -- ============================================================================
 -- Architecture:
 --   windowed_schedule   10s TUMBLE window avg of flight-events metrics
