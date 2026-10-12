@@ -27,8 +27,11 @@ Install Node 22 with nvm:
 
 ```bash
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash
-# open a new terminal, then:
+```
+Open a new terminal, then:
+```bash
 nvm install 22
+nvm use 22
 nvm alias default 22
 node -v        # should print v22.x
 ```
