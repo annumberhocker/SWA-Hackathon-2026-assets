@@ -86,20 +86,7 @@ In this lab, you configure the Confluent MCP server in Bob, inspect live telemet
 
 ---
 
-### [Lab 2: Bob + watsonx Orchestrate — Flight Triage Agent & Knowledge Base Setup](Bob-and-WXO.md)
-**Focus:** Agentic AI, RAG Knowledge Retrieval & Incident Triage
-
-In this lab, you configure the watsonx Orchestrate (WXO) ADK MCP server in Bob, load an operational standard operating procedure (SOP) PDF into a vector knowledge base, and deploy a native flight triage agent that diagnoses anomalies and recommends mitigation steps.
-
-**Key Highlights:**
-- **MCP Configuration:** Connect Bob to watsonx Orchestrate via `ibm-watsonx-orchestrate-mcp-server`.
-- **Knowledge Base Ingestion:** Import and index `flight_ops_runbook.pdf` (`flight_ops_runbook.yaml`) to enable vector RAG retrieval.
-- **Native Agent Deployment:** Deploy the `flight_triage_agent` attached directly to the Runbook knowledge base.
-- **Automated Triage & Interaction:** Test real-time anomaly payloads against the triage agent to retrieve structured mitigation actions (§1 Gate Operations, §2 Departure Delays, §3 Turnaround Disruptions).
-
----
-
-### [Lab 2 (No-Code Alternative): Build the Flight Triage Agent via the WXO UI](WXO-No-Code.md)
+### [Lab 2 watsonx Orchestrate UI (No-Code): Build the Flight Triage Agent](WXO-No-Code.md)
 **Focus:** Agentic AI — Browser-Only, No CLI Required
 
 In this lab, you build the exact same `flight_triage_agent` as Lab 2 entirely through the watsonx Orchestrate browser UI — no code, no terminal, no MCP configuration needed. Ideal for participants who prefer a point-and-click workflow.
@@ -109,6 +96,19 @@ In this lab, you build the exact same `flight_triage_agent` as Lab 2 entirely th
 - **Agent Builder:** Configure the agent name, model, style, instructions, and knowledge base attachment through form fields.
 - **In-Browser Testing:** Send CRITICAL, HIGH, and LOW severity anomaly alerts via the WXO chat preview panel.
 - **Equivalent Outcome:** Produces the same deployed agent and validated triage results as the Bob-driven Lab 2 path.
+
+---
+
+### [Lab 2: Bob + watsonx Orchestrate (ADK) — Flight Triage Agent & Knowledge Base Setup](Bob-and-WXO.md)
+**Focus:** Agentic AI, RAG Knowledge Retrieval & Incident Triage
+
+In this lab, you configure the watsonx Orchestrate (WXO) ADK MCP server in Bob, load an operational standard operating procedure (SOP) PDF into a vector knowledge base, and deploy a native flight triage agent that diagnoses anomalies and recommends mitigation steps.
+
+**Key Highlights:**
+- **MCP Configuration:** Connect Bob to watsonx Orchestrate via `ibm-watsonx-orchestrate-mcp-server`.
+- **Knowledge Base Ingestion:** Import and index `flight_ops_runbook.pdf` (`flight_ops_runbook.yaml`) to enable vector RAG retrieval.
+- **Native Agent Deployment:** Deploy the `flight_triage_agent` attached directly to the Runbook knowledge base.
+- **Automated Triage & Interaction:** Test real-time anomaly payloads against the triage agent to retrieve structured mitigation actions (§1 Gate Operations, §2 Departure Delays, §3 Turnaround Disruptions).
 
 ---
 
