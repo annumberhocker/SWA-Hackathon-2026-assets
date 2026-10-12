@@ -34,7 +34,7 @@ Before starting, make sure you have:
 
 Open a browser and navigate to the IBM Cloud URL that was provided in Workshop Environment Email. Sign in with the credentials provided in the email.
 
-![IBM Cloud login page showing the IBMid sign-in form.](images/IBM_Cloud_Login.png)
+![IBM Cloud login page showing the IBMid sign-in form.](images/Environment_Login.png)
 
 ### Step 1.2 — Open the Resource List
 
