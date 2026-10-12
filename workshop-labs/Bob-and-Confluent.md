@@ -229,12 +229,14 @@ The `minContextSize = 5` parameter means the model needs 5 completed 2-second wi
 (~10 seconds) before it begins scoring. During this warmup period `ops-alerts` will be empty —
 this is normal.
 
-To verify anomalies are flowing after the warmup, check the topic in the Confluent Cloud UI:
+#### Verify anomalies are flowing after the warmup: 
+
+- check the topic in the [Confluent Cloud UI](https://confluent.cloud):
 **Topics → ops-alerts → Messages** — you should start seeing rows appear.
 
 ---
 
-## Part 4 — Explore and Discuss
+## Part 4 (Optional) — Explore and Discuss
 
 Once anomalies are flowing, try these Bob prompts:
 
@@ -278,6 +280,7 @@ Search for topics by name 'ops-alerts'
 |---|---|---|
 | MCP log shows `Could not locate the bindings file` | Native Kafka bindings didn't download during install | Run `xcode-select --install`, then rerun the `npm install` from Step 1.4 and check for `bindings OK` |
 | Bob MCP shows red / Failed | `/FULL/PATH` placeholder not replaced in `.bob/mcp.json` | Replace each one with the output of the commands in Step 1.4, item 3 |
+| Bob MCP shows red / Failed | Wrong Node version referenced in `.bob/mcp.json` (e.g., Node 24 instead of Node 22) | Run `nvm use 22` and `which node` to get the Node 22 path (e.g. `.../.nvm/versions/node/v22.x.x/bin/node`). Verify `.bob/mcp.json` points specifically to the Node 22 binary, then run **Developer: Reload Window** |
 | Bob MCP shows red / Failed | Wrong or missing credentials in `env.lab` | Re-check that your `workshop-labs/env.lab` file was saved correctly and the path in `.bob/mcp.json` points to it (Step 1.5) |
 | Bob MCP shows red / Failed | Bob opened without project root as workspace | Open Bob with `SWA-Hackathon-2026-assets/` as the workspace folder |
 | MCP server starts but Flink tools missing | Flink credentials missing from `env.lab` | Ensure all Flink fields are set in `env.lab`: `FLINK_REST_ENDPOINT`, `FLINK_API_KEY`, `FLINK_API_SECRET`, `FLINK_ORG_ID`, `FLINK_ENV_ID`, `FLINK_COMPUTE_POOL_ID` |
