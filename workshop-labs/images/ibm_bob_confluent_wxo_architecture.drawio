@@ -1,0 +1,82 @@
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36">
+  <diagram id="architecture" name="IBM Bob - Confluent - watsonx Orchestrate">
+    <mxGraphModel dx="1785" dy="1041" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1400" pageHeight="900" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="bob" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f0fdf4;strokeColor=#16a34a;strokeWidth=2;fontColor=#1f2328;fontSize=18;align=center;verticalAlign=middle;" value="&lt;b&gt;IBM Bob&lt;/b&gt;&lt;br&gt;(MCP Orchestration)" vertex="1">
+          <mxGeometry height="90" width="380" x="510" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="wxo" parent="1" style="swimlane;html=1;rounded=1;startSize=38;horizontal=1;fillColor=#f3f0ff;strokeColor=#7c5cd8;strokeWidth=2;fontColor=#1f2328;fontSize=17;" value="&lt;b&gt;watsonx Orchestrate&lt;/b&gt;" vertex="1">
+          <mxGeometry height="560" width="560" x="80" y="210" as="geometry" />
+        </mxCell>
+        <mxCell id="kb" parent="1" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#ede9fe;strokeColor=#7c5cd8;strokeWidth=2;fontColor=#1f2328;fontSize=14;" value="&lt;b&gt;Knowledge Base&lt;/b&gt;&lt;br&gt;flight_ops_runbook.pdf" vertex="1">
+          <mxGeometry height="90" width="200" x="155" y="315" as="geometry" />
+        </mxCell>
+        <mxCell id="agt" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ddd6fe;strokeColor=#7c5cd8;strokeWidth=2;fontColor=#1f2328;fontSize=15;" value="&lt;b&gt;flight_triage_agent&lt;/b&gt;" vertex="1">
+          <mxGeometry height="70" width="180" x="400" y="325" as="geometry" />
+        </mxCell>
+        <mxCell id="out" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ede9fe;strokeColor=#7c5cd8;strokeWidth=2;fontColor=#1f2328;fontSize=15;" value="&lt;b&gt;Structured Triage Summary&lt;/b&gt;" vertex="1">
+          <mxGeometry height="80" width="230" x="270" y="545" as="geometry" />
+        </mxCell>
+        <mxCell id="cc" parent="1" style="swimlane;html=1;rounded=1;startSize=38;horizontal=1;fillColor=#fff8e7;strokeColor=#d97706;strokeWidth=2;fontColor=#1f2328;fontSize=17;" value="&lt;b&gt;Confluent Cloud&lt;/b&gt;" vertex="1">
+          <mxGeometry height="560" width="620" x="700" y="210" as="geometry" />
+        </mxCell>
+        <mxCell id="sim" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e8f4fd;strokeColor=#3b82d4;strokeWidth=2;fontColor=#1f2328;fontSize=15;" value="&lt;b&gt;Flight Simulator&amp;nbsp;&lt;/b&gt;&lt;div&gt;event generator application&lt;/div&gt;" vertex="1">
+          <mxGeometry height="70" width="180" x="750" y="300" as="geometry" />
+        </mxCell>
+        <mxCell id="t1" parent="1" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#ffffff;strokeColor=#d97706;strokeWidth=2;fontColor=#1f2328;fontSize=14;" value="&lt;b&gt;flight-events&lt;/b&gt;&lt;br&gt;topic" vertex="1">
+          <mxGeometry height="80" width="180" x="1010" y="295" as="geometry" />
+        </mxCell>
+        <mxCell id="flink" parent="1" style="swimlane;html=1;rounded=1;startSize=34;horizontal=1;fillColor=#fde68a;strokeColor=#b45309;strokeWidth=2;fontColor=#1f2328;fontSize=15;" value="&lt;b&gt;Flink Streaming Job&lt;/b&gt;" vertex="1">
+          <mxGeometry height="140" width="350" x="835" y="445" as="geometry" />
+        </mxCell>
+        <mxCell id="ai" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff7cc;strokeColor=#b45309;fontColor=#1f2328;fontSize=14;" value="&lt;b&gt;AI_DETECT_ANOMALIES&lt;/b&gt;" vertex="1">
+          <mxGeometry height="55" width="230" x="895" y="500" as="geometry" />
+        </mxCell>
+        <mxCell id="t2" parent="1" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#ffffff;strokeColor=#d97706;strokeWidth=2;fontColor=#1f2328;fontSize=14;" value="&lt;b&gt;ops-alerts&lt;/b&gt;&lt;br&gt;topic" vertex="1">
+          <mxGeometry height="80" width="180" x="920" y="635" as="geometry" />
+        </mxCell>
+        <mxCell id="e1" edge="1" parent="1" source="sim" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#6b7280;" target="t1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e2" edge="1" parent="1" source="t1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#6b7280;" target="flink">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e3" edge="1" parent="1" source="flink" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#6b7280;" target="t2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e4" edge="1" parent="1" source="kb" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#7c5cd8;fontColor=#4c3a92;fontSize=13;labelBackgroundColor=#ffffff;" target="agt" value="RAG retrieval">
+          <mxGeometry relative="1" x="0.1111" y="60" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e5" edge="1" parent="1" source="agt" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#7c5cd8;" target="out">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="510" y="470" />
+              <mxPoint x="385" y="470" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e6" edge="1" parent="1" source="t2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=3;strokeColor=#2563eb;fontColor=#1d4ed8;fontStyle=1;fontSize=13;labelBackgroundColor=#ffffff;dashed=1;" target="agt" value="anomaly alert payload">
+          <mxGeometry relative="1" x="-0.6031" y="-15" as="geometry">
+            <mxPoint as="offset" />
+            <Array as="points">
+              <mxPoint x="920" y="675" />
+              <mxPoint x="670" y="675" />
+              <mxPoint x="670" y="360" />
+              <mxPoint x="580" y="360" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e7" edge="1" parent="1" source="bob" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;dashed=1;dashPattern=8 4;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#16a34a;fontColor=#166534;fontSize=13;labelBackgroundColor=#ffffff;" target="cc" value="Lab 2: topics, Flink &amp;amp; anomaly detection">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e8" edge="1" parent="1" source="bob" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;dashed=1;dashPattern=8 4;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#16a34a;fontColor=#166534;fontSize=13;labelBackgroundColor=#ffffff;" target="wxo" value="Lab 1: knowledge base &amp;amp; agent deploy">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

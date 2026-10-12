@@ -214,7 +214,41 @@ An IBM Cloud API key with access to the watsonx Orchestrate instance.
 
 ---
 
-## Step 2 — Final `env.lab` Checklist
+## Step 2 — Create the `flight-events` Topic and Start the Flight Simulator
+
+The `flight-events` topic must exist and be actively receiving data **before** participants begin the lab.
+
+### Step 2.1 — Create the `flight-events` topic
+
+**Option A — Confluent CLI:**
+
+```bash
+confluent login --save
+confluent environment use <ENV_ID>
+confluent kafka cluster use <CLUSTER_ID>
+confluent kafka topic create flight-events \
+  --partitions 3 \
+  --config cleanup.policy=delete \
+  --config retention.ms=86400000
+```
+
+**Option B — Confluent Cloud UI:**
+
+1. Open your cluster → **Topics** → **Add topic**
+2. Enter `flight-events` as the topic name
+3. Set **Partitions** to `3`
+4. Under **Storage**:
+   - **Cleanup policy**: `delete`
+   - **Retention time**: `1 day` (`86400000` ms)
+5. Click **Create with defaults**
+
+### Step 2.2 — Start the flight simulator
+
+Follow the setup and run instructions in [`flight-event-simulator/README.md`](../flight-event-simulator/README.md) to install dependencies, configure credentials, and start the producer. Keep it running throughout the workshop.
+
+---
+
+## Step 3 — Final `env.lab` Checklist
 
 Before distributing, verify every `REPLACE_WITH_*` placeholder has been replaced:
 
@@ -246,7 +280,7 @@ Also verify no blank required fields remain:
 
 ---
 
-## Step 3 — Distribute to Participants
+## Step 4 — Distribute to Participants
 
 Distribute `env.lab` to participants as part of the lab starter kit. Participants will:
 
