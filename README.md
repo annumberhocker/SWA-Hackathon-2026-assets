@@ -36,7 +36,7 @@ See [`flight-event-simulator/README.md`](flight-event-simulator/README.md) for f
 
 ## `workshop-labs`
 
-Hands-on lab guides and supporting configuration for the hackathon workshop. Start with [`START_HERE.md`](workshop-labs/START_HERE.md).
+Hands-on lab guides and supporting configuration for the hackathon workshop. Start with [`workshop-labs/README.md`](workshop-labs/README.md).
 
 ### Labs
 

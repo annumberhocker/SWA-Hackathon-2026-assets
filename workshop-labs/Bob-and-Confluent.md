@@ -38,7 +38,7 @@ node -v        # should print v22.x
 
 ### Step 1.2 — Download and Unzip the Lab Repository
 
-If you haven't already downloaded the workshop repository, follow the instructions in the [First Step: Get the Repository](START_HERE.md#first-step-get-the-repository) section of `START_HERE.md` to download and extract the repository on your machine.
+If you haven't already downloaded the workshop repository, follow the instructions in the [First Step: Get the Repository](README.md#first-step-get-the-repository) section of `README.md` to download and extract the repository on your machine.
 
 ### Step 1.3 — Save Your `env.lab` File
 
