@@ -47,14 +47,3 @@ Hands-on lab guides and supporting configuration for the hackathon workshop. Sta
 | Lab 2 | [`Bob-and-WXO.md`](workshop-labs/Bob-and-WXO.md) | Agentic AI — watsonx Orchestrate MCP, knowledge base ingestion, flight triage agent |
 | Lab 2 (No-Code) | [`WXO-No-Code.md`](workshop-labs/WXO-No-Code.md) | Same as Lab 2 via the WXO browser UI — no CLI required |
 | Lab 3 | [`WXO-Extraction-Flow.md`](workshop-labs/WXO-Extraction-Flow.md) | Document extraction — Work Order agent via WXO UI |
-
-### Key Files
-
-| File | Purpose |
-|---|---|
-| [`env.example`](workshop-labs/env.example) | Annotated example showing all required variables |
-| [`INSTRUCTOR-SETUP.md`](workshop-labs/INSTRUCTOR-SETUP.md) | Guide for instructors to prepare and distribute `env.lab` before the workshop |
-| [`mcp-confluent.json`](workshop-labs/mcp-confluent.json) | MCP server config for Confluent Cloud |
-| [`mcp-wxo.json`](workshop-labs/mcp-wxo.json) | MCP server config for watsonx Orchestrate |
-| [`flink/`](workshop-labs/flink/) | Flink SQL statements used in Lab 1 |
-| [`orchestrate/`](workshop-labs/orchestrate/) | Agent YAML and knowledge base files used in Lab 2 |
