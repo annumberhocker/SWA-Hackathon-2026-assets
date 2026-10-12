@@ -152,7 +152,7 @@ will consume and act on.
 
 A single `CREATE OR ALTER MATERIALIZED TABLE` statement in `flink/anomaly_detection_materialized.sql`
 does everything in one shot: it creates the `ops-alerts` Kafka topic, defines the table schema, and
-starts the continuous anomaly detection job — all without any manual topic creation or separate DDL step.
+starts the continuous anomaly detection job — all without any manual topic creation or separate DDL (Data Definition Language) step.
 
 ### Step 3.1 — Understand What the SQL Does
 
@@ -163,9 +163,9 @@ The file `flink/anomaly_detection_materialized.sql` does three things in one sta
 2. **Runs the streaming query continuously** — reads from `flight-events`, applies a 2-second
    tumbling window per aircraft + metric, calls `AI_DETECT_ANOMALIES`, and writes only confirmed
    anomalies to `ops-alerts`.
-3. **Executes background refresh continuously** — The DDL statement itself shows `COMPLETED` once registered, while the managed background refresh job runs continuously. `START_MODE = RESUME_OR_FROM_BEGINNING` means Flink resumes from where it left off if the table is restarted.
+3. **Executes background refresh continuously** — The DDL (Data Definition Language — SQL commands used to define database and table structures) statement itself shows `COMPLETED` once registered, while the managed background refresh job runs continuously. `START_MODE = RESUME_OR_FROM_BEGINNING` means Flink resumes from where it left off if the table is restarted.
 
-The query is structured in two CTEs:
+The query is structured in two CTEs (Common Table Expressions — temporary named result sets defined using `WITH ... AS` blocks):
 
 **`windowed_schedule`** — groups raw events into 2-second tumbling windows and averages each
 metric. This reduces noise before anomaly scoring.
