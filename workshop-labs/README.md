@@ -33,7 +33,7 @@ Before starting the labs, download and unzip a local copy of this repository:
 Open a terminal and run these commands one at a time:
 
 ```bash
-curl -L -o SWA-Hackathon-2026-assets.zip https://github.com/annumberhocker/SWA-Hackathon-2026-assets/archive/refs/heads/main.zip
+curl -L -o SWA-Hackathon-2026-assets-main.zip https://github.com/annumberhocker/SWA-Hackathon-2026-assets/archive/refs/heads/main.zip
 unzip SWA-Hackathon-2026-assets-main.zip
 mv SWA-Hackathon-2026-assets-main SWA-Hackathon-2026-assets
 cd SWA-Hackathon-2026-assets/workshop-labs
@@ -41,15 +41,15 @@ cd SWA-Hackathon-2026-assets/workshop-labs
 
 ### Option B — Browser Download:
 
-1. Open [https://github.com/annumberhocker/SWA-Hackathon-2026-assets](https://github.com/annumberhocker/SWA-Hackathon-2026-assets) in your browser.
-2. Click the green **Code** button → **Download ZIP** (saves `SWA-Hackathon-2026-assets-main.zip` to your Downloads folder).
+1. Open [https://github.com/annumberhocker/SWA-Hackathon-2026-assets/tree/main](https://github.com/annumberhocker/SWA-Hackathon-2026-assets/tree/main) in your browser (ensuring the `main` branch is selected).
+2. Click the green **Code** button → **Download ZIP** (downloads the `main` branch archive as `SWA-Hackathon-2026-assets-main.zip` to your Downloads folder).
 3. Open a terminal and run the unzip command for your operating system:
 
 **macOS / Linux:**
 ```bash
 # Unzip to your home folder and navigate into workshop-labs
 unzip ~/Downloads/SWA-Hackathon-2026-assets-main.zip -d ~/
-mv SWA-Hackathon-2026-assets-main SWA-Hackathon-2026-assets
+mv ~/SWA-Hackathon-2026-assets-main ~/SWA-Hackathon-2026-assets
 cd ~/SWA-Hackathon-2026-assets/workshop-labs
 ```
 
@@ -57,8 +57,8 @@ cd ~/SWA-Hackathon-2026-assets/workshop-labs
 ```powershell
 # Unzip to your user folder and navigate into workshop-labs
 Expand-Archive -Path "$HOME\Downloads\SWA-Hackathon-2026-assets-main.zip" -DestinationPath "$HOME"
-mv "$HOME\SWA-Hackathon-2026-assets-main" ""$HOME\SWA-Hackathon-2026-assets"
-cd "$HOME\SWA-Hackathon-2026-assets-main\workshop-labs"
+mv "$HOME\SWA-Hackathon-2026-assets-main" "$HOME\SWA-Hackathon-2026-assets"
+cd "$HOME\SWA-Hackathon-2026-assets\workshop-labs"
 ```
 
 ---
