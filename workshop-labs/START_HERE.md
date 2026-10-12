@@ -49,13 +49,15 @@ cd SWA-Hackathon-2026-assets/workshop-labs
 ```bash
 # Unzip to your home folder and navigate into workshop-labs
 unzip ~/Downloads/SWA-Hackathon-2026-assets-main.zip -d ~/
-cd ~/SWA-Hackathon-2026-assets-main/workshop-labs
+mv SWA-Hackathon-2026-assets-main SWA-Hackathon-2026-assets
+cd ~/SWA-Hackathon-2026-assets/workshop-labs
 ```
 
 **Windows (PowerShell):**
 ```powershell
 # Unzip to your user folder and navigate into workshop-labs
 Expand-Archive -Path "$HOME\Downloads\SWA-Hackathon-2026-assets-main.zip" -DestinationPath "$HOME"
+mv "$HOME\SWA-Hackathon-2026-assets-main" ""$HOME\SWA-Hackathon-2026-assets"
 cd "$HOME\SWA-Hackathon-2026-assets-main\workshop-labs"
 ```
 

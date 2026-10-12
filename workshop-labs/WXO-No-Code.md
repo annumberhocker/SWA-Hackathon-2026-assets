@@ -86,25 +86,23 @@ For example: `flight_triage_agent_js`
 
 **Description:**
 ```
-Triages real-time flight schedule anomaly alerts from Confluent Kafka. Uses the Flight Operations Runbook knowledge base to produce structured recommendations and mitigation options for operational disruptions.
+Triages real-time flight schedule anomaly alerts from Confluent Kafka and answers natural language questions about the Flight Operations Runbook. Returns structured triage summaries with severity, urgency, and runbook-grounded recommendations. 
 ```
 
 **Instructions:** paste the full block below into the Instructions field:
 
 ```
-You are an automated flight schedule anomaly processor. Never ask questions.
-Respond only with the structured triage summary defined in step 6. Do not
-attempt to call external tools or dispatch notifications directly.
+You are a flight operations assistant with two modes of operation.
 
-The alert payload fields are:
-  entity_id      Aircraft ID (e.g. N303AX) — use this as the lookup key
-  stream         Always 'schedule' for this use case
-  metric         One of: departure_delay | gate_wait | turnaround_time
-  value          Observed windowed average
-  unit           'minutes'
-  anomaly_score  [0,1] — deviation relative to ARIMA confidence band
-  hub            Hub airport (ORD or DFW)
-  detected_at    ISO timestamp
+TRIAGE MODE — if the input contains an alert payload (entity_id, metric,
+anomaly_score), map the entity_id to the fleet reference, derive severity and
+ServiceNow urgency from the tables below, retrieve the matching runbook section
+and option, then return ONLY the structured summary in step 6.
+
+Q&A MODE — if the input is a natural language question, answer it directly
+and concisely using the flight_ops_runbook knowledge base.
+
+Do not ask clarifying questions. Do not call external tools.
 
 Fleet reference:
   N101AX — B737-800, hub ORD, flight AX101, ORD→LAX
@@ -112,37 +110,12 @@ Fleet reference:
   N303AX — B737-MAX, hub DFW, flight AX303, DFW→MIA
   N404AX — A321XLR,  hub DFW, flight AX404, DFW→SEA
 
-Severity mapping from anomaly_score:
-  ≥ 0.9  CRITICAL
-  ≥ 0.7  HIGH
-  ≥ 0.5  MEDIUM
-  else   LOW
+Severity (anomaly_score):  ≥0.9 CRITICAL | ≥0.7 HIGH | ≥0.5 MEDIUM | else LOW
+ServiceNow urgency:        CRITICAL/HIGH → 1 | MEDIUM → 2 | LOW → 3
+Runbook section by metric: departure_delay → §2 | gate_wait → §1 | turnaround_time → §3
+Runbook option by severity: CRITICAL/HIGH → Option A | MEDIUM → Option B | LOW → Option C
 
-ServiceNow urgency mapping:
-  CRITICAL / HIGH  → urgency 1
-  MEDIUM           → urgency 2
-  LOW              → urgency 3
-
-Processing steps — execute in order:
-
-1. Extract all fields from the alert payload.
-
-2. Derive the flight_number and route from entity_id using the fleet reference above.
-
-3. Determine severity from anomaly_score using the table above.
-
-4. Determine ServiceNow urgency using the mapping above.
-
-5. Retrieve the matching section from the flight_ops_runbook knowledge base:
-   - departure_delay → §2 Departure Delays
-   - gate_wait       → §1 Gate Operations & Conflicts
-   - turnaround_time → §3 Turnaround Time Disruptions
-   Read the "Recommended Actions" block from the runbook and select the appropriate Option based on severity:
-     CRITICAL/HIGH → Option A (immediate action)
-     MEDIUM        → Option B (next-turn / scheduled adjustment)
-     LOW           → Option C (monitor)
-
-6. Return ONLY this structured summary block and stop:
+6. Triage output format:
 
    **Flight Triage Summary**
    - Flight: [flight_number]  Aircraft: [entity_id]  Hub: [hub]
@@ -208,26 +181,59 @@ WXO will begin chunking and indexing the PDF. This may take a few minutes. When 
 
 ## Part 4 — Test Your Triage Agent in the WXO Chat
 
-### Step 4.1 — Use the Draft Preview
+### Step 4.1 — Use the Draft Preview to Ask a Natural Language Question
 
-The draft preview panel is on the right side of the screen you are already on. Paste each alert payload directly into the chat input and press **Enter** to send.
+The draft preview panel is on the right side of the screen you are already on. Paste each question or alert payload directly into the chat input and press **Enter** to send.
+
+Before sending an alert payload, confirm that the agent can retrieve information directly from the PDF knowledge base. 
+Paste the following into the draft preview chat input and press **Enter**:
+
+```
+What does the runbook say about gate conflicts?
+```
+The agent should respond with a plain-language answer drawn from Section §1 of the Flight Operations Runbook - no triage summary format, no fleet lookups. 
+
 
 ### Step 4.2 — Send a CRITICAL Alert (Gate Wait)
 
 Paste the following anomaly alert payload into the draft preview chat input and press **Enter**:
 
 ```
-Alert received:
-- entity_id: N303AX
-- stream: schedule
-- metric: gate_wait
-- value: 34.5
-- unit: minutes
-- anomaly_score: 0.96
-- hub: DFW
-- detected_at: 2026-09-30T17:00:00Z
-
-Please triage this alert and provide runbook recommendations based on the flight_ops_runbook knowledge base.
+{
+  "entity_id": {
+    "string": "N202AX"
+  },
+  "stream": {
+    "string": "schedule"
+  },
+  "metric": {
+    "string": "turnaround_time"
+  },
+  "value": {
+    "double": 59.05
+  },
+  "unit": {
+    "string": "minutes"
+  },
+  "anomaly_score": {
+    "double": 1
+  },
+  "is_anomaly": {
+    "boolean": true
+  },
+  "hub": {
+    "string": "ORD"
+  },
+  "detected_at": {
+    "long": 1791571248234
+  },
+  "event_time": {
+    "long": 1790790913999
+  },
+  "alert_id": {
+    "string": "N202AX-turnaround_time-2026-09-30 17:55:13.999"
+  }
+}
 ```
 
 ### Step 4.3 — Verify the Triage Response
@@ -236,12 +242,12 @@ The agent should respond with a structured summary. Verify the following expecte
 
 | Check | Expected Value |
 |---|---|
-| Flight mapping | `AX303` (DFW → MIA) |
-| Severity | `CRITICAL` (anomaly_score 0.96 ≥ 0.9) |
+| Flight mapping | `A202` |
+| Severity | `CRITICAL` |
 | ServiceNow Urgency | `1` |
-| Runbook section cited | `§1 Gate Operations & Conflicts` |
-| Recommended option | `Option A` (immediate action) |
-| Output format | Structured `**Flight Triage Summary**` block |
+| Runbook section cited | `§3 Option A — Ground Operations Escalation` |
+| Recommended action | `1. Dispatch Ramp Supervisor to gate immediately 2. Conduct root cause checklist (fueling, catering, cleaning, baggage loading, late inbound aircraft, maintenance) and address highest‑impact item first 3. Request priority fueling and/or catering if vendor SLA is breached 4. If cleaning is the root cause, authorize premium cleaning crew overtime 5. Update block‑out estimate in AIMS; notify Crew Scheduling 6. Open ServiceNow incident (urgency 1) and assign to Ground Operations` (immediate action) |
+
 
 ![Draft preview showing the CRITICAL gate_wait alert and the agent's structured triage response for N303AX.](images/Critical_Alert.png)
 
