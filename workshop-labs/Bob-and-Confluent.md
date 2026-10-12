@@ -101,8 +101,8 @@ Run these from the `SWA-Hackathon-2026-assets/` repo root.
    ```
 
 3. **Reload the VS Code window**
+   
    Open the VS Code Command Palette (`Cmd+Shift+P` on macOS or `Ctrl+Shift+P` on Windows/Linux) and run:
-
    ```
    Developer: Reload Window
    ```
