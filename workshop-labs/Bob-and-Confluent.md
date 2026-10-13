@@ -157,19 +157,19 @@ A single `CREATE OR ALTER MATERIALIZED TABLE` statement in `flink/anomaly_detect
 does everything in one shot: it creates the `ops-alerts` Kafka topic, defines the table schema, and
 starts the continuous anomaly detection job — all without any manual topic creation or separate DDL (Data Definition Language) step.
 
-> 📖 **Deep Dive:** For a full architectural breakdown of the query, CTEs, tumbling windows, and AI anomaly detection parameters, see [`flink/anomaly-detection-sql-explained.md`](flink/anomaly-detection-sql-explained.md).
+> 📖 **Deep Dive:** For a full architectural breakdown of the query, CTEs, tumbling windows, and AI anomaly detection parameters, see [`Anomaly Detection explained`](flink/anomaly-detection-sql-explained.md).
 
 ### Step 3.1 — Update the Cluster Name in the SQL
 
-Open `flink/anomaly_detection_materialized.sql` and replace the `REPLACE_WITH_YOUR_CLUSTER_NAME`
-placeholder with the value of `FLINK_DATABASE_NAME` from your `workshop-labs/env.lab` file:
+Open [flink/anomaly_detection_materialized.sql](flink/anomaly_detection_materialized.sql) and replace the `REPLACE_WITH_YOUR_CLUSTER_NAME`
+placeholder with the value of `FLINK_DATABASE_NAME` from your [workshop-labs/env.lab](workshop-labs/env.lab) file:
 
 ```sql
 -- Before:
-CREATE OR ALTER MATERIALIZED TABLE `IBM-Hackathon-demo-test`.`REPLACE_WITH_YOUR_CLUSTER_NAME`.`ops-alerts` (
+CREATE OR ALTER MATERIALIZED TABLE `SWA-Hackathon`.`REPLACE_WITH_YOUR_CLUSTER_NAME`.`ops-alerts` (
 
 -- After (example, using FLINK_DATABASE_NAME=your-cluster-name from env.lab):
-CREATE OR ALTER MATERIALIZED TABLE `IBM-Hackathon-demo-test`.`your-cluster-name`.`ops-alerts` (
+CREATE OR ALTER MATERIALIZED TABLE `SWA-Hackathon`.`your-cluster-name`.`ops-alerts` (
 ```
 
 Save the file before continuing.
@@ -220,7 +220,7 @@ Once anomalies are flowing, try these Bob prompts:
 ```
 Run a Flink SQL query named 'sample-ops-alerts-xxx' to sample 10 messages from the ops-alerts topic:
 
-SELECT * FROM `IBM-Hackathon-demo-test`.`your-cluster-name`.`ops-alerts` /*+ OPTIONS('scan.startup.mode'='earliest-offset') */ LIMIT 10;
+SELECT * FROM `SWA-Hackathon`.`your-cluster-name`.`ops-alerts` /*+ OPTIONS('scan.startup.mode'='earliest-offset') */ LIMIT 10;
 ```
 
 > Replace `your-cluster-name` with your cluster name and `xxx` with your initials.

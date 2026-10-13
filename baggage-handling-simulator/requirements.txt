@@ -1,4 +1,0 @@
-confluent-kafka[schemaregistry]
-python-dotenv
-certifi
-jsonschema
