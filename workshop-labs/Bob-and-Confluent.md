@@ -100,7 +100,7 @@ Run these from the `SWA-Hackathon-2026-assets/` repo root.
 2. Ask Bob to set up the MCP server in the chat panel:
 
    ```
-   Add the Confluent MCP server configuration from workshop-labs/mcp-confluent.json to .bob/mcp.json. Replace the /FULL/PATH placeholders with the output of `which node`, `realpath workshop-labs/confluent-mcp/node_modules/.bin/mcp-confluent`, and `realpath workshop-labs/env.lab`. Keep any existing MCP servers.
+   Add the Confluent MCP server configuration from workshop-labs/mcp/mcp-confluent.json to .bob/mcp.json. Replace the /FULL/PATH placeholders with the output of `which node`, `realpath workshop-labs/confluent-mcp/node_modules/.bin/mcp-confluent`, and `realpath workshop-labs/env.lab`. Keep any existing MCP servers.
    ```
 
 3. **Reload the VS Code window**
@@ -157,35 +157,9 @@ A single `CREATE OR ALTER MATERIALIZED TABLE` statement in `flink/anomaly_detect
 does everything in one shot: it creates the `ops-alerts` Kafka topic, defines the table schema, and
 starts the continuous anomaly detection job — all without any manual topic creation or separate DDL (Data Definition Language) step.
 
-### Step 3.1 — Understand What the SQL Does
+> 📖 **Deep Dive:** For a full architectural breakdown of the query, CTEs, tumbling windows, and AI anomaly detection parameters, see [`flink/anomaly-detection-sql-explained.md`](flink/anomaly-detection-sql-explained.md).
 
-The file `flink/anomaly_detection_materialized.sql` does three things in one statement:
-
-1. **Creates (or evolves) the `ops-alerts` table** — defines all columns, the `WATERMARK`, and
-   binds to the `ops-alerts` Kafka topic.
-2. **Runs the streaming query continuously** — reads from `flight-events`, applies a 2-second
-   tumbling window per aircraft + metric, calls `AI_DETECT_ANOMALIES`, and writes only confirmed
-   anomalies to `ops-alerts`.
-3. **Executes background refresh continuously** — The DDL (Data Definition Language — SQL commands used to define database and table structures) statement itself shows `COMPLETED` once registered, while the managed background refresh job runs continuously. `START_MODE = RESUME_OR_FROM_BEGINNING` means Flink resumes from where it left off if the table is restarted.
-
-The query is structured in two CTEs (Common Table Expressions — temporary named result sets defined using `WITH ... AS` blocks):
-
-**`windowed_schedule`** — groups raw events into 2-second tumbling windows and averages each
-metric. This reduces noise before anomaly scoring.
-
-**`anomaly_results`** — calls `AI_DETECT_ANOMALIES` as an analytic function over an unbounded
-window partitioned by `(entity_id, stream, metric)`. This gives the model full history per
-aircraft-metric pair to build its baseline.
-
-The outer `SELECT` and `WHERE` filters to only true anomalies with a high confidence score.
-
-Key parameters:
-- `minContextSize = 5` — the model waits for 5 completed 2-second windows (~10 seconds)
-  before producing any output. **This is expected — the first few seconds will appear quiet.**
-- `confidencePercentage = 99.0` — requires 99% confidence before flagging an anomaly
-- `anomaly_score > 0.95` — additional threshold on the normalized deviation
-
-### Step 3.2 — Update the Cluster Name in the SQL
+### Step 3.1 — Update the Cluster Name in the SQL
 
 Open `flink/anomaly_detection_materialized.sql` and replace the `REPLACE_WITH_YOUR_CLUSTER_NAME`
 placeholder with the value of `FLINK_DATABASE_NAME` from your `workshop-labs/env.lab` file:
@@ -200,7 +174,7 @@ CREATE OR ALTER MATERIALIZED TABLE `IBM-Hackathon-demo-test`.`your-cluster-name`
 
 Save the file before continuing.
 
-### Step 3.3 — Run the Statement from Bob
+### Step 3.2 — Run the Statement from Bob
 
 In the Bob chat, type (replacing `xxx` with your initials):
 
@@ -214,7 +188,7 @@ Read flink/anomaly_detection_materialized.sql and run it as a Flink statement na
 
 Bob will call the MCP Confluent `create-flink-statement` tool with the full SQL from the file.
 
-### Step 3.4 — Confirm the Job is Running
+### Step 3.3 — Confirm the Job is Running
 
 In the Bob chat, type (replacing `xxx` with your initials):
 ```
@@ -226,7 +200,7 @@ immediately once Confluent registers the table and hands off to the background s
 job. The continuous anomaly detection is now running in the background, writing to
 `your-cluster.ops-alerts`. Expect the first anomalies to appear after an ~10 second warmup.
 
-### Step 3.5 — Wait for Anomalies (Warmup Period)
+### Step 3.4 — Wait for Anomalies (Warmup Period)
 
 The `minContextSize = 5` parameter means the model needs 5 completed 2-second windows
 (~10 seconds) before it begins scoring. During this warmup period `ops-alerts` will be empty —
@@ -288,7 +262,7 @@ Search for topics by name 'ops-alerts'
 | Bob MCP shows red / Failed | Bob opened without project root as workspace | Open Bob with `SWA-Hackathon-2026-assets/` as the workspace folder |
 | MCP server starts but Flink tools missing | Flink credentials missing from `env.lab` | Ensure all Flink fields are set in `env.lab`: `FLINK_REST_ENDPOINT`, `FLINK_API_KEY`, `FLINK_API_SECRET`, `FLINK_ORG_ID`, `FLINK_ENV_ID`, `FLINK_COMPUTE_POOL_ID` |
 | `CREATE TABLE` fails with schema conflict | `DISTRIBUTED INTO` was included | Remove `DISTRIBUTED INTO` clause from the SQL |
-| INSERT job shows FAILED immediately | Materialized table statement failed | Verify `flink/anomaly_detection_materialized.sql` cluster name was updated in Step 3.2 |
+| INSERT job shows FAILED immediately | Materialized table statement failed | Verify `flink/anomaly_detection_materialized.sql` cluster name was updated in Step 3.1 |
 | `ops-alerts` receives no messages after 5 min | Warmup not complete, or threshold too high | Wait for the warmup to complete; confirm the simulator is still producing |
 | `list-schemas` returns empty | SR URL not set in session | Tell Bob your SR URL (Step 2.3) |
 

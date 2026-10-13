@@ -66,7 +66,7 @@ Respond to Bob's prompts through the process.
    In the Bob chat panel, simply type:
 
    ```
-   Add the watsonx Orchestrate MCP server configuration from workshop-labs/mcp-wxo.json to .bob/mcp.json. Use the credentials from workshop-labs/env.lab and set the working directory to the workshop-labs/orchestrate folder.
+   Add the watsonx Orchestrate MCP server configuration from workshop-labs/mcp/mcp-wxo.json to .bob/mcp.json. Use the credentials from workshop-labs/env.lab and set the working directory to the workshop-labs/orchestrate folder.
    ```
 
    Bob will read your `workshop-labs/env.lab` credentials, resolve the working directory path, and update `.bob/mcp.json` automatically while preserving any existing MCP servers.
