@@ -161,8 +161,8 @@ starts the continuous anomaly detection job — all without any manual topic cre
 
 ### Step 3.1 — Update the Cluster Name in the SQL
 
-Open `flink/anomaly_detection_materialized.sql` and replace the `REPLACE_WITH_YOUR_CLUSTER_NAME`
-placeholder with the value of `FLINK_DATABASE_NAME` from your `workshop-labs/env.lab` file:
+Open [flink/anomaly_detection_materialized.sql](flink/anomaly_detection_materialized.sql) and replace the `REPLACE_WITH_YOUR_CLUSTER_NAME`
+placeholder with the value of `FLINK_DATABASE_NAME` from your [workshop-labs/env.lab](workshop-labs/env.lab) file:
 
 ```sql
 -- Before:
