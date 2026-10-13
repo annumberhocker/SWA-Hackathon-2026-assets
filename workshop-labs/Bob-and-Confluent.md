@@ -157,7 +157,7 @@ A single `CREATE OR ALTER MATERIALIZED TABLE` statement in `flink/anomaly_detect
 does everything in one shot: it creates the `ops-alerts` Kafka topic, defines the table schema, and
 starts the continuous anomaly detection job — all without any manual topic creation or separate DDL (Data Definition Language) step.
 
-> 📖 **Deep Dive:** For a full architectural breakdown of the query, CTEs, tumbling windows, and AI anomaly detection parameters, see [`flink/anomaly-detection-sql-explained.md`](flink/anomaly-detection-sql-explained.md).
+> 📖 **Deep Dive:** For a full architectural breakdown of the query, CTEs, tumbling windows, and AI anomaly detection parameters, see [`Anomaly Detection explained`](flink/anomaly-detection-sql-explained.md).
 
 ### Step 3.1 — Update the Cluster Name in the SQL
 
