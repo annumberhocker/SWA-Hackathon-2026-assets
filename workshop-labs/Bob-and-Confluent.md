@@ -19,28 +19,13 @@ be orchestrating your entire Confluent Cloud environment through natural-languag
 
 ---
 
-## Part 1 — Configure the Confluent MCP Server in Bob
+## Prerequisites
 
-### Step 1.1 — Install Node 22
-
-Install Node 22 with nvm:
-
-```bash
-curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash
-```
-Open a new terminal, then:
-```bash
-nvm install 22
-nvm use 22
-nvm alias default 22
-node -v        # should print v22.x
-```
-
-### Step 1.2 — Download and Unzip the Lab Repository
+### 1. Download and Unzip the Lab Repository
 
 If you haven't already downloaded the workshop repository, follow the instructions in the [First Step: Get the Repository](README.md#first-step-get-the-repository) section of `README.md` to download and extract the repository on your machine.
 
-### Step 1.3 — Save Your `env.lab` File
+### 2. Save Your `env.lab` File
 
 Your instructor will provide you with a personalised `env` file that contains your specific
 cluster details and API keys. Save it as:
@@ -58,8 +43,26 @@ cp ~/Downloads/env.<name> ~/path/to/SWA-Hackathon-2026-assets/workshop-labs/env.
 
 Or drag and drop it into the `workshop-labs/` folder using Finder.
 
+---
 
-### Step 1.4 — Install the Confluent MCP Server into the Project
+## Part 1 — Configure the Confluent MCP Server in Bob
+
+### Step 1.1 — Install Node 22
+
+Install Node 22 with nvm:
+
+```bash
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash
+```
+Open a new terminal, then:
+```bash
+nvm install 22
+nvm use 22
+nvm alias default 22
+node -v        # should print v22.x
+```
+
+### Step 1.2 — Install the Confluent MCP Server into the Project
 
 Run these from the `SWA-Hackathon-2026-assets/` repo root.
 
@@ -87,7 +90,7 @@ Run these from the `SWA-Hackathon-2026-assets/` repo root.
    realpath workshop-labs/env.lab
    ```
 
-### Step 1.5 — Configure the Confluent MCP Server in Bob
+### Step 1.3 — Configure the Confluent MCP Server in Bob
 
 1. **Open the project folder in Bob**
    In Bob, go to **File → Open** → select the `SWA-Hackathon-2026-assets` folder.
@@ -109,7 +112,7 @@ Run these from the `SWA-Hackathon-2026-assets/` repo root.
 
    This restarts the MCP client so Bob can load and connect to the Confluent MCP server.
 
-### Step 1.6 — Verify the Connection in Bob
+### Step 1.4 — Verify the Connection in Bob
 
 1. In Bob, click the **gear icon** (top-right) → **MCP Servers** (or **MCP**).
 2. Find `confluent` in the list — it should show a green **Connected** status.
@@ -278,10 +281,10 @@ Search for topics by name 'ops-alerts'
 
 | Symptom | Likely Cause | Fix |
 |---|---|---|
-| MCP log shows `Could not locate the bindings file` | Native Kafka bindings didn't download during install | Run `xcode-select --install`, then rerun the `npm install` from Step 1.4 and check for `bindings OK` |
-| Bob MCP shows red / Failed | `/FULL/PATH` placeholder not replaced in `.bob/mcp.json` | Replace each one with the output of the commands in Step 1.4, item 3 |
+| MCP log shows `Could not locate the bindings file` | Native Kafka bindings didn't download during install | Run `xcode-select --install`, then rerun the `npm install` from Step 1.2 and check for `bindings OK` |
+| Bob MCP shows red / Failed | `/FULL/PATH` placeholder not replaced in `.bob/mcp.json` | Replace each one with the output of the commands in Step 1.2, item 3 |
 | Bob MCP shows red / Failed | Wrong Node version referenced in `.bob/mcp.json` (e.g., Node 24 instead of Node 22) | Run `nvm use 22` and `which node` to get the Node 22 path (e.g. `.../.nvm/versions/node/v22.x.x/bin/node`). Verify `.bob/mcp.json` points specifically to the Node 22 binary, then run **Developer: Reload Window** |
-| Bob MCP shows red / Failed | Wrong or missing credentials in `env.lab` | Re-check that your `workshop-labs/env.lab` file was saved correctly and the path in `.bob/mcp.json` points to it (Step 1.5) |
+| Bob MCP shows red / Failed | Wrong or missing credentials in `env.lab` | Re-check that your `workshop-labs/env.lab` file was saved correctly and the path in `.bob/mcp.json` points to it (Step 1.3) |
 | Bob MCP shows red / Failed | Bob opened without project root as workspace | Open Bob with `SWA-Hackathon-2026-assets/` as the workspace folder |
 | MCP server starts but Flink tools missing | Flink credentials missing from `env.lab` | Ensure all Flink fields are set in `env.lab`: `FLINK_REST_ENDPOINT`, `FLINK_API_KEY`, `FLINK_API_SECRET`, `FLINK_ORG_ID`, `FLINK_ENV_ID`, `FLINK_COMPUTE_POOL_ID` |
 | `CREATE TABLE` fails with schema conflict | `DISTRIBUTED INTO` was included | Remove `DISTRIBUTED INTO` clause from the SQL |
