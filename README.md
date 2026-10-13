@@ -52,3 +52,5 @@ Hands-on lab guides and supporting configuration for the hackathon workshop. Sta
 ## Additional resources
 
 [Digital Self-Serve Co-Create Experience](https://ibm.github.io/dsce-sample-apps/)
+[Build with Bob](https://www.youtube.com/@BuildwithIBM)
+[watsonx Orchestrate Control Plane Demo](https://www.youtube.com/watch?v=6aLhT6DMYt0)
