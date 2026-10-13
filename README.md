@@ -2,8 +2,43 @@
 
 Assets for the **Hackathon Track: Streaming AI with IBM Bob, Confluent Cloud & watsonx Orchestrate**.
 
-## Labs
+---
+
+## Repository Structure
+
+```
+SWA-Hackathon-2026-assets/
+├── flight-event-simulator/   # Kafka producer — simulates live flight telemetry
+└── workshop-labs/            # Step-by-step hands-on lab guides and configuration
+```
+
+---
+
+## `flight-event-simulator`
+
+A Python Kafka producer that streams simulated flight schedule metrics to a Confluent Cloud topic (`flight-events`). Every 2 seconds it emits events for 4 aircraft across 3 metrics: `departure_delay`, `gate_wait`, and `turnaround_time`.
+
+This simulator provides the live data feed consumed by the workshop labs — instructor or participants start it before running the Flink anomaly detection jobs in Lab 1.
+
+**Quick start:**
+
+```bash
+cd flight-event-simulator
+python3 -m venv .venv && source .venv/bin/activate
+pip install -r requirements.txt
+cp env.example .env   # fill in your Confluent Cloud credentials
+python flight_producer.py
+```
+
+See [`flight-event-simulator/README.md`](flight-event-simulator/README.md) for full setup instructions.
+
+---
+
+## `workshop-labs`
+
 Hands-on lab guides and supporting configuration for the hackathon workshop. Start with [`workshop-labs/README.md`](workshop-labs/README.md).
+
+### Labs
 
 | Lab | File | Focus |
 |---|---|---|

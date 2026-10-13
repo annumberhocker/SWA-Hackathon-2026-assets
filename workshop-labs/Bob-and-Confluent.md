@@ -276,3 +276,4 @@ create a watsonx Orchestrate triage agent that will triage alerts using a knowle
 - [Confluent Open-Source MCP Server docs](https://docs.confluent.io/cloud/current/ai/ai-tools/open-source-mcp-server.html)
 - [mcp-confluent GitHub repository](https://github.com/confluentinc/mcp-confluent)
 - [mcp-confluent Configuration Guide](https://github.com/confluentinc/mcp-confluent/blob/main/CONFIGURATION.md)
+

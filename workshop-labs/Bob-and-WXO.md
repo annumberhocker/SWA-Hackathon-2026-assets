@@ -308,3 +308,4 @@ Ask 'flight_triage_agent_<initials>': "What are the escalation triggers for depa
 ---
 
 **Lab complete.** You have successfully integrated Bob with watsonx Orchestrate, loaded an operational runbook PDF into a vector knowledge base, and deployed an intelligent flight triage agent driven entirely by RAG knowledge base retrieval.
+
