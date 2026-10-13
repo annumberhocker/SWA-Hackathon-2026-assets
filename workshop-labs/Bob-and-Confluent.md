@@ -166,10 +166,10 @@ placeholder with the value of `FLINK_DATABASE_NAME` from your [workshop-labs/env
 
 ```sql
 -- Before:
-CREATE OR ALTER MATERIALIZED TABLE `IBM-Hackathon-demo-test`.`REPLACE_WITH_YOUR_CLUSTER_NAME`.`ops-alerts` (
+CREATE OR ALTER MATERIALIZED TABLE `SWA-Hackathon`.`REPLACE_WITH_YOUR_CLUSTER_NAME`.`ops-alerts` (
 
 -- After (example, using FLINK_DATABASE_NAME=your-cluster-name from env.lab):
-CREATE OR ALTER MATERIALIZED TABLE `IBM-Hackathon-demo-test`.`your-cluster-name`.`ops-alerts` (
+CREATE OR ALTER MATERIALIZED TABLE `SWA-Hackathon`.`your-cluster-name`.`ops-alerts` (
 ```
 
 Save the file before continuing.
@@ -220,7 +220,7 @@ Once anomalies are flowing, try these Bob prompts:
 ```
 Run a Flink SQL query named 'sample-ops-alerts-xxx' to sample 10 messages from the ops-alerts topic:
 
-SELECT * FROM `IBM-Hackathon-demo-test`.`your-cluster-name`.`ops-alerts` /*+ OPTIONS('scan.startup.mode'='earliest-offset') */ LIMIT 10;
+SELECT * FROM `SWA-Hackathon`.`your-cluster-name`.`ops-alerts` /*+ OPTIONS('scan.startup.mode'='earliest-offset') */ LIMIT 10;
 ```
 
 > Replace `your-cluster-name` with your cluster name and `xxx` with your initials.
