@@ -167,7 +167,7 @@ Outside of the green user activity box, click the **blue +** sign. Then click **
 
 ### Step 5.2 — Upload the Sample Document
 
-Upload the file **`Gulfstar_1.pdf`** from the workshop assets. Allow the document to process before continuing.
+Upload the file **`Gulfstar_1.pdf`** from the workshop assets (under workshop-labs/orchestrate/documents/). Allow the document to process before continuing.
 
 ### Step 5.3 — Define Your Extraction Schema
 
