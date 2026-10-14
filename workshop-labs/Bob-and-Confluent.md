@@ -100,7 +100,7 @@ Run these from the `SWA-Hackathon-2026-assets/` repo root.
 2. Ask Bob to set up the MCP server in the chat panel:
 
    ```
-   Add the Confluent MCP server configuration from workshop-labs/mcp/mcp-confluent.json to .bob/mcp.json. Replace the /FULL/PATH placeholders with the output of `which node`, `realpath workshop-labs/confluent-mcp/node_modules/.bin/mcp-confluent`, and `realpath workshop-labs/env.lab`. Keep any existing MCP servers.
+   Add the Confluent MCP server configuration from workshop-labs/mcp/mcp-confluent.json to .bob/mcp.json. Replace the /FULL/PATH placeholders with the path to node v22, `realpath workshop-labs/confluent-mcp/node_modules/.bin/mcp-confluent`, and `realpath workshop-labs/env.lab`. Keep any existing MCP servers.
    ```
 
 3. **Reload the VS Code window**
