@@ -128,7 +128,7 @@ If it shows red, see the [Troubleshooting](#troubleshooting-reference) section a
 Tell Bob which Confluent environment you are working in:
 
 ```
-My Confluent Cloud environment ID is env-9o530m
+My Confluent Cloud environment ID is env-w0xrxw
 ```
 
 ### Step 2.2 — List Clusters
