@@ -19,7 +19,7 @@ The query is structured using two CTEs (Common Table Expressions — temporary n
 ### 1. `windowed_schedule` (Window Aggregation)
 Groups raw telemetry events into 2-second tumbling windows:
 ```sql
-TUMBLE(TABLE `SWA-Hackathon`.`cluster-gcc`.`flight-events`, DESCRIPTOR(event_time), INTERVAL '2' SECONDS)
+TUMBLE(TABLE `SWA-Hackathon`.`instructor-cluster`.`flight-events`, DESCRIPTOR(event_time), INTERVAL '2' SECONDS)
 ```
 and averages each metric (`AVG(value) AS avg_value`). This smooths short-term fluctuations and reduces noise before anomaly scoring.
 
