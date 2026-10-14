@@ -88,7 +88,7 @@ confluent kafka topic create flight-events --partitions 6
 3. In the left navigation, click **Topics**.
 4. Click **Add topic**.
 5. Enter `flight-events` as the topic name.
-6. Set **Partitions** to `3`.
+6. Set **Partitions** to `6`.
 7. Click **Create with defaults** (or adjust retention/cleanup settings as needed).
 
 ## Running the Producer
@@ -110,7 +110,7 @@ python flight_producer.py
 You should see output like:
 
 ```
-Gate Change Cascade producer ready. Topic: flight-events. Starts emitting when state['running'] is True.
+✓ [flight-events] key=AX101 partition=1 offset=x
 ```
 
 Events will be produced every 2 seconds. Press **Ctrl+C** to stop gracefully.
@@ -128,9 +128,9 @@ Before running Flink SQL queries that use event-time windows or joins over `flig
 
 ### Steps
 
-Open the Flink SQL workspace in the Confluent Cloud UI (**Flink** → your compute pool → **New statement**).
+Open the Flink SQL workspace in the Confluent Cloud UI (**SQL Workspaces** → **+** to create new workspace)
 
-> ⚠️ Confluent Cloud Flink accepts **one statement per Run click**. Execute Step 1 and Step 2 separately, waiting for each to reach **COMPLETED** status before continuing.
+> ⚠️ Confluent Cloud Flink accepts **one statement per Run click**. Execute Step 1 and Step 2 separately, waiting for each to reach **COMPLETED** status before continuing. Click the **+** at the top left of each statement to create the next statement.
 
 #### Verify schema is available
 
