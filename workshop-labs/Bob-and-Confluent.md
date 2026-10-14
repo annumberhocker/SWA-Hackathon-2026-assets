@@ -38,7 +38,7 @@ You can do this from the terminal after you have downloaded the file:
 
 ```bash
 # Copy the file your instructor provided to the correct location
-cp ~/Downloads/env.<name> ~/path/to/SWA-Hackathon-2026-assets/workshop-labs/env.lab
+cp ~/Downloads/env.<name> /path/to/SWA-Hackathon-2026-assets/workshop-labs/env.lab
 ```
 
 Or drag and drop it into the `workshop-labs/` folder using Finder.
