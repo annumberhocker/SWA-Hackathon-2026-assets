@@ -43,18 +43,14 @@ cp ~/Downloads/env.<name> /path/to/SWA-Hackathon-2026-assets/workshop-labs/env.l
 
 Or drag and drop it into the `workshop-labs/` folder using Finder.
 
----
+### 3. Install Node 22
 
-## Part 1 — Configure the Confluent MCP Server in Bob
-
-### Step 1.1 — Install Node 22
-
-Install Node 22 with nvm:
+Open a terminal window and enter the following command to install `nvm`:
 
 ```bash
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash
 ```
-Open a new terminal, then:
+**Open a new terminal**, then the following to install **Node**:
 ```bash
 nvm install 22
 nvm use 22
@@ -62,9 +58,29 @@ nvm alias default 22
 node -v        # should print v22.x
 ```
 
+### 4. Install Bob
+
+Bob must be installed on your machine. If you haven't installed it yet, follow the instructions in [Install-Bob.md](Install-Bob.md).
+
+Once VSCode with Bob installed is open, go to **Terminal** -> **New Termninal** to open a terminal window within Bob.
+
+![Terminal → New Terminal](images/terminal.png)
+
+---
+
+## Part 1 — Configure the Confluent MCP Server in Bob
+
+### Step 1.1 — Open the Project Folder in Bob
+
+In Bob, go to **File → Open** → select the `SWA-Hackathon-2026-assets` folder that you unzipped.
+
+![File → Open in Bob](images/file-open.png)
+
+> **Important:** Opening this folder sets it as your active workspace root, allowing Bob to load project-level MCP tools automatically.
+
 ### Step 1.2 — Install the Confluent MCP Server into the Project
 
-Run these from the `SWA-Hackathon-2026-assets/` repo root.
+Run these commands from the `SWA-Hackathon-2026-assets/` repo root.
 
 1. **Install the server**
 
@@ -82,33 +98,22 @@ Run these from the `SWA-Hackathon-2026-assets/` repo root.
 
    You should see `bindings OK`.
 
-3. **Get the three absolute paths you'll need**
-
-   ```bash
-   which node
-   realpath workshop-labs/confluent-mcp/node_modules/.bin/mcp-confluent
-   realpath workshop-labs/env.lab
-   ```
-
 ### Step 1.3 — Configure the Confluent MCP Server in Bob
 
-1. **Open the project folder in Bob**
-   In Bob, go to **File → Open** → select the `SWA-Hackathon-2026-assets` folder.
-
-   > **Important:** Opening this folder sets it as your active workspace root, allowing Bob to load project-level MCP tools automatically.
-
-2. Ask Bob to set up the MCP server in the chat panel:
+1. Ask Bob to set up the MCP server in the chat panel:
 
    ```
-   Add the Confluent MCP server configuration from workshop-labs/mcp/mcp-confluent.json to .bob/mcp.json. Replace the /FULL/PATH placeholders with the output of `which node`, `realpath workshop-labs/confluent-mcp/node_modules/.bin/mcp-confluent`, and `realpath workshop-labs/env.lab`. Keep any existing MCP servers.
+   Add the Confluent MCP server configuration from workshop-labs/mcp/mcp-confluent.json to .bob/mcp.json. Replace the /FULL/PATH placeholders with the path to Node version 22, `realpath workshop-labs/confluent-mcp/node_modules/.bin/mcp-confluent`, and `realpath workshop-labs/env.lab`. Keep any existing MCP servers.
    ```
 
-3. **Reload the VS Code window**
-   
-   Open the VS Code Command Palette (`Cmd+Shift+P` on macOS or `Ctrl+Shift+P` on Windows/Linux) and run:
+2. **Reload the VS Code window**
+    
+   Open the VS Code Command Palette (`Cmd+Shift+P` on macOS or `Ctrl+Shift+P` on Windows/Linux) and enter:
    ```
    Developer: Reload Window
    ```
+
+   ![Reload Window](images/reload-window.png)
 
    This restarts the MCP client so Bob can load and connect to the Confluent MCP server.
 
@@ -123,12 +128,12 @@ If it shows red, see the [Troubleshooting](#troubleshooting-reference) section a
 
 ## Part 2 — Explore the Confluent Cloud Account
 
-### Step 2.1 — Set Environment
+### Step 2.1 — List Environment
 
-Tell Bob which Confluent environment you are working in:
+Ask Bob to confirm which Confluent environment you are working in:
 
 ```
-My Confluent Cloud environment ID is env-w0xrxw
+Which Confluent Cloud Envirnment is the MCP server set for?
 ```
 
 ### Step 2.2 — List Clusters
