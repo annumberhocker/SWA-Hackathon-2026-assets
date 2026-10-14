@@ -1,0 +1,21 @@
+spec_version: v1
+kind: connection
+app_id: service-now
+
+# ── Fill in these values before running bootstrap_env.sh ─────────────────────
+# Get Client ID and Client Secret from your ServiceNow PDI:
+#   System OAuth → Application Registry → New →
+#   "Create an OAuth API endpoint for external clients"
+# See docs/05-servicenow-setup.md for full instructions.
+#
+# server_url: https://dev12345.service-now.com   ← replace with your PDI URL
+# token_url:  https://dev12345.service-now.com/oauth_token.do
+
+environments:
+  draft:
+    kind: oauth_auth_password_flow
+    type: team
+    server_url: https://YOUR-PDI.service-now.com
+    token_url: https://YOUR-PDI.service-now.com/oauth_token.do
+    client_id: "<YOUR_SERVICENOW_CLIENT_ID>"
+    client_secret: "<YOUR_SERVICENOW_CLIENT_SECRET>"

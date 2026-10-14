@@ -1,0 +1,23 @@
+spec_version: v1
+kind: connection
+app_id: gmail
+
+# ── Fill in Client ID and Client Secret before running bootstrap_env.sh ───────
+# Create a Google Cloud OAuth app and enable the Gmail API:
+#   console.cloud.google.com → APIs & Services → Credentials → Create credentials
+#   → OAuth client ID → Web application
+#
+# Authorized redirect URI (required — use your WXO region):
+#   https://<region>.watson-orchestrate.cloud.ibm.com/mfe_connectors/api/v1/agentic/oauth/_callback
+#
+# See docs/08-gmail-setup.md for full instructions.
+
+environments:
+  draft:
+    kind: oauth_auth_code_flow
+    type: team
+    server_url: https://www.googleapis.com
+    token_url: https://oauth2.googleapis.com/token
+    authorization_url: https://accounts.google.com/o/oauth2/v2/auth
+    client_id: "<YOUR_GOOGLE_CLIENT_ID>"
+    client_secret: "<YOUR_GOOGLE_CLIENT_SECRET>"

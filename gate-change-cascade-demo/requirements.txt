@@ -1,0 +1,7 @@
+confluent-kafka==2.8.0
+confluent-kafka[schemaregistry]==2.8.0
+streamlit==1.44.1
+pandas==2.2.3
+python-dotenv==1.0.1
+pyiceberg>=0.7.0
+requests==2.32.3

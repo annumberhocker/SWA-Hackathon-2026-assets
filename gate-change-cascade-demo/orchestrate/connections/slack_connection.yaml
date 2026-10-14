@@ -1,0 +1,21 @@
+spec_version: v1
+kind: connection
+app_id: slack
+
+# ── Fill in these values before running bootstrap_env.sh ─────────────────────
+# Get Client ID and Client Secret from api.slack.com/apps → your app → Basic Information
+# See docs/06-slack-setup.md for full instructions.
+#
+# server_url:        https://slack.com
+# token_url:         https://slack.com/api/oauth.v2.access
+# authorization_url: https://slack.com/oauth/v2/authorize
+
+environments:
+  draft:
+    kind: oauth_auth_code_flow
+    type: team
+    server_url: https://slack.com
+    token_url: https://slack.com/api/oauth.v2.access
+    authorization_url: https://slack.com/oauth/v2/authorize
+    client_id: "<YOUR_SLACK_CLIENT_ID>"
+    client_secret: "<YOUR_SLACK_CLIENT_SECRET>"
