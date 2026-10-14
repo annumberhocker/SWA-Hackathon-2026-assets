@@ -54,6 +54,11 @@ SCHEMA_REGISTRY_API_SECRET=YOUR_SR_API_SECRET
 ### 3. Create the Kafka topic (if it doesn't exist)
 
 **Option A — Confluent CLI:**
+Install Confluent CLI:
+
+```bash
+brew install confluentinc/tap/cli
+```
 
 Log in to the Confluent CLI (add `--save` to persist credentials):
 
@@ -73,7 +78,7 @@ Replace `<ENV_ID>` and `<CLUSTER_ID>` with your values (e.g. `env-abc123` and `l
 Then create the topic:
 
 ```bash
-confluent kafka topic create flight-events --partitions 3
+confluent kafka topic create flight-events --partitions 6
 ```
 
 **Option B — Confluent Cloud UI:**
