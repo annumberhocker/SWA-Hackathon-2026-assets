@@ -61,6 +61,15 @@ mv "$HOME\SWA-Hackathon-2026-assets-main" "$HOME\SWA-Hackathon-2026-assets"
 cd "$HOME\SWA-Hackathon-2026-assets\workshop-labs"
 ```
 
+### Option C — Git Clone:
+
+If you have Git installed, clone the `main` branch directly:
+
+```bash
+git clone --branch main https://github.com/annumberhocker/SWA-Hackathon-2026-assets.git
+cd SWA-Hackathon-2026-assets/workshop-labs
+```
+
 ---
 ## Prerequisite For the Bob Labs
 
