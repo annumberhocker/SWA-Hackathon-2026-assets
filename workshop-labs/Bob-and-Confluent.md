@@ -52,7 +52,7 @@ node -v        # should print v22.x
 
 ### 4. Install Bob
 
-Bob must be installed on your machine. If you haven't installed it yet, follow the instructions in [Install-Bob.md](Install-Bob.md).
+To complete this lab, Bob needs to be installed on your machine. If you haven't installed it yet, follow the instructions in [Install-Bob.md](Install-Bob.md).
 
 Once VSCode with Bob installed is open, go to **Terminal** -> **New Termninal** to open a terminal window within Bob.
 
@@ -64,7 +64,7 @@ Once VSCode with Bob installed is open, go to **Terminal** -> **New Termninal** 
 
 ### Step 1.1 — Open the Project Folder in Bob
 
-In Bob, go to **File → Open** → select the `SWA-Hackathon-2026-assets` folder that you unzipped.
+In Bob, go to **File → Open** → select the `SWA-Hackathon-2026-assets` folder that you unzipped or cloned.
 
 ![File → Open in Bob](images/file-open.png)
 
@@ -100,10 +100,7 @@ Run these commands from the `SWA-Hackathon-2026-assets/` repo root.
 
 2. **Reload the VS Code window**
     
-   Open the VS Code Command Palette (`Cmd+Shift+P` on macOS or `Ctrl+Shift+P` on Windows/Linux) and enter:
-   ```
-   Developer: Reload Window
-   ```
+   Open the VS Code Command Palette (`Cmd+Shift+P` on macOS or `Ctrl+Shift+P` on Windows/Linux), search for and and enter **Developer: Reload Window**.
 
    ![Reload Window](images/reload-window.png)
 
@@ -113,6 +110,8 @@ Run these commands from the `SWA-Hackathon-2026-assets/` repo root.
 
 1. In Bob, click the **gear icon** (top-right) → **MCP Servers** (or **MCP**).
 2. Find `confluent` in the list — it should show a green **Connected** status.
+
+   ![MCP](images/settings-mcp.png)
 
 If it shows red, see the [Troubleshooting](#troubleshooting-reference) section at the bottom.
 
