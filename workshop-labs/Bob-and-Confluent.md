@@ -28,11 +28,12 @@ If you haven't already downloaded the workshop repository, follow the instructio
 ### 2. Save Your `env.lab` File
 
 You will be emailed a personalised `env` file that contains your specific
-cluster details and API keys. Copy the contents and add it to:
+cluster details and API keys. 
 
-```
-/path/to/SWA-Hackathon-2026-assets/workshop-labs/env.lab
-```
+- Edit the `/path/to/SWA-Hackathon-2026-assets/workshop-labs/env.lab` file
+
+- Copy the customized env variables at the end
+
 
 ### 3. Install Node 22
 
