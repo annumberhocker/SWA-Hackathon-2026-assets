@@ -124,7 +124,7 @@ If it shows red, see the [Troubleshooting](#troubleshooting-reference) section a
 Ask Bob to confirm which Confluent environment you are working in:
 
 ```
-Which Confluent Cloud Envirnment is the MCP server set for?
+Which Confluent Cloud environment is the MCP server set to?
 ```
 
 ### Step 2.2 — List Clusters
