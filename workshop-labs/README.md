@@ -129,3 +129,11 @@ In this no-code lab, you build a **Work Order Extraction Agent** entirely throug
 - **Agentic Workflow:** Build a multi-step workflow combining user file upload, document extraction, generative summarization, and a final user-facing message.
 - **Document Extraction:** Define extraction fields (Aircraft Model, Part Number, Discrepancy, Rectification, Certifying Staff, Date Performed) and leverage a 95% confidence threshold for auto-review prompts.
 - **In-Browser Testing:** Test the end-to-end flow using the Draft Preview panel with sample work order PDFs.
+
+## Technical Support
+
+For techical issues/help with these labs, contact: 
+
+- Ann Umberhocker (ann.umberhocker@ibm.com)
+- Sarah Turlington (sarahturlington@ibm.com)
+- Dennis Wittekind (dwittekind@ibm.com)
