@@ -27,21 +27,12 @@ If you haven't already downloaded the workshop repository, follow the instructio
 
 ### 2. Save Your `env.lab` File
 
-Your instructor will provide you with a personalised `env` file that contains your specific
-cluster details and API keys. Save it as:
+You will be emailed a personalised `env` file that contains your specific
+cluster details and API keys. Copy the contents and add it to:
 
 ```
-SWA-Hackathon-2026-assets/workshop-labs/env.lab
+/path/to/SWA-Hackathon-2026-assets/workshop-labs/env.lab
 ```
-
-You can do this from the terminal after you have downloaded the file:
-
-```bash
-# Copy the file your instructor provided to the correct location
-cp ~/Downloads/env.<name> /path/to/SWA-Hackathon-2026-assets/workshop-labs/env.lab
-```
-
-Or drag and drop it into the `workshop-labs/` folder using Finder.
 
 ### 3. Install Node 22
 
