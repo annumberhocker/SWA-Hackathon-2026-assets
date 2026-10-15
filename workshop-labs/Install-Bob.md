@@ -63,7 +63,7 @@ Check your chip type: Click ** (Apple menu) → About This Mac** → check **
 
 ---
 
-## Part 3 — Install Bob Shell (CLI) *(Optional but Recommended)*
+## Part 3 — Install Bob Shell (CLI) *(Optional)*
 
 Bob Shell provides CLI integration and terminal workflows.
 
