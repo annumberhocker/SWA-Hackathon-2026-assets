@@ -52,7 +52,7 @@ node -v        # should print v22.x
 
 ### 4. Install Bob
 
-Bob must be installed on your machine. If you haven't installed it yet, follow the instructions in [Install-Bob.md](Install-Bob.md).
+To complete this lab, Bob needs to be installed on your machine. If you haven't installed it yet, follow the instructions in [Install-Bob.md](Install-Bob.md).
 
 Once VSCode with Bob installed is open, go to **Terminal** -> **New Termninal** to open a terminal window within Bob.
 
