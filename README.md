@@ -8,10 +8,10 @@ Hands-on lab guides and supporting configuration for the hackathon workshop. Sta
 | Lab | File | Focus |
 |---|---|---|
 | Prerequisite | [`Install-Bob.md`](workshop-labs/Install-Bob.md) | Install IBM Bob IDE, sign in, verify MCP config |
-| Lab 1 | [`Bob-and-Confluent.md`](workshop-labs/Bob-and-Confluent.md) | Real-time stream processing — Confluent MCP, Kafka topics, Flink SQL anomaly detection |
-| Lab 2 | [`Bob-and-WXO.md`](workshop-labs/Bob-and-WXO.md) | Agentic AI — watsonx Orchestrate MCP, knowledge base ingestion, flight triage agent |
-| Lab 2 (No-Code) | [`WXO-No-Code.md`](workshop-labs/WXO-No-Code.md) | Same as Lab 2 via the WXO browser UI — no CLI required |
-| Lab 3 | [`WXO-Extraction-Flow.md`](workshop-labs/WXO-Extraction-Flow.md) | Document extraction — Work Order agent via WXO UI |
+| Lab 1 | [`WXO-No-Code.md`](workshop-labs/WXO-No-Code.md) | watsonx Orchestrate browser UI, knowledge base ingestion, flight triage agent |
+| Lab 2 | [`Bob-and-WXO.md`](workshop-labs/Bob-and-WXO.md) | watsonx Orchestrate MCP/ADK, knowledge base ingestion, flight triage agent |
+| Lab 3 | [`Bob-and-Confluent.md`](workshop-labs/Bob-and-Confluent.md) | Real-time stream processing — Confluent MCP, Kafka topics, Flink SQL anomaly detection |
+| Lab 4 | [`WXO-Extraction-Flow.md`](workshop-labs/WXO-Extraction-Flow.md) | Document extraction — Work Order agent via WXO UI |
 
 ---
 ## Additional resources

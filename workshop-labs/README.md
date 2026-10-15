@@ -75,27 +75,15 @@ cd SWA-Hackathon-2026-assets/workshop-labs
 
 ### [Installing and Setting Up IBM Bob](Install-Bob.md)
 **Focus:** Tooling, IDE Installation, Authentication & Shell Setup
-**Required for:** Lab 1 (`Bob-and-Confluent.md`) and Lab 2 (`Bob-and-WXO.md`) — complete this before starting any `Bob-and-*` lab.
+**Required for:**  Lab 2 (`Bob-and-WXO.md`) and Lab 3 (`WXO-No-Code.md`)— complete this before starting any `Bob-and-*` lab.
 
 In this introductory guide, you will install the IBM Bob IDE application (macOS, Windows, or Linux), sign in with your IBMid, optionally install Bob Shell (CLI), and verify your MCP configuration interface.
 
 ---
 ## Available Labs
 
-### [Lab 1: Bob + Confluent — Real-Time Flight Anomaly Detection](Bob-and-Confluent.md)
-**Focus:** Real-Time Stream Processing & In-Stream AI
 
-In this lab, you configure the Confluent MCP server in Bob, inspect live telemetry streams, create Kafka topics, and deploy streaming Flink SQL jobs with in-stream AI anomaly detection (`AI_DETECT_ANOMALIES`).
-
-**Key Highlights:**
-- **MCP Configuration:** Connect Bob to Confluent Cloud via `@confluentinc/mcp-confluent`.
-- **Stream Discovery:** Explore live `flight-events` streams and Schema Registry definitions.
-- **Topic & Table Management:** Provision the `ops-alerts` destination topic and deploy Flink table DDL.
-- **Streaming Anomaly Detection:** Run a continuous Flink SQL job with tumbling time windows and machine learning models to detect flight delays, gate conflicts, and turnaround anomalies in real time.
-
----
-
-### [Lab 2 watsonx Orchestrate UI (No-Code): Build the Flight Triage Agent](WXO-No-Code.md)
+### [Lab 1: watsonx Orchestrate UI (No-Code): Build the Flight Triage Agent](WXO-No-Code.md)
 **Focus:** Agentic AI — Browser-Only, No CLI Required
 
 In this lab, you build the exact same `flight_triage_agent` as Lab 2 entirely through the watsonx Orchestrate browser UI — no code, no terminal, no MCP configuration needed. Ideal for participants who prefer a point-and-click workflow.
@@ -106,7 +94,6 @@ In this lab, you build the exact same `flight_triage_agent` as Lab 2 entirely th
 - **In-Browser Testing:** Send CRITICAL, HIGH, and LOW severity anomaly alerts via the WXO chat preview panel.
 - **Equivalent Outcome:** Produces the same deployed agent and validated triage results as the Bob-driven Lab 2 path.
 
----
 
 ### [Lab 2: Bob + watsonx Orchestrate (ADK) — Flight Triage Agent & Knowledge Base Setup](Bob-and-WXO.md)
 **Focus:** Agentic AI, RAG Knowledge Retrieval & Incident Triage
@@ -119,9 +106,19 @@ In this lab, you configure the watsonx Orchestrate (WXO) ADK MCP server in Bob, 
 - **Native Agent Deployment:** Deploy the `flight_triage_agent` attached directly to the Runbook knowledge base.
 - **Automated Triage & Interaction:** Test real-time anomaly payloads against the triage agent to retrieve structured mitigation actions (§1 Gate Operations, §2 Departure Delays, §3 Turnaround Disruptions).
 
----
 
-### [Lab 3: WXO Work Order Extraction Agent (No-Code UI)](WXO-Extraction-Flow.md)
+### [Lab 3: Bob + Confluent — Real-Time Flight Anomaly Detection](Bob-and-Confluent.md)
+**Focus:** Real-Time Stream Processing & In-Stream AI
+
+In this lab, you configure the Confluent MCP server in Bob, inspect live telemetry streams, create Kafka topics, and deploy streaming Flink SQL jobs with in-stream AI anomaly detection (`AI_DETECT_ANOMALIES`).
+
+**Key Highlights:**
+- **MCP Configuration:** Connect Bob to Confluent Cloud via `@confluentinc/mcp-confluent`.
+- **Stream Discovery:** Explore live `flight-events` streams and Schema Registry definitions.
+- **Topic & Table Management:** Provision the `ops-alerts` destination topic and deploy Flink table DDL.
+- **Streaming Anomaly Detection:** Run a continuous Flink SQL job with tumbling time windows and machine learning models to detect flight delays, gate conflicts, and turnaround anomalies in real time.
+
+### [Lab 4: WXO Work Order Extraction Agent (No-Code UI)](WXO-Extraction-Flow.md)
 **Focus:** Agentic AI, Document Extraction & Workflow Automation
 **Prerequisites:** None — browser-only, no Bob or CLI required.
 

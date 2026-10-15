@@ -20,12 +20,19 @@ be orchestrating your entire Confluent Cloud environment through natural-languag
 ---
 
 ## Prerequisites
+### 1. Install Bob
 
-### 1. Download and Unzip the Lab Repository
+To complete this lab, Bob needs to be installed on your machine. If you haven't installed it yet, follow the instructions in [Install-Bob.md](Install-Bob.md).
+
+Once VSCode with Bob installed is open, go to **Terminal** -> **New Terminal** to open a terminal window within Bob.
+
+![Terminal → New Terminal](images/terminal.png)
+
+### 2. Download and Unzip the Lab Repository
 
 If you haven't already downloaded the workshop repository, follow the instructions in the [First Step: Get the Repository](README.md#first-step-get-the-repository) section of `README.md` to download and extract the repository on your machine.
 
-### 2. Save Your `env.lab` File
+### 3. Save Your `env.lab` File
 
 You will be emailed a personalised `env` file that contains your specific
 cluster details and API keys. 
@@ -34,8 +41,7 @@ cluster details and API keys.
 
 - Copy the customized env variables at the end
 
-
-### 3. Install Node 22
+### 4. Install Node 22
 
 Open a terminal window and enter the following command to install `nvm`:
 
@@ -49,14 +55,6 @@ nvm use 22
 nvm alias default 22
 node -v        # should print v22.x
 ```
-
-### 4. Install Bob
-
-To complete this lab, Bob needs to be installed on your machine. If you haven't installed it yet, follow the instructions in [Install-Bob.md](Install-Bob.md).
-
-Once VSCode with Bob installed is open, go to **Terminal** -> **New Termninal** to open a terminal window within Bob.
-
-![Terminal → New Terminal](images/terminal.png)
 
 ---
 
@@ -127,15 +125,21 @@ Ask Bob to confirm which Confluent environment you are working in:
 Which Confluent Cloud environment is the MCP server set to?
 ```
 
-### Step 2.2 — List Clusters
+### Step 2.3 — List Clusters
 
-Ask Bob to list the clusters in the environment:
+Ask Bob to list all of the clusters in your environment
 
 ```
 List all of the clusters in my Confluent Cloud environment
 ```
 
-Bob calls the Confluent MCP `list-clusters` tool and returns a list. Confirm you can see your assigned cluster.
+### Step 2.2 — Get Cluster Information
+
+Ask Bob to get the details of your cluster in the environment:
+
+```
+Give me the details of my cluster including my cluster name from my Confluent Cloud environment
+```
 
 ---
 
@@ -158,7 +162,7 @@ starts the continuous anomaly detection job — all without any manual topic cre
 ### Step 3.1 — Update the Cluster Name in the SQL
 
 Open [flink/anomaly_detection_materialized.sql](flink/anomaly_detection_materialized.sql) and replace the `REPLACE_WITH_YOUR_CLUSTER_NAME`
-placeholder with the value of `FLINK_DATABASE_NAME` from your [workshop-labs/env.lab](workshop-labs/env.lab) file:
+placeholder with the value of `FLINK_DATABASE_NAME` from your [workshop-labs/env.lab](workshop-labs/env.lab) file, or from what Bob returned in the previous query:
 
 ```sql
 -- Before:
