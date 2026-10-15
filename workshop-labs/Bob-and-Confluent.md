@@ -100,10 +100,7 @@ Run these commands from the `SWA-Hackathon-2026-assets/` repo root.
 
 2. **Reload the VS Code window**
     
-   Open the VS Code Command Palette (`Cmd+Shift+P` on macOS or `Ctrl+Shift+P` on Windows/Linux) and enter:
-   ```
-   Developer: Reload Window
-   ```
+   Open the VS Code Command Palette (`Cmd+Shift+P` on macOS or `Ctrl+Shift+P` on Windows/Linux), search for and and enter **Developer: Reload Window**.
 
    ![Reload Window](images/reload-window.png)
 
@@ -113,6 +110,8 @@ Run these commands from the `SWA-Hackathon-2026-assets/` repo root.
 
 1. In Bob, click the **gear icon** (top-right) → **MCP Servers** (or **MCP**).
 2. Find `confluent` in the list — it should show a green **Connected** status.
+
+   ![MCP](images/settings-mcp.png)
 
 If it shows red, see the [Troubleshooting](#troubleshooting-reference) section at the bottom.
 
