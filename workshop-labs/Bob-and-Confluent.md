@@ -64,7 +64,7 @@ Once VSCode with Bob installed is open, go to **Terminal** -> **New Termninal** 
 
 ### Step 1.1 — Open the Project Folder in Bob
 
-In Bob, go to **File → Open** → select the `SWA-Hackathon-2026-assets` folder that you unzipped.
+In Bob, go to **File → Open** → select the `SWA-Hackathon-2026-assets` folder that you unzipped or cloned.
 
 ![File → Open in Bob](images/file-open.png)
 
