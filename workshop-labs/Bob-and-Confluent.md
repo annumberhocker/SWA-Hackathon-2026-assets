@@ -147,7 +147,7 @@ Give me the details of my cluster including my cluster name from my Confluent Cl
 
 The flight simulator is continuously producing telemetry events — gate wait times, departure delays,
 and turnaround durations — into the `flight-events` Kafka topic. In this part you will deploy a
-Flink streaming job that reads those events in real time, averages each metric over 2-second
+Flink streaming job that reads those events in real time, averages each metric over 10-second
 windows, and runs Confluent's `AI_DETECT_ANOMALIES` function to identify aircraft behaving outside
 their normal baseline. When an anomaly is confirmed with high confidence, the job writes an alert
 record to a new `ops-alerts` topic, which the watsonx Orchestrate triage agent in the next lab
@@ -198,12 +198,12 @@ Show me the status of the Flink statement named 'gate-change-anomaly-detection-x
 You should see status **COMPLETED**. The `CREATE OR ALTER MATERIALIZED TABLE` DDL completes
 immediately once Confluent registers the table and hands off to the background streaming refresh
 job. The continuous anomaly detection is now running in the background, writing to
-`your-cluster.ops-alerts`. Expect the first anomalies to appear after an ~10 second warmup.
+`your-cluster.ops-alerts`. Expect the first anomalies to appear after an ~200 second warmup.
 
 ### Step 3.4 — Wait for Anomalies (Warmup Period)
 
-The `minContextSize = 5` parameter means the model needs 5 completed 2-second windows
-(~10 seconds) before it begins scoring. During this warmup period `ops-alerts` will be empty —
+The `minContextSize = 20` parameter means the model needs 20 completed 10-second windows
+(~3.3 minutes) before it begins scoring. During this warmup period `ops-alerts` will be empty —
 this is normal.
 
 #### Verify anomalies are flowing after the warmup: 
@@ -263,7 +263,7 @@ Search for topics by name 'ops-alerts'
 | MCP server starts but Flink tools missing | Flink credentials missing from `env.lab` | Ensure all Flink fields are set in `env.lab`: `FLINK_REST_ENDPOINT`, `FLINK_API_KEY`, `FLINK_API_SECRET`, `FLINK_ORG_ID`, `FLINK_ENV_ID`, `FLINK_COMPUTE_POOL_ID` |
 | `CREATE TABLE` fails with schema conflict | `DISTRIBUTED INTO` was included | Remove `DISTRIBUTED INTO` clause from the SQL |
 | INSERT job shows FAILED immediately | Materialized table statement failed | Verify `flink/anomaly_detection_materialized.sql` cluster name was updated in Step 3.1 |
-| `ops-alerts` receives no messages after 5 min | Warmup not complete, or threshold too high | Wait for the warmup to complete; confirm the simulator is still producing |
+| `ops-alerts` receives no messages after 5 min | Warmup not complete (~200s), or threshold too high | Wait for the warmup to complete; confirm the simulator is still producing |
 | `list-schemas` returns empty | SR URL not set in session | Tell Bob your SR URL (Step 2.3) |
 
 ---
