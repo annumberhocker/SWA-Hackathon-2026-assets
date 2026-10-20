@@ -16,10 +16,15 @@ Hands-on lab guides and supporting configuration for the hackathon workshop. Sta
 ---
 ## Additional resources
 
+- [Quick Start for Confluent Cloud](https://docs.confluent.io/cloud/current/get-started/index.html)
 - [Confluent Developer HUB](https://developer.confluent.io/)
-- [IBM Developer HUB](https://developer.ibm.com/)
-- [Build with Bob](https://www.youtube.com/@BuildwithIBM)
+- [Kafka Event generator](https://shadowtraffic.io/)
+- [Getting Started with watsonx Orchestrate](https://www.ibm.com/docs/en/watsonx/watson-orchestrate/base?topic=getting-started)
 - [watsonx Orchestrate Control Plane Demo](https://www.youtube.com/watch?v=6aLhT6DMYt0)
 - [watsonx Orchestrate Tutorials](https://developer.ibm.com/components/watsonx-orchestrate/tutorials/)
 - [watsonx Orchestrate Learning Paths](https://developer.ibm.com/learningpaths/get-started-watsonx-orchestrate/)
+- [Quick Start for Bob](https://bob.ibm.com/docs/ide/getting-started/quickstart)
+- [Build with Bob](https://www.youtube.com/@BuildwithIBM)
+- [Bob Tutorials](https://developer.ibm.com/components/ibm-bob/tutorials/)
+- [IBM Developer HUB](https://developer.ibm.com/)
 - [Digital Self-Serve Co-Create Experience](https://ibm.github.io/dsce-sample-apps/)
