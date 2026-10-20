@@ -13,7 +13,18 @@ Hands-on lab guides and supporting configuration for the hackathon workshop. Sta
 | Lab 3 | [`Bob-and-Confluent.md`](workshop-labs/Bob-and-Confluent.md) | Real-time stream processing — Confluent MCP, Kafka topics, Flink SQL anomaly detection |
 | Lab 4 | [`WXO-Extraction-Flow.md`](workshop-labs/WXO-Extraction-Flow.md) | Document extraction — Work Order agent via WXO UI |
 
----
+
+## WXO Integration Guides
+
+Step-by-step guides for connecting third-party systems to watsonx Orchestrate as AI agents. Each guide is application-independent and includes OpenAPI tool definitions, authentication setup, agent instructions, test scenarios, and a collaborator wiring section.
+
+| Guide | File | Integration method |
+|---|---|---|
+| ServiceNow | [`ServiceNow-Agent-WXO-Setup.md`](ServiceNow-Agent-WXO-Setup.md) | Built-in WXO app (App catalog → ServiceNow) |
+| Databricks | [`Databricks-Agent-WXO-Setup.md`](Databricks-Agent-WXO-Setup.md) | Custom OpenAPI tools (Jobs API + SQL Statements API, Bearer PAT) |
+| Salesforce | [`Salesforce-Agent-WXO-Setup.md`](Salesforce-Agent-WXO-Setup.md) | Custom OpenAPI tools (REST API, OAuth 2.0 Connected App) |
+
+
 ## Additional resources
 
 - [Quick Start for Confluent Cloud](https://docs.confluent.io/cloud/current/get-started/index.html)
